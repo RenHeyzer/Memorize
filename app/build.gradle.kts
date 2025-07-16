@@ -56,4 +56,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Decompose
+    implementation(libs.decompose)
+    implementation(libs.decompose.compose)
+    implementation(libs.decompose.jetpack.component.context)
 }
