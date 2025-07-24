@@ -60,5 +60,4 @@ dependencies {
     // Decompose
     implementation(libs.decompose)
     implementation(libs.decompose.compose)
-    implementation(libs.decompose.jetpack.component.context)
 }
