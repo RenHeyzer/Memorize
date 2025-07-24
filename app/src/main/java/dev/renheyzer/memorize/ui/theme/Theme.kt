@@ -1,58 +1,90 @@
 package dev.renheyzer.memorize.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun MemorizeTheme(
+    textSize: MemorizeSize = MemorizeSize.Medium,
+    corner: MemorizeCorner = MemorizeCorner.Medium,
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> baseDarkPalette
+        else -> baseLightPalette
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
+    val typography = MemorizeTypography(
+        primaryHeading = TextStyle(
+            fontSize = when (textSize) {
+                MemorizeSize.Small -> 24.sp
+                MemorizeSize.Medium -> 28.sp
+                MemorizeSize.Big -> 32.sp
+            },
+            fontFamily = rubikFamily,
+            fontWeight = FontWeight.Bold
+        ),
+        secondaryHeading = TextStyle(
+            fontSize = when (textSize) {
+                MemorizeSize.Small -> 20.sp
+                MemorizeSize.Medium -> 24.sp
+                MemorizeSize.Big -> 28.sp
+            },
+            fontFamily = rubikFamily,
+            fontWeight = FontWeight.Medium
+        ),
+        body = TextStyle(
+            fontSize = when (textSize) {
+                MemorizeSize.Small -> 14.sp
+                MemorizeSize.Medium -> 16.sp
+                MemorizeSize.Big -> 18.sp
+            },
+            fontFamily = rubikFamily,
+            fontWeight = FontWeight.Normal
+        ),
+        toolbar = TextStyle(
+            fontSize = when (textSize) {
+                MemorizeSize.Small -> 14.sp
+                MemorizeSize.Medium -> 16.sp
+                MemorizeSize.Big -> 18.sp
+            },
+            fontFamily = rubikFamily,
+            fontWeight = FontWeight.Medium
+        ),
+        button = TextStyle(
+            fontSize = when (textSize) {
+                MemorizeSize.Small -> 14.sp
+                MemorizeSize.Medium -> 16.sp
+                MemorizeSize.Big -> 18.sp
+            },
+            fontFamily = rubikFamily,
+            fontWeight = FontWeight.Medium
+        )
+    )
+
+    val shape = MemorizeShape(
+        shape = when (corner) {
+            MemorizeCorner.Small -> RoundedCornerShape(8.dp)
+            MemorizeCorner.Medium -> RoundedCornerShape(12.dp)
+            MemorizeCorner.Big -> RoundedCornerShape(16.dp)
+            MemorizeCorner.Full -> CircleShape
+        }
+    )
+
+    CompositionLocalProvider(
+        LocalMemorizeColors provides colorScheme,
+        LocalMemorizeTypography provides typography,
+        LocalMemorizeShape provides shape,
         content = content
     )
 }
