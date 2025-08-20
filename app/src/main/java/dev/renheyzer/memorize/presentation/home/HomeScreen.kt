@@ -5,10 +5,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import dev.renheyzer.memorize.components.home.Home
+import dev.renheyzer.memorize.components.home.HomeComponent
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, component: Home) {
+fun HomeScreen(component: HomeComponent, modifier: Modifier = Modifier) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Text("Home")
     }
