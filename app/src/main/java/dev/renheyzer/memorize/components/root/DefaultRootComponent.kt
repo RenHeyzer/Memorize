@@ -5,7 +5,8 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
-import dev.renheyzer.memorize.components.home.HomeComponent
+import dev.renheyzer.memorize.components.auth.DefaultAuthComponent
+import dev.renheyzer.memorize.components.home.DefaultHomeComponent
 import kotlinx.serialization.Serializable
 
 class DefaultRootComponent(
@@ -28,14 +29,21 @@ class DefaultRootComponent(
         componentContext: ComponentContext
     ): RootComponent.Child =
         when (config) {
-            is ChildConfig.Home -> RootComponent.Child.HomeChild(
-                HomeComponent(componentContext)
+            is ChildConfig.Home -> RootComponent.Child.Home(
+                DefaultHomeComponent(componentContext)
+            )
+            is ChildConfig.Auth -> RootComponent.Child.Auth(
+                DefaultAuthComponent(componentContext)
             )
         }
 }
 
 @Serializable
 private sealed interface ChildConfig {
+
     @Serializable
     data object Home : ChildConfig
+
+    @Serializable
+    data object Auth : ChildConfig
 }
