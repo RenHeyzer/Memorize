@@ -22,8 +22,14 @@ import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val appDependencies = (application as MemorizeApp).appDependencies
+
         enableEdgeToEdge()
-        val rootComponent = DefaultRootComponent(componentContext = defaultComponentContext())
+        val rootComponent = DefaultRootComponent(
+            componentContext = defaultComponentContext(),
+            appDependencies = appDependencies
+        )
         setContent {
             val isDarkModeValue = isSystemInDarkTheme()
             val memorizeStyle = remember {

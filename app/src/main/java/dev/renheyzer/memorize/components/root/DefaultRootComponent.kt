@@ -7,10 +7,12 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import dev.renheyzer.memorize.components.auth.DefaultAuthComponent
 import dev.renheyzer.memorize.components.home.DefaultHomeComponent
+import dev.renheyzer.memorize.di.AppDependencies
 import kotlinx.serialization.Serializable
 
 class DefaultRootComponent(
     componentContext: ComponentContext,
+    private val appDependencies: AppDependencies
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<ChildConfig>()
@@ -29,14 +31,20 @@ class DefaultRootComponent(
         componentContext: ComponentContext
     ): RootComponent.Child =
         when (config) {
-            is ChildConfig.Home -> RootComponent.Child.Home(
-                DefaultHomeComponent(componentContext)
-            )
-            is ChildConfig.Auth -> RootComponent.Child.Auth(
-                DefaultAuthComponent(componentContext)
-            )
+            is ChildConfig.Home -> {
+                RootComponent.Child.Home(
+                    DefaultHomeComponent(componentContext)
+                )
+            }
+
+            is ChildConfig.Auth -> {
+                RootComponent.Child.Auth(
+                    DefaultAuthComponent(componentContext, appDependencies)
+                )
+            }
         }
 }
+
 
 @Serializable
 private sealed interface ChildConfig {
