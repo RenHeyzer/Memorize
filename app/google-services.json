@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "54644076521",
-    "project_id": "memo-bddfa",
-    "storage_bucket": "memo-bddfa.firebasestorage.app"
+    "project_number": "662503863359",
+    "project_id": "memorize-5f382",
+    "storage_bucket": "memorize-5f382.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:54644076521:android:70be8548ba81a12b7a2578",
+        "mobilesdk_app_id": "1:662503863359:android:53bb84730d23c55c29748a",
         "android_client_info": {
           "package_name": "dev.renheyzer.memorize"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBH9qBTU5Z241jHu_Qssagykx24G18LQ9U"
+          "current_key": "AIzaSyDup2V48fhWWsCOpiY_IZRAeoXU15msKxg"
         }
       ],
       "services": {
