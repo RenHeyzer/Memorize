@@ -25,7 +25,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "DEEP_LINK_URL", "\"https://dev.renheyzer.memorize/login\"")
+        }
         release {
+            buildConfigField("String", "DEEP_LINK_URL", "\"https://dev.renheyzer.memorize/login\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -44,6 +48,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
