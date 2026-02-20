@@ -9,13 +9,21 @@ import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.core.ui.timer.TimerManager
-import dev.renheyzer.memorize.core.utils.DefaultStringResolver
+import dev.renheyzer.memorize.core.ui.DefaultStringResolver
+import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 
 class AppDependenciesImpl(context: Context) : AppDependencies {
 
     override val dispatchers: AppDispatchers = AppDispatchers()
-    override val snackbarController by lazy { SnackbarController() }
-    override val stringResolver: StringResolver by lazy { DefaultStringResolver(context) }
+    override val snackbarController: SnackbarController = SnackbarController()
+
+    override val componentEnvironment: ComponentEnvironment by lazy {
+        ComponentEnvironment(
+            mainContext = dispatchers.mainImmediate,
+            stringResolver = DefaultStringResolver(context),
+            snackbarController = snackbarController,
+        )
+    }
 
     private val firebaseAuth by lazy { Firebase.auth }
     private val firebaseFirestore by lazy { Firebase.firestore }
