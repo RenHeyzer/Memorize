@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.home.pictures
+package dev.renheyzer.memorize.core.components.core.pictures
 
 import com.arkivanov.decompose.ComponentContext
 

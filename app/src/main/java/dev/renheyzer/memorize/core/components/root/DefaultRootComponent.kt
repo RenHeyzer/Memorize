@@ -10,7 +10,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import dev.renheyzer.memorize.core.components.auth.DefaultAuthComponent
-import dev.renheyzer.memorize.core.components.home.DefaultHomeComponent
+import dev.renheyzer.memorize.core.components.core.DefaultHomeComponent
 import dev.renheyzer.memorize.core.di.AppDependencies
 import kotlinx.serialization.Serializable
 

@@ -4,7 +4,7 @@ import android.net.Uri
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import dev.renheyzer.memorize.core.components.auth.AuthComponent
-import dev.renheyzer.memorize.core.components.home.HomeComponent
+import dev.renheyzer.memorize.core.components.core.HomeComponent
 
 interface RootComponent {
 

@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.home.numbers
+package dev.renheyzer.memorize.core.components.core.numbers
 
 import com.arkivanov.decompose.ComponentContext
 
