@@ -14,7 +14,7 @@ import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.ValidateP
 
 class AuthDependenciesImpl(private val firebaseAuth: FirebaseAuth) : AuthDependencies {
 
-    override val authConfig: AuthConfig = AuthConfig(deepLinkUrl = BuildConfig.DEEP_LINK_URL)
+    override val authConfig: AuthConfig = AuthConfig(deepLinkUrl = BuildConfig.VERIFICATION_DEEP_LINK_URL)
     override val authRemoteDataSource: AuthRemoteDataSource = AuthRemoteDataSourceImpl(firebaseAuth)
 
     override val authRepository: AuthRepository = AuthRepositoryImpl(authRemoteDataSource, authConfig)

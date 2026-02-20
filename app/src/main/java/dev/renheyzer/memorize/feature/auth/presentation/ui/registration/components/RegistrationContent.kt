@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
+import dev.renheyzer.memorize.core.components.auth.registration.store.RegistrationUiState
 import dev.renheyzer.memorize.core.ui.component.MemorizeDefaultButton
 import dev.renheyzer.memorize.core.ui.component.OutlinedErrorTextField
 import dev.renheyzer.memorize.feature.auth.domain.model.ValidationError
@@ -33,7 +34,7 @@ import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 @Composable
 fun RegistrationContent(
     modifier: Modifier,
-    validationError: ValidationErrorUI,
+    uiState: RegistrationUiState,
     onSignUpClick: (email: String, password: String, confirmPassword: String) -> Unit,
     onAlreadyHaveAnAccountClick: () -> Unit,
 ) {
@@ -75,7 +76,7 @@ fun RegistrationContent(
             onValueChange = {
                 email = it
             },
-            errorText = validationError.email.asString(context),
+            errorText = uiState.validationError.email.asString(context),
             label = {
                 Text(
                     text = stringResource(R.string.email),
@@ -85,7 +86,8 @@ fun RegistrationContent(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             textStyle = MemorizeTheme.typography.body,
-            shape = MemorizeTheme.shape.shape
+            shape = MemorizeTheme.shape.shape,
+            enabled = !uiState.isLoading
         )
 
         OutlinedErrorTextField(
@@ -95,7 +97,7 @@ fun RegistrationContent(
             onValueChange = {
                 password = it
             },
-            errorText = validationError.password.asString(context),
+            errorText = uiState.validationError.password.asString(context),
             label = {
                 Text(
                     text = stringResource(R.string.password),
@@ -106,6 +108,7 @@ fun RegistrationContent(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             textStyle = MemorizeTheme.typography.body,
             shape = MemorizeTheme.shape.shape,
+            enabled = !uiState.isLoading
         )
 
         OutlinedErrorTextField(
@@ -115,7 +118,7 @@ fun RegistrationContent(
             onValueChange = {
                 confirmPassword = it
             },
-            errorText = validationError.confirmPassword.asString(context),
+            errorText = uiState.validationError.confirmPassword.asString(context),
             label = {
                 Text(
                     text = stringResource(R.string.confirm_password),
@@ -126,6 +129,7 @@ fun RegistrationContent(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             textStyle = MemorizeTheme.typography.body,
             shape = MemorizeTheme.shape.shape,
+            enabled = !uiState.isLoading
         )
 
         Spacer(
@@ -139,16 +143,16 @@ fun RegistrationContent(
                 onSignUpClick(email, password, confirmPassword)
             },
             text = stringResource(R.string.sign_up),
-            enabled = isButtonEnabled
+            enabled = isButtonEnabled && !uiState.isLoading
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            modifier = Modifier.clickable { onAlreadyHaveAnAccountClick() },
+            modifier = Modifier.clickable(enabled = !uiState.isLoading) { onAlreadyHaveAnAccountClick() },
             text = stringResource(R.string.already_have_an_account),
             color = MemorizeTheme.colors.secondaryBackground,
-            style = MemorizeTheme.typography.body
+            style = MemorizeTheme.typography.body,
         )
 
         Spacer(
@@ -165,7 +169,7 @@ fun PreviewRegistrationContent() {
     MemorizeTheme {
         RegistrationContent(
             modifier = Modifier.fillMaxSize(),
-            validationError = ValidationErrorUI(),
+            uiState = RegistrationUiState(),
             onSignUpClick = { _, _, _ -> },
             onAlreadyHaveAnAccountClick = {},
         )

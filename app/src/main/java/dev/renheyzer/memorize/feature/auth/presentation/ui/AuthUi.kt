@@ -9,6 +9,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import dev.renheyzer.memorize.core.components.auth.AuthComponent
 import dev.renheyzer.memorize.feature.auth.presentation.ui.login.LoginScreen
 import dev.renheyzer.memorize.feature.auth.presentation.ui.registration.RegistrationScreen
+import dev.renheyzer.memorize.feature.auth.presentation.ui.verification.VerificationScreen
 
 @Composable
 fun AuthContent(
@@ -22,6 +23,11 @@ fun AuthContent(
     ) {
         when (val child = it.instance) {
             is AuthComponent.AuthChild.RegistrationChild -> RegistrationScreen(
+                modifier = Modifier.fillMaxSize(),
+                component = child.component,
+            )
+
+            is AuthComponent.AuthChild.VerificationChild -> VerificationScreen(
                 modifier = Modifier.fillMaxSize(),
                 component = child.component,
             )

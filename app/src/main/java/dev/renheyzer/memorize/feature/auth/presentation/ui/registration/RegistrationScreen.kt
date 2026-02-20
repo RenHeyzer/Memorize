@@ -28,7 +28,7 @@ fun RegistrationScreen(
             onSignUpClick = { email, password, confirmPassword ->
                 component.onSignUpClick(email, password, confirmPassword)
             },
-            validationError = uiState.validationError,
+            uiState = uiState,
             onAlreadyHaveAnAccountClick = {
                 component.onAlreadyHaveAnAccountClick()
             })

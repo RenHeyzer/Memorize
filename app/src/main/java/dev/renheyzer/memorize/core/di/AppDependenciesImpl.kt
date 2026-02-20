@@ -7,6 +7,8 @@ import com.google.firebase.firestore.firestore
 import dev.renheyzer.memorize.core.common.AppDispatchers
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
+import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
+import dev.renheyzer.memorize.core.ui.timer.TimerManager
 import dev.renheyzer.memorize.core.utils.DefaultStringResolver
 
 class AppDependenciesImpl(context: Context) : AppDependencies {
@@ -19,4 +21,7 @@ class AppDependenciesImpl(context: Context) : AppDependencies {
     private val firebaseFirestore by lazy { Firebase.firestore }
 
     override fun authDependencies(): AuthDependencies = AuthDependenciesImpl(firebaseAuth)
+
+    override val timerManager: TimerManager by lazy { TimerManager() }
+    override val countdownTimerManager: CountdownTimerManager by lazy { CountdownTimerManager() }
 }

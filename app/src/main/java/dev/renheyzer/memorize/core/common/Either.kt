@@ -27,3 +27,10 @@ inline fun <L, R, T> Either<L, R>.map(transform: (R) -> T): Either<L, T> {
         is Either.Right -> Either.Right(transform(value))
     }
 }
+
+inline fun <L, R, T> Either<L, R>.flatMap(transform: (R) -> Either<L, T>): Either<L, T> {
+    return when (this) {
+        is Either.Left -> this
+        is Either.Right -> transform(this.value)
+    }
+}

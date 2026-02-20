@@ -26,10 +26,18 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "DEEP_LINK_URL", "\"https://dev.renheyzer.memorize/login\"")
+            buildConfigField(
+                "String",
+                "VERIFICATION_DEEP_LINK_URL",
+                "\"https://memorize-5f382.firebaseapp.com/verification\""
+            )
         }
         release {
-            buildConfigField("String", "DEEP_LINK_URL", "\"https://dev.renheyzer.memorize/login\"")
+            buildConfigField(
+                "String",
+                "VERIFICATION_DEEP_LINK_URL",
+                "\"https://memorize-5f382.firebaseapp.com/verification\""
+            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

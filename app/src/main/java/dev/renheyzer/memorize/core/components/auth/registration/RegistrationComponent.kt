@@ -21,7 +21,8 @@ class RegistrationComponent(
     private val stringResolver: StringResolver,
     private val registerByEmailUseCase: RegisterByEmailUseCase,
     private val snackbarController: SnackbarController,
-    private val navigationToVerification: (message: UiText?) -> Unit
+    private val navigateToVerification: (message: UiText) -> Unit,
+    private val navigateToLogin: () -> Unit
 ) : Registration, ComponentContext by componentContext {
 
     private val scope = coroutineScope(mainContext + SupervisorJob())
@@ -38,7 +39,10 @@ class RegistrationComponent(
         scope.launch {
             store.events.collect { event ->
                 when (event) {
-                    is RegistrationEvents.NavigateToLogin -> navigationToVerification(event.message)
+                    is RegistrationEvents.NavigateToVerification -> navigateToVerification(
+                        event.message
+                    )
+
                     is RegistrationEvents.ShowError -> {
                         val message = stringResolver.resolve(event.error)
                         store.showMessage(message)
@@ -55,6 +59,6 @@ class RegistrationComponent(
     }
 
     override fun onAlreadyHaveAnAccountClick() {
-        navigationToVerification(null)
+        navigateToLogin()
     }
 }

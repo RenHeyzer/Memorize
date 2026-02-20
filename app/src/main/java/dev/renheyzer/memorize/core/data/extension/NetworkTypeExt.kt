@@ -2,6 +2,7 @@ package dev.renheyzer.memorize.core.data.extension
 
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.FirebaseFirestoreException
 import dev.renheyzer.memorize.core.common.NetworkError
 import java.io.IOException
@@ -17,5 +18,6 @@ fun Throwable.toNetworkType(): NetworkError = when (this) {
             else -> NetworkError.Unknown(this.cause)
         }
     }
+    is FirebaseAuthInvalidUserException -> NetworkError.Unauthorized
     else -> NetworkError.Unknown(this.cause)
 }

@@ -32,7 +32,7 @@
                 <data
                     android:scheme="https"
                     android:host="memorize-5f382.firebaseapp.com"
-                    android:pathPrefix="/login" />
+                    android:pathPrefix="/__/auth/action" />
             </intent-filter>
         </activity>
     </application>

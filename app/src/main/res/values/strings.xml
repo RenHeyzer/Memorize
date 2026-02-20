@@ -1,9 +1,26 @@
 <resources>
     <string name="app_name">Memorize</string>
+
+    <!--  Registration  -->
     <string name="registration">Registration</string>
     <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_have_an_account">I already have an account. Sign in</string>
+    <string name="registration_was_successful">Registration was successful</string>
 
-<!--  Network Errors  -->
+    <!--  Verification  -->
+    <string name="verification">Verification</string>
+    <string name="check_your_email">Please check your email. We have sent you a confirmation email to</string>
+    <string name="timer_text">You can re-request confirmation by email after %1$s</string>
+    <string name="resend">Resend</string>
+    <string name="session_expired_heading">Session expired</string>
+    <string name="error_session_expired">Your session has timed out. Please log in again.</string>
+    <string name="error_verification_failed">Email verification was successful</string>
+    <string name="verification_was_successful">Email verification was successful!</string>
+
+    <!--  Network Errors  -->
     <string name="error_network_unavailable">Network unavailable</string>
     <string name="error_not_found">The data for your request was not found</string>
     <string name="error_server">There were errors with the server. Please try again later.</string>
@@ -11,22 +28,21 @@
     <string name="error_unknown">Unknown error</string>
     <string name="error_unauthorized">You are not logged in</string>
 
-<!--  Auth Errors  -->
+    <!--  Auth Errors  -->
     <string name="error_auth">Registration failed</string>
     <string name="error_invalid_credentials">Incorrect email address or password</string>
     <string name="error_user_collision">A user with this email already exists</string>
 
-<!--  Validation Errors  -->
-    <string name="error_email_invalid">The email address is badly formatted. For example: example@gmail.com</string>"
+    <!--  Validation Errors  -->
+    <string name="error_email_invalid">The email address is badly formatted. For example: example@gmail.com</string>
     <string name="error_password_too_short">Password must be at least 8 characters long</string>
     <string name="error_password_no_uppercase">Password must contain at least one uppercase letter</string>
-    <string name="error_password_no_digit">Password must contain at least one digit</string>"
+    <string name="error_password_no_digit">Password must contain at least one digit</string>
     <string name="error_password_no_special">Password must contain at least one special character</string>
-    <string name="error_password_match">Passwords must match</string>"
+    <string name="error_password_match">Passwords must match</string>
 
-    <string name="password">Password</string>
-    <string name="confirm_password">Confirm password</string>
-    <string name="sign_up">Sign up</string>
-    <string name="already_have_an_account">I already have an account. Sign in</string>
-    <string name="registration_was_successful">Registration was successful</string>
+    <string name="return_text">Return</string>
+    <string name="next">Next</string>
+    <string name="congratulations">Congratulations</string>
+
 </resources>

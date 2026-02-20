@@ -3,6 +3,8 @@ package dev.renheyzer.memorize.core.di
 import dev.renheyzer.memorize.core.common.AppDispatchers
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
+import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
+import dev.renheyzer.memorize.core.ui.timer.TimerManager
 
 interface AppDependencies {
     val dispatchers: AppDispatchers
@@ -10,4 +12,7 @@ interface AppDependencies {
     val stringResolver: StringResolver
 
     fun authDependencies(): AuthDependencies
+
+    val timerManager: TimerManager
+    val countdownTimerManager: CountdownTimerManager
 }

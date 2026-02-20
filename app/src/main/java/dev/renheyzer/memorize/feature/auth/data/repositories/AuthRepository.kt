@@ -1,5 +1,6 @@
 package dev.renheyzer.memorize.feature.auth.data.repositories
 
+import com.google.firebase.auth.ActionCodeSettings
 import dev.renheyzer.memorize.core.common.AppError
 import dev.renheyzer.memorize.core.common.Either
 import dev.renheyzer.memorize.core.common.NetworkError
@@ -14,5 +15,10 @@ interface AuthRepository {
     ): Either<NetworkError, User>
 
     suspend fun sendSignInLinkToEmail(email: String): Either<NetworkError, Unit>
+    suspend fun sendEmailVerification(): Either<NetworkError, Unit>
     suspend fun signInViaEmailLink(email: String, emailLink: String): Either<NetworkError, User>
+    suspend fun onDeepLinkReceived(code: String): Either<AppError, Unit>
+
+    val isUserLoggedIn: Boolean
+    fun getCurrentUserEmail(): String?
 }

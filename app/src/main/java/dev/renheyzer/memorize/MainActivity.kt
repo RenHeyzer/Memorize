@@ -1,5 +1,7 @@
 package dev.renheyzer.memorize
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -28,8 +30,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.core.layout.WindowSizeClass
 import com.arkivanov.decompose.defaultComponentContext
 import dev.renheyzer.memorize.core.components.root.DefaultRootComponent
-import dev.renheyzer.memorize.core.utils.DeviceConfiguration
+import dev.renheyzer.memorize.core.components.root.RootComponent
 import dev.renheyzer.memorize.core.ui.LocalSnackbarController
+import dev.renheyzer.memorize.core.utils.DeviceConfiguration
 import dev.renheyzer.memorize.feature.root.ui.root.RootContent
 import dev.renheyzer.memorize.ui.theme.MemorizeCorner
 import dev.renheyzer.memorize.ui.theme.MemorizeSize
@@ -39,16 +42,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
+
+    private var rootComponent: RootComponent? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val appDependencies = (application as MemorizeApp).appDependencies
 
         enableEdgeToEdge()
-        val rootComponent = DefaultRootComponent(
+        rootComponent = DefaultRootComponent(
             componentContext = defaultComponentContext(),
             appDependencies = appDependencies
         )
+
         setContent {
             val isDarkModeValue = isSystemInDarkTheme()
             val memorizeStyle = remember {
@@ -107,34 +114,51 @@ class MainActivity : ComponentActivity() {
                         val deviceConfiguration =
                             DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
 
-                        RootContent(
-                            component = rootComponent,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(innerPadding),
-                        )
+                        rootComponent?.let { root ->
+                            RootContent(
+                                component = root,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding),
+                            )
 
-                        when (deviceConfiguration) {
-                            DeviceConfiguration.PHONE_PORTRAIT -> {
-                                RootContent(
-                                    component = rootComponent,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(innerPadding),
-                                )
-                            }
+                            when (deviceConfiguration) {
+                                DeviceConfiguration.PHONE_PORTRAIT -> {
+                                    RootContent(
+                                        component = root,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(innerPadding),
+                                    )
+                                }
 
-                            DeviceConfiguration.PHONE_LANDSCAPE -> {}
-                            DeviceConfiguration.TABLET_PORTRAIT -> {}
-                            DeviceConfiguration.TABLET_LANDSCAPE -> {}
-                            DeviceConfiguration.DESKTOP -> {
-                                Log.d("Root", "true")
+                                DeviceConfiguration.PHONE_LANDSCAPE -> {}
+                                DeviceConfiguration.TABLET_PORTRAIT -> {}
+                                DeviceConfiguration.TABLET_LANDSCAPE -> {}
+                                DeviceConfiguration.DESKTOP -> {
+                                    Log.d("Root", "true")
 
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        val data: Uri? = intent?.data
+        if (data != null) {
+            Log.e("Root", "handleIntent: $data")
+            rootComponent?.handleDeepLink(data)
         }
     }
 }

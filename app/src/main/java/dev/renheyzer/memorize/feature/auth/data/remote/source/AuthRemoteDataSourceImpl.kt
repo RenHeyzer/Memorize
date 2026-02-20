@@ -3,11 +3,12 @@ package dev.renheyzer.memorize.feature.auth.data.remote.source
 import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
 class AuthRemoteDataSourceImpl(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
 ) : AuthRemoteDataSource {
 
     override suspend fun registerByEmail(
@@ -15,7 +16,13 @@ class AuthRemoteDataSourceImpl(
         password: String
     ): AuthResult? = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
 
-    override val currentUser: FirebaseUser?
+    override val currentUser: FirebaseUser
+        get() = firebaseAuth.currentUser ?: throw FirebaseAuthInvalidUserException(
+            "No user",
+            "User is null!"
+        )
+
+    override val currentUserOrNull: FirebaseUser?
         get() = firebaseAuth.currentUser
 
     override suspend fun signInViaEmailAndPassword(email: String, password: String): AuthResult? =
@@ -28,8 +35,16 @@ class AuthRemoteDataSourceImpl(
         firebaseAuth.sendSignInLinkToEmail(email, actionCodeSettings).await()
     }
 
+    override suspend fun sendEmailVerification(settings: ActionCodeSettings) {
+        currentUser.sendEmailVerification(settings).await()
+    }
+
     override suspend fun signInViaEmailLink(
         email: String,
         emailLink: String
     ): AuthResult? = firebaseAuth.signInWithEmailLink(email, emailLink).await()
+
+    override suspend fun onDeepLinkReceived(code: String) {
+        firebaseAuth.applyActionCode(code).await()
+    }
 }

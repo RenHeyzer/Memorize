@@ -10,6 +10,8 @@ interface AuthComponent {
 
     val stack: Value<ChildStack<*, AuthChild>>
 
+    fun onVerificationLinkReceived(code: String)
+
     sealed class AuthChild {
         class RegistrationChild(val component: Registration) : AuthChild()
         class LoginChild(val component: Login) : AuthChild()

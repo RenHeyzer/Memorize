@@ -1,19 +1,25 @@
 package dev.renheyzer.memorize.core.components.auth
 
+import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import dev.renheyzer.memorize.core.components.auth.login.LoginComponent
 import dev.renheyzer.memorize.core.components.auth.registration.RegistrationComponent
+import dev.renheyzer.memorize.core.components.auth.verification.Verification
 import dev.renheyzer.memorize.core.components.auth.verification.VerificationComponent
 import dev.renheyzer.memorize.core.di.AuthDependencies
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
 import dev.renheyzer.memorize.core.ui.UiText
+import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
 
@@ -22,7 +28,10 @@ class DefaultAuthComponent(
     private val mainContext: CoroutineContext,
     private val stringResolver: StringResolver,
     private val authDependenciesFactory: () -> AuthDependencies,
-    private val snackbarController: SnackbarController
+    private val snackbarController: SnackbarController,
+    private val countdownTimerManager: CountdownTimerManager,
+    private val deepLinkCode: String? = null,
+    private val navigateToHome: () -> Unit
 ) : AuthComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<ScreenConfig>()
@@ -32,11 +41,19 @@ class DefaultAuthComponent(
     override val stack: Value<ChildStack<*, AuthComponent.AuthChild>> =
         childStack(
             source = navigation,
-            initialConfiguration = ScreenConfig.Registration,
+            initialConfiguration = if (deepLinkCode != null) {
+                ScreenConfig.Verification(
+                    oobCode = deepLinkCode
+                )
+            } else ScreenConfig.Login,
             handleBackButton = true,
             serializer = ScreenConfig.serializer(),
             childFactory = ::childFactory
         )
+
+    override fun onVerificationLinkReceived(code: String) {
+        navigation.bringToFront(ScreenConfig.Verification(oobCode = code))
+    }
 
     private fun childFactory(
         config: ScreenConfig,
@@ -51,8 +68,11 @@ class DefaultAuthComponent(
                         stringResolver = stringResolver,
                         registerByEmailUseCase = authDependencies.registerByEmailUseCase,
                         snackbarController = snackbarController,
-                        navigationToVerification = { message ->
+                        navigateToVerification = { message ->
                             navigation.pushNew(ScreenConfig.Verification(message))
+                        },
+                        navigateToLogin = {
+                            navigation.pop()
                         }
                     )
                 )
@@ -60,13 +80,29 @@ class DefaultAuthComponent(
 
             is ScreenConfig.Verification -> AuthComponent.AuthChild.VerificationChild(
                 VerificationComponent(
-                    componentContext
+                    componentContext,
+                    mainContext = mainContext,
+                    countdownTimerManager = countdownTimerManager,
+                    params = Verification.Params(
+                        message = config.message,
+                        oobCode = config.oobCode,
+                    ),
+                    authRepository = authDependencies.authRepository,
+                    stringResolver = stringResolver,
+                    snackbarController = snackbarController,
+                    navigateToLogin = {
+                        navigation.replaceAll(ScreenConfig.Login)
+                    },
+                    navigateToHome = navigateToHome
                 )
             )
 
             is ScreenConfig.Login -> AuthComponent.AuthChild.LoginChild(
                 LoginComponent(
-                    componentContext
+                    componentContext,
+                    navigateToRegistration = {
+                        navigation.pushNew(ScreenConfig.Registration)
+                    }
                 )
             )
         }
@@ -78,7 +114,10 @@ private sealed interface ScreenConfig {
     data object Registration : ScreenConfig
 
     @Serializable
-    data class Verification(val message: UiText?) : ScreenConfig
+    data class Verification(
+        val message: UiText? = null,
+        val oobCode: String? = null
+    ) : ScreenConfig
 
     @Serializable
     data object Login : ScreenConfig

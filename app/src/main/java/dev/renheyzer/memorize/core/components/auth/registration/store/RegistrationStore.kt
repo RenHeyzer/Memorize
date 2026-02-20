@@ -44,11 +44,12 @@ class RegistrationStore(
     ) {
         scope.launch {
             _uiState.update { it.copy(isLoading = true, validationError = ValidationErrorUI()) }
+
             registerByEmailUseCase(email, password, confirmPassword).fold(
                 onRight = {
                     _uiState.update { it.copy(isLoading = false) }
                     val message = UiText.StringResource(R.string.registration_was_successful)
-                    _events.send(RegistrationEvents.NavigateToLogin(message))
+                    _events.send(RegistrationEvents.NavigateToVerification(message))
                 },
                 onLeft = { error ->
                     _uiState.update { it.copy(isLoading = false) }
@@ -88,5 +89,5 @@ data class RegistrationUiState(
 
 sealed interface RegistrationEvents {
     data class ShowError(val error: UiText) : RegistrationEvents
-    data class NavigateToLogin(val message: UiText?) : RegistrationEvents
+    data class NavigateToVerification(val message: UiText) : RegistrationEvents
 }
