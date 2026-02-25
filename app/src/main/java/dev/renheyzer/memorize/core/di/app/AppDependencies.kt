@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.di
+package dev.renheyzer.memorize.core.di.app
 
 import dev.renheyzer.memorize.core.common.AppDispatchers
 import dev.renheyzer.memorize.core.ui.SnackbarController

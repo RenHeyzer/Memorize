@@ -1,8 +1,8 @@
 package dev.renheyzer.memorize
 
 import android.app.Application
-import dev.renheyzer.memorize.core.di.AppDependencies
-import dev.renheyzer.memorize.core.di.AppDependenciesImpl
+import dev.renheyzer.memorize.core.di.app.AppDependencies
+import dev.renheyzer.memorize.core.di.app.AppDependenciesImpl
 
 class MemorizeApp : Application() {
 

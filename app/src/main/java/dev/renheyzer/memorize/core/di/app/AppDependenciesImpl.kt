@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.di
+package dev.renheyzer.memorize.core.di.app
 
 import android.content.Context
 import com.google.firebase.Firebase
