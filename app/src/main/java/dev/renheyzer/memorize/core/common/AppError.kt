@@ -8,5 +8,6 @@ sealed interface NetworkError : AppError {
     data object ServiceUnavailable : NetworkError
     data object Timeout : NetworkError
     data object Unauthorized : NetworkError
+    data object NotFound : NetworkError
     data class Unknown(val cause: Throwable?) : NetworkError
 }
