@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.android.junit)
 }
 
 android {
@@ -22,6 +23,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunnerArguments["runnerBuilder"] =
+            "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
     buildTypes {
@@ -54,6 +58,11 @@ android {
             jvmTarget = JvmTarget.fromTarget("11")
         }
     }
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
     buildFeatures {
         compose = true
         buildConfig = true
@@ -79,6 +88,15 @@ dependencies {
     implementation(libs.material3)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.params)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+
+    androidTestImplementation(libs.junit.android.test.core)
+    androidTestRuntimeOnly(libs.junit.android.test.runner)
+
 
     // Firebase
     implementation(platform(libs.firebase.bom))
