@@ -17,7 +17,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +31,6 @@ import dev.renheyzer.memorize.core.components.root.DefaultRootComponent
 import dev.renheyzer.memorize.core.components.root.RootComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 import dev.renheyzer.memorize.core.ui.LocalSnackbarController
-import dev.renheyzer.memorize.core.utils.DeviceConfiguration
 import dev.renheyzer.memorize.feature.root.ui.root.RootContent
 import dev.renheyzer.memorize.ui.theme.MemorizeCorner
 import dev.renheyzer.memorize.ui.theme.MemorizeSize
@@ -106,46 +104,21 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                CompositionLocalProvider(LocalSnackbarController provides appDependencies.snackbarController) {
+                CompositionLocalProvider(
+                    LocalSnackbarController provides appDependencies.snackbarController,
+                ) {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
                         contentWindowInsets = WindowInsets.statusBars,
                         snackbarHost = {
                             SnackbarHost(hostState = snackbarHostState)
-                        }
+                        },
                     ) { innerPadding ->
-                        val windowSizeClass: WindowSizeClass =
-                            currentWindowAdaptiveInfo().windowSizeClass
-                        val deviceConfiguration =
-                            DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
-
-                        rootComponent?.let { root ->
-                            RootContent(
-                                component = root,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(innerPadding),
-                            )
-
-                            when (deviceConfiguration) {
-                                DeviceConfiguration.PHONE_PORTRAIT -> {
-                                    RootContent(
-                                        component = root,
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .padding(innerPadding),
-                                    )
-                                }
-
-                                DeviceConfiguration.PHONE_LANDSCAPE -> {}
-                                DeviceConfiguration.TABLET_PORTRAIT -> {}
-                                DeviceConfiguration.TABLET_LANDSCAPE -> {}
-                                DeviceConfiguration.DESKTOP -> {
-                                    Log.d("Root", "true")
-
-                                }
-                            }
-                        }
+                        RootContent(
+                            component = root,
+                            modifier = Modifier
+                                .padding(innerPadding),
+                        )
                     }
                 }
             }
