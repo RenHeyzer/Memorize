@@ -8,7 +8,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import dev.renheyzer.memorize.core.components.root.RootComponent
 import dev.renheyzer.memorize.feature.auth.presentation.ui.AuthContent
-import dev.renheyzer.memorize.feature.core.home.presentation.ui.home.HomeScreen
+import dev.renheyzer.memorize.feature.core.ui.CoreContent
 
 @Composable
 fun RootContent(
@@ -21,7 +21,7 @@ fun RootContent(
         animation = stackAnimation(fade())
     ) {
         when (val child = it.instance) {
-            is RootComponent.Child.Core -> HomeScreen(
+            is RootComponent.Child.Core -> CoreContent(
                 component = child.component,
                 modifier = Modifier.fillMaxSize()
             )
