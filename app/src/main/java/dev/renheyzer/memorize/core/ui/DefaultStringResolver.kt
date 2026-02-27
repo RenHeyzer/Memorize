@@ -1,8 +1,6 @@
-package dev.renheyzer.memorize.core.utils
+package dev.renheyzer.memorize.core.ui
 
 import android.content.Context
-import dev.renheyzer.memorize.core.ui.StringResolver
-import dev.renheyzer.memorize.core.ui.UiText
 
 class DefaultStringResolver(private val context: Context) : StringResolver {
     override fun resolve(text: UiText): String =
