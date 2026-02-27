@@ -30,6 +30,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.arkivanov.decompose.retainedComponent
 import dev.renheyzer.memorize.core.components.root.DefaultRootComponent
 import dev.renheyzer.memorize.core.components.root.RootComponent
+import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 import dev.renheyzer.memorize.core.ui.LocalSnackbarController
 import dev.renheyzer.memorize.core.utils.DeviceConfiguration
 import dev.renheyzer.memorize.feature.root.ui.root.RootContent
@@ -51,14 +52,11 @@ class MainActivity : ComponentActivity() {
         val componentFactory = ComponentFactory(appDependencies)
 
         enableEdgeToEdge()
-        rootComponent = DefaultRootComponent(
-            componentContext = defaultComponentContext(),
-            appDependencies = appDependencies
-        )
         val root = retainedComponent { componentContext ->
             DefaultRootComponent(
                 componentContext = componentContext,
                 appDependencies = appDependencies,
+                factory = componentFactory
             )
         }
         rootComponent = root
