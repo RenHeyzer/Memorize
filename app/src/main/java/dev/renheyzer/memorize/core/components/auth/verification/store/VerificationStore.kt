@@ -64,7 +64,7 @@ class VerificationStore(
             sendEmailLink()
         }
 
-        countdownTimerManager.setDuration(120 * 1000L)
+        countdownTimerManager.setDuration(RESEND_DURATION)
         countdownTimerManager.start(scope)
     }
 
@@ -96,6 +96,7 @@ class VerificationStore(
     fun sendEmailLink() {
         scope.launch {
             authRepository.sendEmailVerification()
+            // Обработать результат
         }
     }
 
@@ -119,7 +120,7 @@ class VerificationStore(
     }
 
     fun restartTimer() {
-        countdownTimerManager.reset(120 * 1000L)
+        countdownTimerManager.reset(RESEND_DURATION)
     }
 
     fun showMessage(message: String, action: (() -> Unit)? = null) {
@@ -134,9 +135,12 @@ class VerificationStore(
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         countdownTimerManager.stop()
         scope.cancel()
+    }
+
+    companion object {
+        private const val RESEND_DURATION = 120 * 1000L
     }
 }
 
