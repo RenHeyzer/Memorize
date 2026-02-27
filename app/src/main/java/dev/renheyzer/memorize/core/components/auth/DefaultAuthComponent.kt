@@ -1,6 +1,5 @@
 package dev.renheyzer.memorize.core.components.auth
 
-import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -15,7 +14,7 @@ import dev.renheyzer.memorize.core.components.auth.login.LoginComponent
 import dev.renheyzer.memorize.core.components.auth.registration.RegistrationComponent
 import dev.renheyzer.memorize.core.components.auth.verification.Verification
 import dev.renheyzer.memorize.core.components.auth.verification.VerificationComponent
-import dev.renheyzer.memorize.core.di.AuthDependencies
+import dev.renheyzer.memorize.core.components.auth.dependencies.AuthDependencies
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
 import dev.renheyzer.memorize.core.ui.UiText
