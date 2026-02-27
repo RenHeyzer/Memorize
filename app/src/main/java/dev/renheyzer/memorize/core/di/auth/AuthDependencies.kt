@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.di
+package dev.renheyzer.memorize.core.di.auth
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.core.models.AuthConfig
