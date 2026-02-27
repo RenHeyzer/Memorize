@@ -19,7 +19,7 @@ import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 @Composable
 fun VerificationScreen(
     component: Verification,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val uiState by component.uiState.collectAsStateWithLifecycle()
 
@@ -39,7 +39,7 @@ fun VerificationScreen(
             }
         )
     } else {
-        Box(modifier = modifier) {
+        Box(modifier = modifier.fillMaxSize()) {
             VerificationContent(
                 modifier = Modifier.fillMaxSize(),
                 uiState = uiState,

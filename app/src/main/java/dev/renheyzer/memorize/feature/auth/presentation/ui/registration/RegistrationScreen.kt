@@ -18,13 +18,13 @@ import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 @Composable
 fun RegistrationScreen(
     component: Registration,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val uiState by component.uiState.collectAsStateWithLifecycle()
 
-    Box(modifier = modifier) {
+    Box(modifier = modifier.fillMaxSize()) {
         RegistrationContent(
-            Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             onSignUpClick = { email, password, confirmPassword ->
                 component.onSignUpClick(email, password, confirmPassword)
             },

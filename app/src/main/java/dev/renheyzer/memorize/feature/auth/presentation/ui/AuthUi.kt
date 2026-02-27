@@ -1,6 +1,5 @@
 package dev.renheyzer.memorize.feature.auth.presentation.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
@@ -23,17 +22,14 @@ fun AuthContent(
     ) {
         when (val child = it.instance) {
             is AuthComponent.AuthChild.RegistrationChild -> RegistrationScreen(
-                modifier = Modifier.fillMaxSize(),
                 component = child.component,
             )
 
             is AuthComponent.AuthChild.VerificationChild -> VerificationScreen(
-                modifier = Modifier.fillMaxSize(),
                 component = child.component,
             )
 
             is AuthComponent.AuthChild.LoginChild -> LoginScreen(
-                modifier = Modifier.fillMaxSize(),
                 component = child.component
             )
         }
