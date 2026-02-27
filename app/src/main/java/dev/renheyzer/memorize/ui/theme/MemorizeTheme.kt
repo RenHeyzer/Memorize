@@ -36,7 +36,13 @@ data class MemorizeTypography(
 )
 
 data class MemorizeShape(
-    val shape: Shape
+    val topBar: Shape,
+    val card: Shape,
+    val textField: Shape,
+    val button: Shape,
+    val buttonLarge: Shape,
+    val small: Shape,
+    val bottomSheet: Shape,
 )
 
 data object MemorizeTheme {

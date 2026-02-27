@@ -73,11 +73,47 @@ fun MemorizeTheme(
     )
 
     val shape = MemorizeShape(
-        shape = when (corner) {
+        topBar = when (corner) {
+            MemorizeCorner.Small -> RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+            MemorizeCorner.Medium -> RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+            MemorizeCorner.Big -> RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
+            MemorizeCorner.Full -> RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
+        },
+        card = when (corner) {
+            MemorizeCorner.Small -> RoundedCornerShape(15)
+            MemorizeCorner.Medium -> RoundedCornerShape(20)
+            MemorizeCorner.Big -> RoundedCornerShape(25)
+            MemorizeCorner.Full -> RoundedCornerShape(30)
+        },
+        textField = when (corner) {
             MemorizeCorner.Small -> RoundedCornerShape(8.dp)
             MemorizeCorner.Medium -> RoundedCornerShape(12.dp)
             MemorizeCorner.Big -> RoundedCornerShape(16.dp)
             MemorizeCorner.Full -> CircleShape
+        },
+        button = when (corner) {
+            MemorizeCorner.Small -> RoundedCornerShape(8.dp)
+            MemorizeCorner.Medium -> RoundedCornerShape(12.dp)
+            MemorizeCorner.Big -> RoundedCornerShape(16.dp)
+            MemorizeCorner.Full -> CircleShape
+        },
+        buttonLarge = when (corner) {
+            MemorizeCorner.Small -> RoundedCornerShape(16.dp)
+            MemorizeCorner.Medium -> RoundedCornerShape(24.dp)
+            MemorizeCorner.Big -> RoundedCornerShape(32.dp)
+            MemorizeCorner.Full -> CircleShape
+        },
+        small = when (corner) {
+            MemorizeCorner.Small -> RoundedCornerShape(4.dp)
+            MemorizeCorner.Medium -> RoundedCornerShape(6.dp)
+            MemorizeCorner.Big -> RoundedCornerShape(8.dp)
+            MemorizeCorner.Full -> CircleShape
+        },
+        bottomSheet = when (corner) {
+            MemorizeCorner.Small -> RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+            MemorizeCorner.Medium -> RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+            MemorizeCorner.Big -> RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+            MemorizeCorner.Full -> RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
         }
     )
 
