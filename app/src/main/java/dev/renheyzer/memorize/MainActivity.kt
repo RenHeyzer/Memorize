@@ -27,8 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.window.core.layout.WindowSizeClass
-import com.arkivanov.decompose.defaultComponentContext
+import com.arkivanov.decompose.retainedComponent
 import dev.renheyzer.memorize.core.components.root.DefaultRootComponent
 import dev.renheyzer.memorize.core.components.root.RootComponent
 import dev.renheyzer.memorize.core.ui.LocalSnackbarController
@@ -49,12 +48,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val appDependencies = (application as MemorizeApp).appDependencies
+        val componentFactory = ComponentFactory(appDependencies)
 
         enableEdgeToEdge()
         rootComponent = DefaultRootComponent(
             componentContext = defaultComponentContext(),
             appDependencies = appDependencies
         )
+        val root = retainedComponent { componentContext ->
+            DefaultRootComponent(
+                componentContext = componentContext,
+                appDependencies = appDependencies,
+            )
+        }
+        rootComponent = root
 
         setContent {
             val isDarkModeValue = isSystemInDarkTheme()
