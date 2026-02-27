@@ -10,13 +10,15 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import dev.renheyzer.memorize.core.components.auth.DefaultAuthComponent
-import dev.renheyzer.memorize.core.components.core.DefaultHomeComponent
-import dev.renheyzer.memorize.core.di.AppDependencies
+import dev.renheyzer.memorize.core.components.core.DefaultCoreRootComponent
+import dev.renheyzer.memorize.core.di.app.AppDependencies
+import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 import kotlinx.serialization.Serializable
 
 class DefaultRootComponent(
     componentContext: ComponentContext,
-    private val appDependencies: AppDependencies
+    private val appDependencies: AppDependencies,
+    private val factory: ComponentFactory
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<ChildConfig>()
@@ -35,7 +37,7 @@ class DefaultRootComponent(
 
         return if (isUserLoggedIn) {
             Log.e("Home", "Home")
-            ChildConfig.Home
+            ChildConfig.Core
         } else {
             Log.e("Auth", "Auth")
             ChildConfig.Auth()
@@ -65,9 +67,9 @@ class DefaultRootComponent(
         componentContext: ComponentContext
     ): RootComponent.Child =
         when (config) {
-            is ChildConfig.Home -> {
-                RootComponent.Child.Home(
-                    DefaultHomeComponent(componentContext)
+            is ChildConfig.Core -> {
+                RootComponent.Child.Core(
+                    DefaultCoreRootComponent(componentContext, factory)
                 )
             }
 
@@ -82,7 +84,7 @@ class DefaultRootComponent(
                         countdownTimerManager = appDependencies.countdownTimerManager,
                         deepLinkCode = config.deepLinkCode,
                         navigateToHome = {
-                            navigation.replaceAll(ChildConfig.Home)
+                            navigation.replaceAll(ChildConfig.Core)
                         }
                     )
                 )
@@ -95,7 +97,7 @@ class DefaultRootComponent(
 private sealed interface ChildConfig {
 
     @Serializable
-    data object Home : ChildConfig
+    data object Core : ChildConfig
 
     @Serializable
     data class Auth(val deepLinkCode: String? = null) : ChildConfig
