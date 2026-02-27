@@ -49,7 +49,7 @@ class VerificationStore(
     }.stateIn(
         scope = scope,
         started = SharingStarted.Lazily,
-        initialValue = VerificationUiState()
+        initialValue = _uiState.value
     )
 
     private val _events = Channel<VerificationEvents>(Channel.BUFFERED)
