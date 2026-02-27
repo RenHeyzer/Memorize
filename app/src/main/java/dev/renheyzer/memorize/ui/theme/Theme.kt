@@ -24,16 +24,18 @@ fun MemorizeTheme(
         else -> baseLightPalette
     }
 
+    val primaryHeading = TextStyle(
+        fontSize = when (textSize) {
+            MemorizeSize.Small -> 24.sp
+            MemorizeSize.Medium -> 28.sp
+            MemorizeSize.Big -> 32.sp
+        },
+        fontFamily = rubikFamily,
+        fontWeight = FontWeight.Bold
+    )
+
     val typography = MemorizeTypography(
-        primaryHeading = TextStyle(
-            fontSize = when (textSize) {
-                MemorizeSize.Small -> 24.sp
-                MemorizeSize.Medium -> 28.sp
-                MemorizeSize.Big -> 32.sp
-            },
-            fontFamily = rubikFamily,
-            fontWeight = FontWeight.Bold
-        ),
+        primaryHeading = primaryHeading,
         secondaryHeading = TextStyle(
             fontSize = when (textSize) {
                 MemorizeSize.Small -> 20.sp
@@ -68,7 +70,21 @@ fun MemorizeTheme(
                 MemorizeSize.Big -> 18.sp
             },
             fontFamily = rubikFamily,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Bold
+        ),
+        buttonLarge = primaryHeading.copy(
+            fontSize = when (textSize) {
+                MemorizeSize.Small -> 16.sp
+                MemorizeSize.Medium -> 20.sp
+                MemorizeSize.Big -> 24.sp
+            }
+        ),
+        display = primaryHeading.copy(
+            fontSize = when (textSize) {
+                MemorizeSize.Small -> 40.sp
+                MemorizeSize.Medium -> 48.sp
+                MemorizeSize.Big -> 60.sp
+            }
         )
     )
 

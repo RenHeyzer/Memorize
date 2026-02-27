@@ -32,7 +32,9 @@ data class MemorizeTypography(
     val secondaryHeading: TextStyle,
     val body: TextStyle,
     val toolbar: TextStyle,
-    val button: TextStyle
+    val button: TextStyle,
+    val buttonLarge: TextStyle,
+    val display: TextStyle
 )
 
 data class MemorizeShape(
