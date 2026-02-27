@@ -4,6 +4,7 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.FirebaseFirestoreException
+import dev.renheyzer.memorize.BuildConfig
 import dev.renheyzer.memorize.core.common.NetworkError
 import java.io.IOException
 
@@ -19,5 +20,10 @@ fun Throwable.toNetworkType(): NetworkError = when (this) {
         }
     }
     is FirebaseAuthInvalidUserException -> NetworkError.Unauthorized
-    else -> NetworkError.Unknown(this.cause)
+    else -> {
+        if (BuildConfig.DEBUG) {
+            throw this
+        }
+        NetworkError.Unknown(this.cause)
+    }
 }
