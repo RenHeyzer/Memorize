@@ -56,12 +56,12 @@ fun MemorizeTheme(
         ),
         toolbar = TextStyle(
             fontSize = when (textSize) {
-                MemorizeSize.Small -> 14.sp
-                MemorizeSize.Medium -> 16.sp
-                MemorizeSize.Big -> 18.sp
+                MemorizeSize.Small -> 18.sp
+                MemorizeSize.Medium -> 22.sp
+                MemorizeSize.Big -> 26.sp
             },
             fontFamily = rubikFamily,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Black
         ),
         button = TextStyle(
             fontSize = when (textSize) {
