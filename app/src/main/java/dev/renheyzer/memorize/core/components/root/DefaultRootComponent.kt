@@ -36,10 +36,8 @@ class DefaultRootComponent(
         val isUserLoggedIn = appDependencies.authDependencies().authRepository.isUserLoggedIn
 
         return if (isUserLoggedIn) {
-            Log.e("Home", "Home")
             ChildConfig.Core
         } else {
-            Log.e("Auth", "Auth")
             ChildConfig.Auth()
         }
     }
@@ -52,7 +50,6 @@ class DefaultRootComponent(
             val activeChild = stack.value.active.instance
 
             if (activeChild is RootComponent.Child.Auth) {
-                Log.e("Root", "mode = $mode ||| code = $code")
                 activeChild.component.onVerificationLinkReceived(code)
             } else {
                 navigation.bringToFront(ChildConfig.Auth(deepLinkCode = code))
