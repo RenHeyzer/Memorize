@@ -40,6 +40,20 @@ val rubikFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 style = FontStyle.Normal
             )
         ),
+        Font(
+            resId = R.font.rubik_variable_font_wght,
+            variationSettings = FontVariation.Settings(
+                weight = FontWeight.ExtraBold,
+                style = FontStyle.Normal
+            )
+        ),
+        Font(
+            resId = R.font.rubik_variable_font_wght,
+            variationSettings = FontVariation.Settings(
+                weight = FontWeight.Black,
+                style = FontStyle.Normal
+            )
+        )
     )
 else FontFamily(
     Font(
@@ -70,4 +84,18 @@ else FontFamily(
             style = FontStyle.Normal
         )
     ),
+    Font(
+        resId = R.font.rubik_extra_bold,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.ExtraBold,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = R.font.rubik_black,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Black,
+            style = FontStyle.Normal
+        )
+    )
 )
