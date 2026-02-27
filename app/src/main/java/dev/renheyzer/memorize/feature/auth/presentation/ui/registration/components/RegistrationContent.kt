@@ -27,8 +27,6 @@ import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.components.auth.registration.store.RegistrationUiState
 import dev.renheyzer.memorize.core.ui.component.MemorizeDefaultButton
 import dev.renheyzer.memorize.core.ui.component.OutlinedErrorTextField
-import dev.renheyzer.memorize.feature.auth.domain.model.ValidationError
-import dev.renheyzer.memorize.feature.auth.presentation.model.ValidationErrorUI
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
@@ -86,7 +84,7 @@ fun RegistrationContent(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             textStyle = MemorizeTheme.typography.body,
-            shape = MemorizeTheme.shape.shape,
+            shape = MemorizeTheme.shape.textField,
             enabled = !uiState.isLoading
         )
 
@@ -107,7 +105,7 @@ fun RegistrationContent(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             textStyle = MemorizeTheme.typography.body,
-            shape = MemorizeTheme.shape.shape,
+            shape = MemorizeTheme.shape.textField,
             enabled = !uiState.isLoading
         )
 
@@ -128,7 +126,7 @@ fun RegistrationContent(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             textStyle = MemorizeTheme.typography.body,
-            shape = MemorizeTheme.shape.shape,
+            shape = MemorizeTheme.shape.textField,
             enabled = !uiState.isLoading
         )
 
