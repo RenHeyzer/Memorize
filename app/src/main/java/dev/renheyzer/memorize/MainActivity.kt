@@ -135,7 +135,7 @@ class MainActivity : ComponentActivity() {
     private fun handleIntent(intent: Intent?) {
         val data: Uri? = intent?.data
         if (data != null) {
-            Log.e("Root", "handleIntent: $data")
+            Log.d("Root", "handleIntent: $data")
             rootComponent?.handleDeepLink(data)
         }
     }
