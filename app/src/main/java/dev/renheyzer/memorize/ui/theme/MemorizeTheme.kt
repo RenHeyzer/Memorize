@@ -18,10 +18,13 @@ data class MemorizeColors(
     val secondaryText: Color,
     val secondaryBackground: Color,
     val accentColor: Color,
+    val successColor: Color,
     val errorColor: Color,
     val onAccentText: Color,
     val borderColor: Color,
-    val tertiaryText: Color
+    val tertiaryText: Color,
+    val disabledColor: Color,
+    val onDisabledText: Color
 )
 
 data class MemorizeTypography(
