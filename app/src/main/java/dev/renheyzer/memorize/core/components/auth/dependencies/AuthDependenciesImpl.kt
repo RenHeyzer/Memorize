@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.di.auth
+package dev.renheyzer.memorize.core.components.auth.dependencies
 
 import com.google.firebase.auth.FirebaseAuth
 import dev.renheyzer.memorize.BuildConfig
