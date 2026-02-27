@@ -75,7 +75,7 @@ class DefaultRootComponent(
                     DefaultAuthComponent(
                         componentContext,
                         mainContext = appDependencies.dispatchers.mainImmediate,
-                        stringResolver = appDependencies.stringResolver,
+                        stringResolver = appDependencies.componentEnvironment.stringResolver,
                         authDependenciesFactory = { appDependencies.authDependencies() },
                         snackbarController = appDependencies.snackbarController,
                         countdownTimerManager = appDependencies.countdownTimerManager,
