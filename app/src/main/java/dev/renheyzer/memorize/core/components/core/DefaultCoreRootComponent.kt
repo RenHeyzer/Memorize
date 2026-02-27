@@ -1,0 +1,59 @@
+package dev.renheyzer.memorize.core.components.core
+
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.value.Value
+import dev.renheyzer.memorize.core.components.core.home.factory.createHomeComponent
+import dev.renheyzer.memorize.core.components.core.numbers.factory.createNumbersRootComponent
+import dev.renheyzer.memorize.core.components.core.pictures.factory.createPicturesRootComponent
+import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import kotlinx.serialization.Serializable
+
+class DefaultCoreRootComponent(
+    componentContext: ComponentContext,
+    private val factory: ComponentFactory
+) : CoreRootComponent, ComponentContext by componentContext {
+
+    private val navigation = StackNavigation<Config>()
+
+    override val childStack: Value<ChildStack<*, CoreRootComponent.Child>> = childStack(
+        source = navigation,
+        serializer = Config.serializer(),
+        initialConfiguration = Config.Home,
+        handleBackButton = true,
+        childFactory = ::childFactory
+    )
+
+    private fun childFactory(
+        config: Config,
+        componentContext: ComponentContext
+    ): CoreRootComponent.Child =
+        when (config) {
+            Config.Home -> CoreRootComponent.Child.Home(
+                factory.createHomeComponent(componentContext, onOutput = {})
+            )
+
+            Config.Numbers -> CoreRootComponent.Child.Numbers(
+                factory.createNumbersRootComponent(componentContext)
+            )
+
+            Config.Pictures -> CoreRootComponent.Child.Pictures(
+                factory.createPicturesRootComponent(componentContext)
+            )
+        }
+
+}
+
+@Serializable
+private sealed interface Config {
+    @Serializable
+    data object Home : Config
+
+    @Serializable
+    data object Pictures : Config
+
+    @Serializable
+    data object Numbers : Config
+}
