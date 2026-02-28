@@ -44,5 +44,10 @@
     <string name="return_text">Return</string>
     <string name="next">Next</string>
     <string name="congratulations">Congratulations</string>
+    <string name="back">Back</string>
+    <string name="level_title">Level %1$d</string>
+    <string name="complete">Complete</string>
+    <string name="level_subtitle">Remember the arrangement of the numbers</string>
+    <string name="time_up">Time is up!</string>
 
 </resources>
