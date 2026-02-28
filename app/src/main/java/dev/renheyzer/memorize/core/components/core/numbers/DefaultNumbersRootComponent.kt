@@ -26,7 +26,7 @@ class DefaultNumbersRootComponent(
         source = navigation,
         serializer = Config.serializer(),
         initialConfiguration = Config.Memorization(
-            quantity = 10,
+            quantity = 27,
             time = 1000L * 120,
             isRandom = true
         ),
