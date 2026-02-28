@@ -15,4 +15,6 @@ interface CoreRootComponent {
         class Pictures(val component: PicturesRootComponent): Child()
         class Numbers(val component: NumbersRootComponent): Child()
     }
+
+    fun onBackPressed()
 }
