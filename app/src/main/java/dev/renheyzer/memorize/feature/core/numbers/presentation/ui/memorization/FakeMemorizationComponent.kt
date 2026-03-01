@@ -12,9 +12,9 @@ class FakeMemorizationComponent : MemorizationComponent {
             numbers = List(27) { Random.nextInt(28) }.chunked(9),
             quantity = 27,
             isRandom = true,
-            timerValue = "01:56"
         )
     )
+    override val timerState: StateFlow<String> = MutableStateFlow("01:32")
 
     override fun onCompleteClick() = Unit
 }

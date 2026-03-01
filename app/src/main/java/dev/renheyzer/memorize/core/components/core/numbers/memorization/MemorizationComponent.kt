@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface MemorizationComponent {
 
     val uiState: StateFlow<MemorizationUiState>
+    val timerState: StateFlow<String>
 
     data class Params(
         val quantity: Int,

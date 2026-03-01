@@ -11,13 +11,14 @@ import dev.renheyzer.memorize.core.components.core.numbers.memorization.store.Me
 import dev.renheyzer.memorize.ui.theme.MemorizeCorner
 import dev.renheyzer.memorize.ui.theme.MemorizeSize
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewMemorizationContent() {
     MemorizeTheme(textSize = MemorizeSize.Big, corner = MemorizeCorner.Big) {
         MemorizationContent(
-            modifier = Modifier,
+            timerState = MutableStateFlow("02:23"),
             uiState = MemorizationUiState(
                 numbers = listOf(
                     listOf(22, 39, 94, 12, 39, 94, 12, 43, 89),
@@ -26,7 +27,6 @@ fun PreviewMemorizationContent() {
                 ),
                 quantity = 5,
                 isRandom = true,
-                timerValue = "01:56"
             ),
             pagerState = rememberPagerState(pageCount = { 3 })
         )
@@ -50,7 +50,7 @@ fun PreviewNumberItem() {
 fun PreviewTimerContent() {
     MemorizeTheme {
         TimerContent(
-            value = "02:43"
+            timerState = MutableStateFlow("02:23")
         )
     }
 }

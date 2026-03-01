@@ -1,6 +1,5 @@
 package dev.renheyzer.memorize.core.components.core.numbers.memorization
 
-import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
@@ -40,7 +39,13 @@ class DefaultMemorizationComponent(
 
     override val uiState: StateFlow<MemorizationUiState> = store.uiState
 
+    override val timerState: StateFlow<String> = store.timerState
+
     init {
+        observeEvents()
+    }
+
+    private fun observeEvents() {
         scope.launch {
             store.events.collect { event ->
                 when (event) {

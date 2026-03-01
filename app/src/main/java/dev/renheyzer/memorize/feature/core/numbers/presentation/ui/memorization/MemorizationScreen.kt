@@ -52,8 +52,12 @@ fun MemorizationScreen(
         },
         bottomBar = {
             FooterContent(
-                isComplete = isLastPage,
-                isPrevEnabled = isPrevEnabled,
+                isComplete = {
+                    isLastPage
+                },
+                isPrevEnabled = {
+                    isPrevEnabled
+                },
                 onNextClick = {
                     scope.launch {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
@@ -71,6 +75,7 @@ fun MemorizationScreen(
         }
     ) { innerPadding ->
         MemorizationContent(
+            timerState = component.timerState,
             uiState = uiState,
             pagerState = pagerState,
             modifier = Modifier
@@ -91,27 +96,3 @@ fun PreviewMemorizationScreen() {
         )
     }
 }
-
-/*
-@Preview
-@Composable
-fun PagerPreview() {
-    val pagerState = rememberPagerState { 10 }
-    Column(modifier = Modifier.fillMaxSize()) {
-        HorizontalPager(modifier = Modifier.weight(0.9f), state = pagerState) { page ->
-            Box(
-                modifier =
-                    Modifier.padding(10.dp).background(Color.Blue).fillMaxWidth().aspectRatio(1f),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(text = page.toString(), fontSize = 32.sp)
-            }
-        }
-        Column(modifier = Modifier.weight(0.1f).fillMaxWidth()) {
-            Text(text = "Current Page: ${pagerState.currentPage}")
-            Text(text = "Current Page Offset Fraction: ${pagerState.currentPageOffsetFraction}")
-            Text(text = "Target Page: ${pagerState.targetPage}")
-            Text(text = "Settled Page Offset: ${pagerState.settledPage}")
-        }
-    }
-}*/

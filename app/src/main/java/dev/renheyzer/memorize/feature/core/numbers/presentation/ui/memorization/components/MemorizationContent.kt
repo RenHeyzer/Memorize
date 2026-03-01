@@ -16,25 +16,31 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.store.MemorizationUiState
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun MemorizationContent(
+    timerState: StateFlow<String>,
     uiState: MemorizationUiState,
     pagerState: PagerState,
     modifier: Modifier = Modifier
 ) {
+
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+
         TimerContent(
-            value = uiState.timerValue,
+            timerState = timerState,
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(16.dp)
@@ -81,9 +87,11 @@ fun MemorizationContent(
 
 @Composable
 fun TimerContent(
-    modifier: Modifier = Modifier,
-    value: String
+    timerState: StateFlow<String>,
+    modifier: Modifier = Modifier
 ) {
+    val timerValue by timerState.collectAsStateWithLifecycle()
+
     Surface(
         modifier = modifier,
         shape = MemorizeTheme.shape.card,
@@ -91,7 +99,7 @@ fun TimerContent(
         shadowElevation = 8.dp,
     ) {
         Text(
-            text = value,
+            text = timerValue,
             color = MemorizeTheme.colors.primaryText,
             modifier = Modifier.padding(8.dp),
             textAlign = TextAlign.Center,

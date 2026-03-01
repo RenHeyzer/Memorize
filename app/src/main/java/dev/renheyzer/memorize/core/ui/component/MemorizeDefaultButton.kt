@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
@@ -53,8 +54,9 @@ fun MemorizeDefaultButton(
 fun MemorizeActionButton(
     onClick: () -> Unit,
     text: String,
-    modifier: Modifier = Modifier,
+    defaultElevation: Dp,
     enabled: Boolean = true,
+    modifier: Modifier = Modifier,
     containerColor: Color = MemorizeTheme.colors.accentColor,
     addition: (@Composable RowScope.() -> Unit)? = null,
 ) {
@@ -62,7 +64,7 @@ fun MemorizeActionButton(
         onClick = onClick,
         modifier = modifier.height(70.dp),
         enabled = enabled,
-        elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp),
+        elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = defaultElevation),
         shape = MemorizeTheme.shape.buttonLarge,
         colors = ButtonDefaults.elevatedButtonColors(containerColor = containerColor)
     ) {
@@ -80,6 +82,7 @@ fun MemorizeActionIconButton(
     onClick: () -> Unit,
     @DrawableRes iconRes: Int,
     contentDescription: String,
+    defaultElevation: Dp,
     enabled: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
@@ -88,7 +91,7 @@ fun MemorizeActionIconButton(
         modifier = modifier.defaultMinSize(minWidth = 50.dp, minHeight = 50.dp),
         enabled = enabled,
         contentPadding = PaddingValues(0.dp),
-        elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp),
+        elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = defaultElevation),
         shape = MemorizeTheme.shape.buttonLarge,
         colors = ButtonDefaults.elevatedButtonColors(
             containerColor = MemorizeTheme.colors.primaryBackground,

@@ -16,10 +16,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -39,19 +37,10 @@ class MemorizationStore(
             isRandom = params.isRandom
         )
     )
+    val uiState = _uiState.asStateFlow()
 
-    val uiState = combine(
-        _uiState,
-        countdownTimerManager.timeLeft,
-    ) { uiState, timeLeft ->
-        uiState.copy(
-            timerValue = timeLeft.formatAsTimerMMSS(),
-        )
-    }.stateIn(
-        scope = scope,
-        started = SharingStarted.Lazily,
-        initialValue = _uiState.value
-    )
+    private val _timerState = MutableStateFlow("")
+    val timerState = _timerState.asStateFlow()
 
     private val _events = Channel<MemorizationEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
@@ -68,6 +57,13 @@ class MemorizationStore(
     }
 
     private fun observeTimer() {
+        scope.launch {
+            countdownTimerManager.timeLeft.collect { value ->
+                _timerState.update {
+                    value.formatAsTimerMMSS()
+                }
+            }
+        }
         scope.launch {
             countdownTimerManager.events.collect { value ->
                 if (value is CountdownTimerManager.TimerEvent.Finished) {
@@ -109,7 +105,6 @@ data class MemorizationUiState(
     val numbers: List<List<Int>> = emptyList(),
     val quantity: Int = 0,
     val isRandom: Boolean = true,
-    val timerValue: String = "00:00"
 )
 
 sealed interface MemorizationEvent {

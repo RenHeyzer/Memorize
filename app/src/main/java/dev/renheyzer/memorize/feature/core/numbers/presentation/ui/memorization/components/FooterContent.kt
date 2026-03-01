@@ -28,8 +28,8 @@ import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 @Composable
 fun FooterContent(
     modifier: Modifier = Modifier,
-    isComplete: Boolean = false,
-    isPrevEnabled: Boolean = true,
+    isComplete: () -> Boolean,
+    isPrevEnabled: () -> Boolean,
     onNextClick: () -> Unit,
     onPrevClick: () -> Unit,
     onCompleteClick: () -> Unit
@@ -53,44 +53,51 @@ fun FooterContent(
                     .height(70.dp),
                 iconRes = R.drawable.ic_chevron_backward_24,
                 onClick = onPrevClick,
-                enabled = isPrevEnabled,
+                defaultElevation = 8.dp,
+                enabled = isPrevEnabled(),
                 contentDescription = stringResource(R.string.back)
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Crossfade(
-                targetState = isComplete,
-                modifier = Modifier.widthIn(min = 200.dp, max = 320.dp),
-                label = "Button Swap Animation"
-            ) { complete ->
-                if (complete) {
-                    MemorizeActionButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(R.string.complete),
-                        onClick = onCompleteClick,
-                        containerColor = MemorizeTheme.colors.successColor,
-                        addition = {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_check),
-                                contentDescription = stringResource(R.string.complete),
-                                tint = MemorizeTheme.colors.secondaryText
-                            )
-                        }
-                    )
-                } else {
-                    MemorizeActionButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(R.string.next),
-                        onClick = onNextClick,
-                        addition = {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_forward_24),
-                                contentDescription = stringResource(R.string.next),
-                                tint = MemorizeTheme.colors.secondaryText
-                            )
-                        }
-                    )
+            Surface(
+                shape = MemorizeTheme.shape.buttonLarge,
+                shadowElevation = 8.dp,
+            ) {
+                Crossfade(
+                    targetState = isComplete(),
+                    label = "Button Swap Animation"
+                ) { complete ->
+                    if (complete) {
+                        MemorizeActionButton(
+                            onClick = onCompleteClick,
+                            text = stringResource(R.string.complete),
+                            defaultElevation = 0.dp,
+                            modifier = Modifier.widthIn(min = 200.dp, max = 320.dp),
+                            containerColor = MemorizeTheme.colors.successColor,
+                            addition = {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(R.drawable.ic_check),
+                                    contentDescription = stringResource(R.string.complete),
+                                    tint = MemorizeTheme.colors.secondaryText
+                                )
+                            }
+                        )
+                    } else {
+                        MemorizeActionButton(
+                            onClick = onNextClick,
+                            text = stringResource(R.string.next),
+                            defaultElevation = 0.dp,
+                            modifier = Modifier.widthIn(min = 200.dp, max = 320.dp),
+                            addition = {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_forward_24),
+                                    contentDescription = stringResource(R.string.next),
+                                    tint = MemorizeTheme.colors.secondaryText
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -102,8 +109,8 @@ fun FooterContent(
 fun PreviewFooterContent() {
     MemorizeTheme {
         FooterContent(
-            isComplete = true,
-            isPrevEnabled = false,
+            isComplete = { true },
+            isPrevEnabled = { false },
             onNextClick = {},
             onPrevClick = {},
             onCompleteClick = {}
