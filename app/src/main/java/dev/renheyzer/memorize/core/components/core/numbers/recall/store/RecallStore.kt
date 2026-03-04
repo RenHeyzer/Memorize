@@ -3,6 +3,7 @@ package dev.renheyzer.memorize.core.components.core.numbers.recall.store
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
+import dev.renheyzer.memorize.core.ui.SnackbarEvent
 import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
@@ -20,7 +21,8 @@ import kotlinx.coroutines.launch
 class RecallStore(
     private val env: ComponentEnvironment,
     private val gameSessionStore: GameSessionStore,
-    private val countdownTimerManager: CountdownTimerManager
+    private val countdownTimerManager: CountdownTimerManager,
+    private val time: Long
 ) : InstanceKeeper.Instance {
     private val scope = CoroutineScope(env.mainContext + SupervisorJob())
 
@@ -34,8 +36,7 @@ class RecallStore(
     val events = _events.receiveAsFlow()
 
     init {
-        // TODO: Replace with params.time later
-        startTimer(time = 0L)
+        startTimer(time)
         observeTimer()
         observeTimerEvents()
     }
@@ -88,6 +89,16 @@ class RecallStore(
     override fun onDestroy() {
         countdownTimerManager.stop()
         scope.cancel()
+    }
+
+    fun showMessage(message: String) {
+        scope.launch {
+            env.snackbarController.sendEvent(
+                SnackbarEvent(
+                    message = message
+                )
+            )
+        }
     }
 }
 
