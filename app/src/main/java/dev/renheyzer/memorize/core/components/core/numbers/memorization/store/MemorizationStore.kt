@@ -76,7 +76,7 @@ class MemorizationStore(
 
     private fun generateNumbers(quantity: Int, isRandom: Boolean) {
         val numbers = generateNumbersUseCase(quantity = quantity, isRandom = isRandom)
-        gameSessionStore.saveGeneratedNumbers(numbers)
+        gameSessionStore.saveGeneratedNumbers(numbers, isRandom = isRandom)
 
         val itemsPerPage = 9
         _uiState.update {

@@ -5,7 +5,7 @@ import dev.renheyzer.memorize.feature.core.numbers.domain.model.GameResult
 
 class CheckAnswersUseCase {
 
-    operator fun invoke(numbers: List<Int>, answers: List<Int>): GameResult {
+    operator fun invoke(numbers: List<Int>, answers: List<Int>, isRandom: Boolean): GameResult {
         val details = numbers.mapIndexed { i, number ->
             val answer = answers.getOrNull(i)
             AnswerResult(
@@ -24,9 +24,10 @@ class CheckAnswersUseCase {
 
         return GameResult(
             details = details,
+            isRandom = isRandom,
             correctCount = correctCount,
             totalCount = totalCount,
-            scorePercentage = scorePercentage
+            scorePercentage = scorePercentage,
         )
     }
 }
