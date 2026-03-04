@@ -79,9 +79,12 @@ class RecallStore(
     }
 
     fun saveUserAnswers() {
-        _recallState.value.apply {
-            if (isAllFilled) {
-                gameSessionStore.saveUserAnswers(answers = answers)
+        val currentState = _recallState.value
+        if (currentState.isAllFilled) {
+            gameSessionStore.saveUserAnswers(answers = currentState.answers)
+
+            scope.launch {
+                _events.send(RecallEvents.NavigateToRecall)
             }
         }
     }
@@ -109,4 +112,5 @@ data class RecallUiState(
 
 sealed interface RecallEvents {
     data class OnTimeOut(val message: UiText) : RecallEvents
+    data object NavigateToRecall : RecallEvents
 }
