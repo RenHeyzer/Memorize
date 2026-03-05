@@ -26,7 +26,17 @@ class RecallStore(
 ) : InstanceKeeper.Instance {
     private val scope = CoroutineScope(env.mainContext + SupervisorJob())
 
-    private val _recallState = MutableStateFlow(RecallUiState())
+    private val chunkedNumbers: List<List<Int>>
+        get() {
+            val itemPerPage = 9
+            return gameSessionStore.generatedNumbers.chunked(itemPerPage)
+        }
+
+    private val _recallState = MutableStateFlow(
+        RecallUiState(
+            numbers = chunkedNumbers
+        )
+    )
     val recallState = _recallState.asStateFlow()
 
     private val _timerState = MutableStateFlow("")
@@ -69,12 +79,12 @@ class RecallStore(
 
     fun addUserAnswer(index: Int, answer: Int) {
         _recallState.update {
-            val newAnswers = it.answers.apply {
-                it.answers.add(index = index, element = answer)
-            }
+            val newAnswers = it.answers.toMutableList()
+            newAnswers.add(index = index, element = answer)
+
             val isAllFilled = gameSessionStore.generatedNumbers.size == newAnswers.size
 
-            it.copy(answers = newAnswers, isAllFilled = isAllFilled)
+            it.copy(answers = newAnswers.toList(), isAllFilled = isAllFilled)
         }
     }
 
@@ -106,7 +116,8 @@ class RecallStore(
 }
 
 data class RecallUiState(
-    val answers: MutableList<Int> = mutableListOf(),
+    val numbers: List<List<Int>> = emptyList(),
+    val answers: List<Int> = emptyList(),
     val isAllFilled: Boolean = false,
 )
 
