@@ -18,6 +18,7 @@ import dev.renheyzer.memorize.core.components.core.numbers.memorization.Memoriza
 import dev.renheyzer.memorize.core.ui.component.MemorizeTopBar
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.FooterContent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.MemorizationContent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.NumberItem
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import kotlinx.coroutines.launch
 
@@ -27,6 +28,7 @@ fun MemorizationScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
 ) {
+    val timerState by component.timerState.collectAsStateWithLifecycle()
     val uiState by component.uiState.collectAsStateWithLifecycle()
 
     val pagerState = rememberPagerState(pageCount = { (uiState.numbers.size) })
@@ -75,12 +77,17 @@ fun MemorizationScreen(
         }
     ) { innerPadding ->
         MemorizationContent(
-            timerState = component.timerState,
+            timerValueProvider = { timerState },
             uiState = uiState,
             pagerState = pagerState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
+            itemContent = { number ->
+                NumberItem(
+                    number = number
+                )
+            }
         )
     }
 }
