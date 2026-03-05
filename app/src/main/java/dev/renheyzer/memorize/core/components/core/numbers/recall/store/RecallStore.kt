@@ -26,15 +26,12 @@ class RecallStore(
 ) : InstanceKeeper.Instance {
     private val scope = CoroutineScope(env.mainContext + SupervisorJob())
 
-    private val chunkedNumbers: List<List<Int>>
-        get() {
-            val itemPerPage = 9
-            return gameSessionStore.generatedNumbers.chunked(itemPerPage)
-        }
+    private val answers: MutableList<Int?> =
+        MutableList(gameSessionStore.generatedNumbers.size) { null }
 
     private val _recallState = MutableStateFlow(
         RecallUiState(
-            numbers = chunkedNumbers
+            pagedAnswers = answers.chunked(9),
         )
     )
     val recallState = _recallState.asStateFlow()
@@ -78,20 +75,28 @@ class RecallStore(
     }
 
     fun addUserAnswer(index: Int, answer: Int) {
+        answers.add(index = index, element = answer)
+
         _recallState.update {
-            val newAnswers = it.answers.toMutableList()
-            newAnswers.add(index = index, element = answer)
 
-            val isAllFilled = gameSessionStore.generatedNumbers.size == newAnswers.size
+            val itemPerPage = 9
+            val newPagedAnswers = answers.chunked(itemPerPage)
 
-            it.copy(answers = newAnswers.toList(), isAllFilled = isAllFilled)
+            val isAllFilled = answers.all { answer -> answer != null }
+
+            it.copy(
+                pagedAnswers = newPagedAnswers,
+                isAllFilled = isAllFilled
+            )
         }
     }
 
     fun saveUserAnswers() {
         val currentState = _recallState.value
         if (currentState.isAllFilled) {
-            gameSessionStore.saveUserAnswers(answers = currentState.answers)
+            val filledUserAnswers = answers.map { it!! }
+
+            gameSessionStore.saveUserAnswers(answers = filledUserAnswers)
 
             scope.launch {
                 _events.send(RecallEvents.NavigateToRecall)
@@ -116,8 +121,7 @@ class RecallStore(
 }
 
 data class RecallUiState(
-    val numbers: List<List<Int>> = emptyList(),
-    val answers: List<Int> = emptyList(),
+    val pagedAnswers: List<List<Int?>> = emptyList(),
     val isAllFilled: Boolean = false,
 )
 
