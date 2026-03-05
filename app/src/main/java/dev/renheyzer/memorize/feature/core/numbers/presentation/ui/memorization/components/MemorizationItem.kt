@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
-fun NumberItem(number: Int, modifier: Modifier = Modifier) {
+fun MemorizationItem(number: Int, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.aspectRatio(1f),
         shape = MemorizeTheme.shape.card,

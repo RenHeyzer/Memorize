@@ -18,7 +18,7 @@ import dev.renheyzer.memorize.core.components.core.numbers.memorization.Memoriza
 import dev.renheyzer.memorize.core.ui.component.MemorizeTopBar
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.FooterContent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.MemorizationContent
-import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.NumberItem
+import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.MemorizationItem
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import kotlinx.coroutines.launch
 
@@ -84,7 +84,7 @@ fun MemorizationScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
             itemContent = { number ->
-                NumberItem(
+                MemorizationItem(
                     number = number
                 )
             }

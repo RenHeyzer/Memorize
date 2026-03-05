@@ -30,7 +30,7 @@ fun PreviewMemorizationContent() {
             pagerState = rememberPagerState(pageCount = { 3 }),
             itemContent = {
                 MemorizeTheme(textSize = MemorizeSize.Big, corner = MemorizeCorner.Big) {
-                    NumberItem(
+                    MemorizationItem(
                         modifier = Modifier
                             .size(128.dp)
                             .padding(2.dp), number = 23
@@ -43,9 +43,9 @@ fun PreviewMemorizationContent() {
 
 @Preview
 @Composable
-fun PreviewNumberItem() {
+fun PreviewMemorizationItem() {
     MemorizeTheme(textSize = MemorizeSize.Big, corner = MemorizeCorner.Big) {
-        NumberItem(
+        MemorizationItem(
             modifier = Modifier
                 .size(128.dp)
                 .padding(2.dp), number = 23
