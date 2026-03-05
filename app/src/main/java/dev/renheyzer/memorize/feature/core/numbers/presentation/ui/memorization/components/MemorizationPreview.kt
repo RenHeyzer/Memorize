@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.store.MemorizationUiState
 import dev.renheyzer.memorize.ui.theme.MemorizeCorner
 import dev.renheyzer.memorize.ui.theme.MemorizeSize
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
@@ -18,14 +17,10 @@ fun PreviewMemorizationContent() {
     MemorizeTheme(textSize = MemorizeSize.Big, corner = MemorizeCorner.Big) {
         MemorizationContent(
             timerValueProvider = { "01:43" },
-            uiState = MemorizationUiState(
-                numbers = listOf(
-                    listOf(22, 39, 94, 12, 39, 94, 12, 43, 89),
-                    listOf(12, 39, 94, 43, 98, 53, 92, 12, 34),
-                    listOf(12, 39, 94, 94, 43, 23, 85, 64, 85)
-                ),
-                quantity = 5,
-                isRandom = true,
+            numbers = listOf(
+                listOf(22, 39, 94, 12, 39, 94, 12, 43, 89),
+                listOf(12, 39, 94, 43, 98, 53, 92, 12, 34),
+                listOf(12, 39, 94, 94, 43, 23, 85, 64, 85)
             ),
             pagerState = rememberPagerState(pageCount = { 3 }),
             itemContent = {

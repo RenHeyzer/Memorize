@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
-fun MemorizationItem(number: Int, modifier: Modifier = Modifier) {
+fun MemorizationItem(number: Int?, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.aspectRatio(1f),
         shape = MemorizeTheme.shape.card,
@@ -22,7 +22,7 @@ fun MemorizationItem(number: Int, modifier: Modifier = Modifier) {
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
-                text = number.toString(),
+                text = number?.toString() ?: "",
                 color = MemorizeTheme.colors.primaryText,
                 style = MemorizeTheme.typography.display
             )

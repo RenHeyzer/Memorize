@@ -15,15 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.store.MemorizationUiState
 
 @Composable
 fun MemorizationContent(
     timerValueProvider: () -> String,
-    uiState: MemorizationUiState,
+    numbers: List<List<Int?>>,
     pagerState: PagerState,
     modifier: Modifier = Modifier,
-    itemContent: @Composable LazyGridItemScope.(number: Int) -> Unit
+    itemContent: @Composable LazyGridItemScope.(number: Int?) -> Unit
 ) {
 
     Box(
@@ -46,7 +45,7 @@ fun MemorizationContent(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                val numbersForThisPage = uiState.numbers[pageIndex]
+                val numbersForThisPage = numbers[pageIndex]
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(3),

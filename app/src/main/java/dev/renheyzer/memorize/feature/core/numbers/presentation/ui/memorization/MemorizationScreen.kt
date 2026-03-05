@@ -78,7 +78,7 @@ fun MemorizationScreen(
     ) { innerPadding ->
         MemorizationContent(
             timerValueProvider = { timerState },
-            uiState = uiState,
+            numbers = uiState.numbers,
             pagerState = pagerState,
             modifier = Modifier
                 .fillMaxSize()
