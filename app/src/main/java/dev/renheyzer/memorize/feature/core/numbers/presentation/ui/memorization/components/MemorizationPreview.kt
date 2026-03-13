@@ -23,7 +23,7 @@ fun PreviewMemorizationContent() {
                 listOf(12, 39, 94, 94, 43, 23, 85, 64, 85)
             ),
             pagerState = rememberPagerState(pageCount = { 3 }),
-            itemContent = {
+            itemContent = { _, _ ->
                 MemorizeTheme(textSize = MemorizeSize.Big, corner = MemorizeCorner.Big) {
                     MemorizationItem(
                         modifier = Modifier

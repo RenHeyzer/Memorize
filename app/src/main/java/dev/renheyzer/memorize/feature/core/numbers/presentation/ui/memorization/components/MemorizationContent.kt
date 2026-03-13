@@ -22,7 +22,7 @@ fun MemorizationContent(
     numbers: List<List<Int?>>,
     pagerState: PagerState,
     modifier: Modifier = Modifier,
-    itemContent: @Composable LazyGridItemScope.(number: Int?) -> Unit
+    itemContent: @Composable LazyGridItemScope.(index: Int, number: Int?) -> Unit
 ) {
 
     Box(
@@ -66,7 +66,7 @@ fun MemorizationContent(
                     contentPadding = PaddingValues(16.dp)
                 ) {
                     items(numbersForThisPage.size) { index ->
-                        itemContent(numbersForThisPage[index])
+                        itemContent(index, numbersForThisPage[index])
                     }
                 }
             }

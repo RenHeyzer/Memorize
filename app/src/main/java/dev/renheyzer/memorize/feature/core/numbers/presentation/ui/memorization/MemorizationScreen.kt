@@ -83,7 +83,7 @@ fun MemorizationScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            itemContent = { number ->
+            itemContent = { _, number ->
                 MemorizationItem(
                     number = number
                 )
