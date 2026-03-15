@@ -52,7 +52,7 @@ class DefaultRecallComponent(
                         delay(2000L)
                         navigateToResults()
                     }
-                    RecallEvents.NavigateToRecall -> {
+                    RecallEvents.NavigateToResults -> {
                         navigateToResults()
                     }
                 }
@@ -60,7 +60,7 @@ class DefaultRecallComponent(
         }
     }
 
-    override fun whenUserEnteredAnswer(index: Int, answer: Int) {
+    override fun whenUserEnteredAnswer(index: Int, answer: String) {
         store.addUserAnswer(index = index, answer = answer)
     }
 

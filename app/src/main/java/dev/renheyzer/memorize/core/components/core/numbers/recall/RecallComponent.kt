@@ -8,6 +8,6 @@ interface RecallComponent {
     val uiState: StateFlow<RecallUiState>
     val timerState: StateFlow<String>
 
-    fun whenUserEnteredAnswer(index: Int, answer: Int)
+    fun whenUserEnteredAnswer(index: Int, answer: String)
     fun onCompleteClick()
 }
