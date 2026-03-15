@@ -7,6 +7,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.MemorizationScreen
+import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.recall.RecallScreen
 
 @Composable
 fun NumbersContent(
@@ -21,6 +22,10 @@ fun NumbersContent(
     ) {
         when (val child = it.instance) {
             is NumbersRootComponent.Child.Memorization -> MemorizationScreen(
+                component = child.component,
+                onBackClick = onBackClick
+            )
+            is NumbersRootComponent.Child.Recall -> RecallScreen(
                 component = child.component,
                 onBackClick = onBackClick
             )
