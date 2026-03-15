@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 class RecallStore(
     private val env: ComponentEnvironment,
@@ -26,12 +27,9 @@ class RecallStore(
 ) : InstanceKeeper.Instance {
     private val scope = CoroutineScope(env.mainContext + SupervisorJob())
 
-    private val answers: MutableList<Int?> =
-        MutableList(gameSessionStore.generatedNumbers.size) { null }
-
     private val _recallState = MutableStateFlow(
         RecallUiState(
-            pagedAnswers = answers.chunked(9),
+            answers = List(gameSessionStore.generatedNumbers.size) { null }
         )
     )
     val recallState = _recallState.asStateFlow()
@@ -74,19 +72,17 @@ class RecallStore(
         }
     }
 
-    fun addUserAnswer(index: Int, answer: Int) {
-        answers.add(index = index, element = answer)
+    fun addUserAnswer(index: Int, answer: String) {
+        val answerOrNull = answer.ifEmpty { null }
 
-        _recallState.update {
+        _recallState.update { state ->
+            val newAnswers = state.answers.toMutableList().apply {
+                set(index = index, answerOrNull?.toInt())
+            }
 
-            val itemPerPage = 9
-            val newPagedAnswers = answers.chunked(itemPerPage)
-
-            val isAllFilled = answers.all { answer -> answer != null }
-
-            it.copy(
-                pagedAnswers = newPagedAnswers,
-                isAllFilled = isAllFilled
+            state.copy(
+                answers = newAnswers,
+                isAllFilled = newAnswers.none { it == null }
             )
         }
     }
@@ -94,12 +90,12 @@ class RecallStore(
     fun saveUserAnswers() {
         val currentState = _recallState.value
         if (currentState.isAllFilled) {
-            val filledUserAnswers = answers.map { it!! }
+            val filledUserAnswers = currentState.answers.mapNotNull { it }
 
             gameSessionStore.saveUserAnswers(answers = filledUserAnswers)
 
             scope.launch {
-                _events.send(RecallEvents.NavigateToRecall)
+                _events.send(RecallEvents.NavigateToResults)
             }
         }
     }
@@ -121,11 +117,15 @@ class RecallStore(
 }
 
 data class RecallUiState(
-    val pagedAnswers: List<List<Int?>> = emptyList(),
+    val answers: List<Int?> = emptyList(),
     val isAllFilled: Boolean = false,
-)
+    val itemPerPage: Int = 9
+) {
+    val pageCount: Int
+        get() = ceil(answers.size.toDouble() / itemPerPage).toInt()
+}
 
 sealed interface RecallEvents {
     data class OnTimeOut(val message: UiText) : RecallEvents
-    data object NavigateToRecall : RecallEvents
+    data object NavigateToResults : RecallEvents
 }
