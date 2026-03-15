@@ -21,6 +21,7 @@ import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.MemorizationItem
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 @Composable
 fun MemorizationScreen(
@@ -31,7 +32,7 @@ fun MemorizationScreen(
     val timerState by component.timerState.collectAsStateWithLifecycle()
     val uiState by component.uiState.collectAsStateWithLifecycle()
 
-    val pagerState = rememberPagerState(pageCount = { (uiState.numbers.size) })
+    val pagerState = rememberPagerState(pageCount = { uiState.pageCount })
     val scope = rememberCoroutineScope()
 
     val isPrevEnabled by remember {
@@ -39,7 +40,7 @@ fun MemorizationScreen(
     }
 
     val isLastPage by remember {
-        derivedStateOf { pagerState.targetPage == uiState.numbers.lastIndex }
+        derivedStateOf { pagerState.targetPage == pagerState.pageCount - 1 }
     }
 
     Scaffold(
@@ -79,6 +80,7 @@ fun MemorizationScreen(
         MemorizationContent(
             timerValueProvider = { timerState },
             numbers = uiState.numbers,
+            itemPerPage = uiState.itemPerPage,
             pagerState = pagerState,
             modifier = Modifier
                 .fillMaxSize()

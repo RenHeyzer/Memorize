@@ -31,7 +31,7 @@ fun RecallScreen(
     val timerState by component.timerState.collectAsStateWithLifecycle()
     val uiState by component.uiState.collectAsStateWithLifecycle()
 
-    val pagerState = rememberPagerState(pageCount = { (uiState.pagedAnswers.size) })
+    val pagerState = rememberPagerState(pageCount = { uiState.pageCount })
     val scope = rememberCoroutineScope()
 
     val isPrevEnabled by remember {
@@ -39,7 +39,7 @@ fun RecallScreen(
     }
 
     val isLastPage by remember {
-        derivedStateOf { pagerState.targetPage == uiState.pagedAnswers.lastIndex }
+        derivedStateOf { pagerState.targetPage == pagerState.pageCount - 1 }
     }
 
     Scaffold(
@@ -78,14 +78,15 @@ fun RecallScreen(
     ) { innerPadding ->
         MemorizationContent(
             timerValueProvider = { timerState },
-            numbers = uiState.pagedAnswers,
+            numbers = uiState.answers,
+            itemPerPage = uiState.itemPerPage,
             pagerState = pagerState,
             modifier = Modifier.padding(innerPadding),
-            itemContent = { index, number ->
+            itemContent = { absoluteIndex, number ->
                 RecallItem(
-                    number = number,
-                    onDone = { answer ->
-                        component.whenUserEnteredAnswer(index = index, answer = answer)
+                    number = number?.toString() ?: "",
+                    onNumberChanged = { number ->
+                        component.whenUserEnteredAnswer(index = absoluteIndex, answer = number)
                     }
                 )
             }

@@ -19,17 +19,16 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MemorizationContent(
     timerValueProvider: () -> String,
-    numbers: List<List<Int?>>,
+    numbers: List<Int?>,
+    itemPerPage: Int,
     pagerState: PagerState,
     modifier: Modifier = Modifier,
-    itemContent: @Composable LazyGridItemScope.(index: Int, number: Int?) -> Unit
+    itemContent: @Composable LazyGridItemScope.(absoluteIndex: Int, number: Int?) -> Unit
 ) {
-
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
         TimerContent(
             timerValueProvider = timerValueProvider,
             modifier = Modifier
@@ -40,13 +39,14 @@ fun MemorizationContent(
         HorizontalPager(
             state = pagerState,
         ) { pageIndex ->
+            val startIndex = pageIndex * itemPerPage
+            val endIndex = minOf(startIndex + itemPerPage, numbers.size)
+            val numbersForThisPage = numbers.subList(startIndex, endIndex)
 
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                val numbersForThisPage = numbers[pageIndex]
-
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(3),
                     modifier = Modifier.sizeIn(
@@ -66,7 +66,8 @@ fun MemorizationContent(
                     contentPadding = PaddingValues(16.dp)
                 ) {
                     items(numbersForThisPage.size) { index ->
-                        itemContent(index, numbersForThisPage[index])
+                        val absoluteIndex = pageIndex * itemPerPage + index
+                        itemContent(absoluteIndex, numbersForThisPage[index])
                     }
                 }
             }

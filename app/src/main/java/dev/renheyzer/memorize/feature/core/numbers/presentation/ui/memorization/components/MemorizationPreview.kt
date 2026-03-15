@@ -18,10 +18,11 @@ fun PreviewMemorizationContent() {
         MemorizationContent(
             timerValueProvider = { "01:43" },
             numbers = listOf(
-                listOf(22, 39, 94, 12, 39, 94, 12, 43, 89),
-                listOf(12, 39, 94, 43, 98, 53, 92, 12, 34),
-                listOf(12, 39, 94, 94, 43, 23, 85, 64, 85)
+                22, 39, 94, 12, 39, 94, 12, 43, 89,
+                12, 39, 94, 43, 98, 53, 92, 12, 34,
+                12, 39, 94, 94, 43, 23, 85, 64, 85
             ),
+            itemPerPage = 9,
             pagerState = rememberPagerState(pageCount = { 3 }),
             itemContent = { _, _ ->
                 MemorizeTheme(textSize = MemorizeSize.Big, corner = MemorizeCorner.Big) {
