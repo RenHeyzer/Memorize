@@ -4,11 +4,15 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
+import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Memorization
+import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Recall
 import dev.renheyzer.memorize.core.components.core.numbers.dependencies.NumbersDependencies
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.MemorizationComponent
+import dev.renheyzer.memorize.core.components.core.numbers.memorization.MemorizationComponent.Params
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.factory.createMemorizationComponent
+import dev.renheyzer.memorize.core.components.core.numbers.recall.factory.createRecallComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 import kotlinx.serialization.Serializable
 
@@ -26,7 +30,7 @@ class DefaultNumbersRootComponent(
         source = navigation,
         serializer = Config.serializer(),
         initialConfiguration = Config.Memorization(
-            quantity = 27,
+            quantity = 28,
             time = 1000L * 120,
             isRandom = true
         ),
@@ -39,16 +43,27 @@ class DefaultNumbersRootComponent(
         componentContext: ComponentContext
     ): NumbersRootComponent.Child =
         when (config) {
-            is Config.Memorization -> NumbersRootComponent.Child.Memorization(
+            is Config.Memorization -> Memorization(
                 factory.createMemorizationComponent(
                     context = componentContext,
                     numbersDependencies = numbersDependencies,
-                    params = MemorizationComponent.Params(
+                    params = Params(
                         quantity = config.quantity,
                         time = config.time,
                         isRandom = config.isRandom,
                     ),
-                    navigateToRecall = {}
+                    navigateToRecall = {
+                        navigation.pushNew(Config.Recall(config.time))
+                    }
+                )
+            )
+
+            is Config.Recall -> Recall(
+                factory.createRecallComponent(
+                    context = componentContext,
+                    numbersDependencies = numbersDependencies,
+                    time = config.time,
+                    navigateToResults = {}
                 )
             )
         }
@@ -58,4 +73,7 @@ class DefaultNumbersRootComponent(
 private sealed interface Config {
     @Serializable
     data class Memorization(val quantity: Int, val time: Long, val isRandom: Boolean) : Config
+
+    @Serializable
+    data class Recall(val time: Long) : Config
 }
