@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 class MemorizationStore(
     private val env: ComponentEnvironment,
@@ -28,7 +29,6 @@ class MemorizationStore(
     private val countdownTimerManager: CountdownTimerManager,
     params: MemorizationComponent.Params,
 ) : InstanceKeeper.Instance {
-
     private val scope = CoroutineScope(env.mainContext + SupervisorJob())
 
     private val _uiState = MutableStateFlow(
@@ -78,9 +78,8 @@ class MemorizationStore(
         val numbers = generateNumbersUseCase(quantity = quantity, isRandom = isRandom)
         gameSessionStore.saveGeneratedNumbers(numbers, isRandom = isRandom)
 
-        val itemsPerPage = 9
         _uiState.update {
-            it.copy(numbers = numbers.chunked(itemsPerPage))
+            it.copy(numbers = numbers)
         }
     }
 
@@ -102,10 +101,14 @@ class MemorizationStore(
 }
 
 data class MemorizationUiState(
-    val numbers: List<List<Int>> = emptyList(),
+    val numbers: List<Int> = emptyList(),
     val quantity: Int = 0,
     val isRandom: Boolean = true,
-)
+    val itemPerPage: Int = 9
+) {
+    val pageCount: Int
+        get() = ceil(numbers.size.toDouble() / itemPerPage).toInt()
+}
 
 sealed interface MemorizationEvent {
     data class OnTimeUp(val message: UiText) : MemorizationEvent
