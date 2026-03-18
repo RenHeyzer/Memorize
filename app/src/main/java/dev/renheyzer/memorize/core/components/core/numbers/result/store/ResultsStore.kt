@@ -7,6 +7,7 @@ import dev.renheyzer.memorize.feature.core.numbers.domain.usecase.CheckAnswersUs
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlin.math.ceil
 
 class ResultsStore(
     private val gameSessionStore: GameSessionStore,
@@ -42,5 +43,9 @@ class ResultsStore(
 data class ResultsUiState(
     val details: List<AnswerResult> = emptyList(),
     val scoreValue: String = "0",
-    val scorePercentage: String = "0%"
-)
+    val scorePercentage: String = "0%",
+    val itemPerPage: Int = 9
+) {
+    val pageCount: Int
+        get() = ceil(details.size.toDouble() / itemPerPage).toInt()
+}
