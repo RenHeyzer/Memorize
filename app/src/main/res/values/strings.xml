@@ -49,5 +49,7 @@
     <string name="complete">Complete</string>
     <string name="level_subtitle">Remember the arrangement of the numbers</string>
     <string name="time_up">Time is up!</string>
+    <string name="results_board_percentage">Percentage of correct answers:</string>
+    <string name="results_title">Results</string>
 
 </resources>
