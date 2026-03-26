@@ -10,10 +10,12 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Memorization
 import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Recall
+import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Results
 import dev.renheyzer.memorize.core.components.core.numbers.dependencies.NumbersDependencies
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.MemorizationComponent.Params
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.factory.createMemorizationComponent
 import dev.renheyzer.memorize.core.components.core.numbers.recall.factory.createRecallComponent
+import dev.renheyzer.memorize.core.components.core.numbers.result.factory.createResultsComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 import kotlinx.serialization.Serializable
 
@@ -64,7 +66,22 @@ class DefaultNumbersRootComponent(
                     context = componentContext,
                     numbersDependencies = numbersDependencies,
                     time = config.time,
-                    navigateToResults = {}
+                    navigateToResults = {
+                        navigation.replaceCurrent(Config.Results)
+                    }
+                )
+            )
+
+            is Config.Results -> Results(
+                factory.createResultsComponent(
+                    context = componentContext,
+                    numbersDependencies = numbersDependencies,
+                    navigateToHome = {
+                        navigation.pop()
+                    },
+                    navigateToSetup = {
+
+                    }
                 )
             )
         }
@@ -77,4 +94,7 @@ private sealed interface Config {
 
     @Serializable
     data class Recall(val time: Long) : Config
+
+    @Serializable
+    data object Results : Config
 }
