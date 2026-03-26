@@ -88,15 +88,12 @@ class RecallStore(
     }
 
     fun saveUserAnswers() {
-        val currentState = _recallState.value
-        if (currentState.isAllFilled) {
-            val filledUserAnswers = currentState.answers.mapNotNull { it }
+        val userAnswers = _recallState.value.answers
 
-            gameSessionStore.saveUserAnswers(answers = filledUserAnswers)
+        gameSessionStore.saveUserAnswers(answers = userAnswers)
 
-            scope.launch {
-                _events.send(RecallEvents.NavigateToResults)
-            }
+        scope.launch {
+            _events.send(RecallEvents.NavigateToResults)
         }
     }
 
