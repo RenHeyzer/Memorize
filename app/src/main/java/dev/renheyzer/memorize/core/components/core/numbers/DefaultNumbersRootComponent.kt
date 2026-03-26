@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Memorization
@@ -53,7 +54,7 @@ class DefaultNumbersRootComponent(
                         isRandom = config.isRandom,
                     ),
                     navigateToRecall = {
-                        navigation.pushNew(Config.Recall(config.time))
+                        navigation.replaceCurrent(Config.Recall(time = config.time))
                     }
                 )
             )

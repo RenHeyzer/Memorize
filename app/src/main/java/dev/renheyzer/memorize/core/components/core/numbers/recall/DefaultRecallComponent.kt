@@ -3,6 +3,7 @@ package dev.renheyzer.memorize.core.components.core.numbers.recall
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
+import com.arkivanov.essenty.lifecycle.doOnResume
 import dev.renheyzer.memorize.core.components.core.numbers.recall.store.RecallEvents
 import dev.renheyzer.memorize.core.components.core.numbers.recall.store.RecallStore
 import dev.renheyzer.memorize.core.components.core.numbers.recall.store.RecallUiState
@@ -40,6 +41,10 @@ class DefaultRecallComponent(
 
     init {
         observeEvents()
+
+        lifecycle.doOnResume {
+            store.startTimer()
+        }
     }
 
     private fun observeEvents() {
@@ -52,6 +57,7 @@ class DefaultRecallComponent(
                         delay(2000L)
                         navigateToResults()
                     }
+
                     RecallEvents.NavigateToResults -> {
                         navigateToResults()
                     }

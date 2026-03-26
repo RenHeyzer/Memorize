@@ -14,6 +14,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -41,35 +43,33 @@ class RecallStore(
     val events = _events.receiveAsFlow()
 
     init {
-        startTimer(time)
         observeTimer()
         observeTimerEvents()
     }
 
-    fun startTimer(time: Long) {
+    fun startTimer() {
         countdownTimerManager.setDuration(time)
         countdownTimerManager.start(scope)
     }
 
     private fun observeTimer() {
-        scope.launch {
-            countdownTimerManager.timeLeft.collect { value ->
-                _timerState.update {
-                    value.formatAsTimerMMSS()
-                }
-            }
-        }
+        countdownTimerManager.timeLeft
+            .onEach { value ->
+                _timerState.update { value.formatAsTimerMMSS() }
+            }.launchIn(scope)
     }
 
     private fun observeTimerEvents() {
-        scope.launch {
-            countdownTimerManager.events.collect { event ->
+        countdownTimerManager.events
+            .onEach { event ->
                 if (event is CountdownTimerManager.TimerEvent.Finished) {
+                    val userAnswers = _recallState.value.answers
+                    gameSessionStore.saveUserAnswers(userAnswers)
+
                     val message = UiText.StringResource(R.string.time_up)
                     _events.send(RecallEvents.OnTimeOut(message))
                 }
-            }
-        }
+            }.launchIn(scope)
     }
 
     fun addUserAnswer(index: Int, answer: String) {
