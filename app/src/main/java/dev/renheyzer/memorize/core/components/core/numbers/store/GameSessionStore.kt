@@ -8,7 +8,7 @@ class GameSessionStore {
     var generatedNumbers: List<Int> = emptyList()
         private set
 
-    var userAnswers: List<Int> = emptyList()
+    var userAnswers: List<Int?> = emptyList()
         private set
 
     fun saveGeneratedNumbers(numbers: List<Int>, isRandom: Boolean) {
@@ -16,7 +16,7 @@ class GameSessionStore {
         this.isRandom = isRandom
     }
 
-    fun saveUserAnswers(answers: List<Int>) {
+    fun saveUserAnswers(answers: List<Int?>) {
         userAnswers = answers
     }
 
