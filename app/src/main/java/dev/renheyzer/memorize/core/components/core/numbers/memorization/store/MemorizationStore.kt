@@ -17,6 +17,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,7 +29,7 @@ class MemorizationStore(
     private val generateNumbersUseCase: GenerateNumbersUseCase,
     private val gameSessionStore: GameSessionStore,
     private val countdownTimerManager: CountdownTimerManager,
-    params: MemorizationComponent.Params,
+    private val params: MemorizationComponent.Params,
 ) : InstanceKeeper.Instance {
     private val scope = CoroutineScope(env.mainContext + SupervisorJob())
 
@@ -47,31 +49,30 @@ class MemorizationStore(
 
     init {
         generateNumbers(quantity = params.quantity, isRandom = params.isRandom)
-        startTimer(time = params.time)
         observeTimer()
+        observeTimerEvents()
     }
 
-    fun startTimer(time: Long) {
-        countdownTimerManager.setDuration(time)
+    fun startTimer() {
+        countdownTimerManager.setDuration(params.time)
         countdownTimerManager.start(scope)
     }
 
     private fun observeTimer() {
-        scope.launch {
-            countdownTimerManager.timeLeft.collect { value ->
-                _timerState.update {
-                    value.formatAsTimerMMSS()
-                }
-            }
-        }
-        scope.launch {
-            countdownTimerManager.events.collect { value ->
+        countdownTimerManager.timeLeft
+            .onEach { value ->
+                _timerState.update { value.formatAsTimerMMSS() }
+            }.launchIn(scope)
+    }
+
+    private fun observeTimerEvents() {
+        countdownTimerManager.events
+            .onEach { value ->
                 if (value is CountdownTimerManager.TimerEvent.Finished) {
                     val message = UiText.StringResource(R.string.time_up)
                     _events.send(MemorizationEvent.OnTimeUp(message))
                 }
-            }
-        }
+            }.launchIn(scope)
     }
 
     private fun generateNumbers(quantity: Int, isRandom: Boolean) {
@@ -94,6 +95,12 @@ class MemorizationStore(
         }
     }
 
+    fun finishMemorization() {
+        scope.launch {
+            _events.send(MemorizationEvent.NavigateToRecall)
+        }
+    }
+
     override fun onDestroy() {
         countdownTimerManager.stop()
         scope.cancel()
@@ -112,4 +119,5 @@ data class MemorizationUiState(
 
 sealed interface MemorizationEvent {
     data class OnTimeUp(val message: UiText) : MemorizationEvent
+    data object NavigateToRecall : MemorizationEvent
 }

@@ -3,6 +3,7 @@ package dev.renheyzer.memorize.core.components.core.numbers.memorization
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
+import com.arkivanov.essenty.lifecycle.doOnResume
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.store.MemorizationEvent
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.store.MemorizationStore
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.store.MemorizationUiState
@@ -43,6 +44,10 @@ class DefaultMemorizationComponent(
 
     init {
         observeEvents()
+
+        lifecycle.doOnResume {
+            store.startTimer()
+        }
     }
 
     private fun observeEvents() {
@@ -55,12 +60,16 @@ class DefaultMemorizationComponent(
                         delay(2000L)
                         navigateToRecall()
                     }
+
+                    MemorizationEvent.NavigateToRecall -> {
+                        navigateToRecall()
+                    }
                 }
             }
         }
     }
 
     override fun onCompleteClick() {
-        navigateToRecall()
+        store.finishMemorization()
     }
 }
