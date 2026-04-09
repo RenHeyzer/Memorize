@@ -5,18 +5,21 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Memorization
 import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Recall
 import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Results
+import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Setup
 import dev.renheyzer.memorize.core.components.core.numbers.dependencies.NumbersDependencies
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.MemorizationComponent.Params
 import dev.renheyzer.memorize.core.components.core.numbers.memorization.factory.createMemorizationComponent
 import dev.renheyzer.memorize.core.components.core.numbers.recall.factory.createRecallComponent
 import dev.renheyzer.memorize.core.components.core.numbers.result.factory.createResultsComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.zeature.createNumbersSetupComponent
 import kotlinx.serialization.Serializable
 
 class DefaultNumbersRootComponent(
@@ -32,11 +35,12 @@ class DefaultNumbersRootComponent(
     override val childStack: Value<ChildStack<*, NumbersRootComponent.Child>> = childStack(
         source = navigation,
         serializer = Config.serializer(),
-        initialConfiguration = Config.Memorization(
-            quantity = 28,
-            time = 1000L * 120,
-            isRandom = true
-        ),
+//        initialConfiguration = Config.Memorization(
+//            quantity = 28,
+//            time = 1000L * 120,
+//            isRandom = true
+//        ),
+        initialConfiguration = Config.Setup,
         handleBackButton = true,
         childFactory = ::childFactory
     )
@@ -46,6 +50,21 @@ class DefaultNumbersRootComponent(
         componentContext: ComponentContext
     ): NumbersRootComponent.Child =
         when (config) {
+            Config.Setup -> Setup(
+                factory.createNumbersSetupComponent(
+                    context = componentContext,
+                    navigateToMemorization = { options ->
+                        navigation.pushNew(
+                            Config.Memorization(
+                                quantity = options.quantity,
+                                time = options.rememberTime,
+                                isRandom = !options.isBinary
+                            )
+                        )
+                    }
+                )
+            )
+
             is Config.Memorization -> Memorization(
                 factory.createMemorizationComponent(
                     context = componentContext,
@@ -89,6 +108,10 @@ class DefaultNumbersRootComponent(
 
 @Serializable
 private sealed interface Config {
+
+    @Serializable
+    data object Setup : Config
+
     @Serializable
     data class Memorization(val quantity: Int, val time: Long, val isRandom: Boolean) : Config
 

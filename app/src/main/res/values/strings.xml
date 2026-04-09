@@ -51,5 +51,12 @@
     <string name="time_up">Time is up!</string>
     <string name="results_board_percentage">Percentage of correct answers:</string>
     <string name="results_title">Results</string>
+    <string name="numbers_setup_quantity_error_message">Number must be between 1 and 100</string>
+    <string name="numbers_setup_remember_time_error_message">Time must be between 1 and 60 minutes</string>
+    <string name="numbers_setup_title">Game Setup</string>
+    <string name="numbers_setup_subtitle">Set up your game before you start</string>
+    <string name="numbers_setup_is_binary_label">Binary or Ordinal numbers?</string>
+    <string name="numbers_setup_start_button_content_description">Start button</string>
+    <string name="numbers_setup_start_action">Start</string>
 
 </resources>
