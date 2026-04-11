@@ -3,13 +3,17 @@ package dev.renheyzer.memorize.zeature.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.maxLength
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
+import androidx.compose.foundation.text.input.then
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
@@ -26,7 +30,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import dev.renheyzer.memorize.R
+import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.core.ui.component.MemorizeActionButton
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -34,15 +40,15 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun NumbersSetupContent(
     modifier: Modifier = Modifier,
-    quantity: Int,
     rememberTimeMin: Int,
     rememberTimeSec: Int,
     isBinary: Boolean,
     isStartButtonEnabled: Boolean,
-    onQuantityChanged: (Int) -> Unit,
+    onQuantityChanged: (String) -> Unit,
     onRememberTimeChanged: (min: Int, sec: Int) -> Unit,
     onBinaryToggled: (Boolean) -> Unit,
     onStartClicked: () -> Unit,
+    quantityError: UiText,
 ) {
     val quantityState = rememberTextFieldState()
     val rememberTimeState =
@@ -51,18 +57,10 @@ fun NumbersSetupContent(
     LaunchedEffect(quantityState) {
         snapshotFlow { quantityState.text }
             .collectLatest { newText ->
-                val enteredQuantity = newText.toString().ifBlank { "0" }
+                val quantity = newText.toString()
 
-                if (enteredQuantity != quantity.toString()) {
-                    onQuantityChanged(enteredQuantity.toInt())
-                }
+                onQuantityChanged(quantity)
             }
-    }
-
-    LaunchedEffect(quantity) {
-        if (quantity != 0 && quantityState.text.toString() != quantity.toString()) {
-            quantityState.setTextAndPlaceCursorAtEnd(quantity.toString())
-        }
     }
 
     LaunchedEffect(rememberTimeState) {
@@ -100,11 +98,35 @@ fun NumbersSetupContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val isQuantityError = quantityError.asString().isNotBlank()
+
         OutlinedTextField(
             modifier = Modifier.widthIn(min = 60.dp, max = 100.dp),
             state = quantityState,
+            label = {
+                Text(
+                    text = stringResource(R.string.setup_quantity_field_label),
+                    textAlign = TextAlign.Center,
+                    style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
+                )
+            },
             textStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            inputTransformation = InputTransformation.maxLength(3).then {
+                if (!asCharSequence().isDigitsOnly()) {
+                    revertAllChanges()
+                }
+            },
+            isError = isQuantityError,
+            supportingText = {
+                if (isQuantityError) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = quantityError.asString(),
+                        color = MemorizeTheme.colors.errorColor
+                    )
+                }
+            }
         )
 
         OutlinedTextField(
@@ -152,7 +174,6 @@ fun NumbersSetupContent(
 fun PreviewNumbersSetupContent() {
     MemorizeTheme {
         NumbersSetupContent(
-            quantity = 100,
             rememberTimeMin = 23,
             rememberTimeSec = 30,
             isBinary = false,
@@ -160,7 +181,8 @@ fun PreviewNumbersSetupContent() {
             onQuantityChanged = {},
             onRememberTimeChanged = { _, _ -> },
             onBinaryToggled = {},
-            onStartClicked = {}
+            onStartClicked = {},
+            quantityError = UiText.Empty
         )
     }
 }

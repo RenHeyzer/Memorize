@@ -1,6 +1,7 @@
 package dev.renheyzer.memorize.zeature.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,9 +34,9 @@ fun NumbersSetupScreen(
                 onBackClick = onBackClick
             )
         }
-    ) {
+    ) { innerPadding ->
         NumbersSetupContent(
-            quantity = uiState.quantity,
+            modifier = Modifier.padding(innerPadding),
             rememberTimeMin = uiState.rememberTimeMin,
             rememberTimeSec = uiState.rememberTimeSec,
             isBinary = uiState.isBinary,
@@ -50,7 +51,8 @@ fun NumbersSetupScreen(
                 )
             },
             onBinaryToggled = { component.onEvent(event = NumbersSetupEvent.OnBinaryToggled(it)) },
-            onStartClicked = { component.onEvent(event = NumbersSetupEvent.OnStartClicked) }
+            onStartClicked = { component.onEvent(event = NumbersSetupEvent.OnStartClicked) },
+            quantityError = uiState.quantityError
         )
     }
 }
