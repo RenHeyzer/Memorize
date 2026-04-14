@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -16,8 +17,6 @@ import androidx.compose.foundation.text.input.maxLength
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.then
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +34,8 @@ import androidx.core.text.isDigitsOnly
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.core.ui.component.MemorizeActionButton
+import dev.renheyzer.memorize.core.ui.component.MemorizeOutlinedTextField
+import dev.renheyzer.memorize.core.ui.component.MemorizeSwitch
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import kotlinx.coroutines.flow.collectLatest
 
@@ -77,9 +78,9 @@ fun NumbersSetupContent(
         val isQuantityError = quantityError.asString().isNotBlank()
         val isRememberTimeError = rememberTimeError.asString().isNotBlank()
 
-        OutlinedTextField(
-            modifier = Modifier.width(124.dp),
+        MemorizeOutlinedTextField(
             state = quantityState,
+            modifier = Modifier.width(124.dp),
             label = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -88,28 +89,22 @@ fun NumbersSetupContent(
                 )
             },
             textStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            isError = isQuantityError,
+            errorMessage = quantityError,
             inputTransformation = InputTransformation.maxLength(3).then {
                 if (!asCharSequence().isDigitsOnly()) {
                     revertAllChanges()
                 }
             },
-            isError = isQuantityError,
-            supportingText = {
-                if (isQuantityError) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = quantityError.asString(),
-                        color = MemorizeTheme.colors.errorColor,
-                        style = MemorizeTheme.typography.body
-                    )
-                }
-            }
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
-        OutlinedTextField(
-            modifier = Modifier.width(124.dp),
+        MemorizeOutlinedTextField(
             state = rememberTimeState,
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .width(124.dp),
+            textStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
             label = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -124,8 +119,8 @@ fun NumbersSetupContent(
                     style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
                 )
             },
-            textStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            errorMessage = rememberTimeError,
+            isError = isRememberTimeError,
             inputTransformation = InputTransformation.maxLength(4).then {
                 if (!asCharSequence().isDigitsOnly()) {
                     revertAllChanges()
@@ -134,26 +129,17 @@ fun NumbersSetupContent(
             outputTransformation = OutputTransformation {
                 if (length > 2) insert(2, ":")
             },
-            isError = isRememberTimeError,
-            supportingText = {
-                if (isRememberTimeError) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = rememberTimeError.asString(),
-                        color = MemorizeTheme.colors.errorColor,
-                        style = MemorizeTheme.typography.body
-                    )
-                }
-            }
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
 
         Text(
             text = stringResource(R.string.numbers_setup_is_binary_label),
+            modifier = Modifier.padding(top = 16.dp),
             color = MemorizeTheme.colors.primaryText,
             style = MemorizeTheme.typography.body
         )
 
-        Switch(
+        MemorizeSwitch(
             checked = isBinary,
             onCheckedChange = {
                 onBinaryToggled(it)
@@ -162,6 +148,7 @@ fun NumbersSetupContent(
 
         MemorizeActionButton(
             modifier = Modifier
+                .padding(32.dp)
                 .widthIn(min = 130.dp, max = 250.dp)
                 .height(70.dp),
             text = stringResource(R.string.numbers_setup_start_action),

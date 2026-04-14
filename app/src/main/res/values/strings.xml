@@ -56,7 +56,7 @@
     <string name="numbers_setup_remember_time_max_error_message">Max: 60 min</string>
     <string name="numbers_setup_title">Game Setup</string>
     <string name="numbers_setup_subtitle">Set up your game before you start</string>
-    <string name="numbers_setup_is_binary_label">Binary or Ordinal numbers?</string>
+    <string name="numbers_setup_is_binary_label">Binary numbers?</string>
     <string name="numbers_setup_start_button_content_description">Start button</string>
     <string name="numbers_setup_start_action">Start</string>
     <string name="setup_number_input_placeholder">0</string>
