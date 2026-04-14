@@ -37,22 +37,16 @@ fun NumbersSetupScreen(
     ) { innerPadding ->
         NumbersSetupContent(
             modifier = Modifier.padding(innerPadding),
-            rememberTimeMin = uiState.rememberTimeMin,
-            rememberTimeSec = uiState.rememberTimeSec,
             isBinary = uiState.isBinary,
             isStartButtonEnabled = uiState.isStartButtonEnabled,
             onQuantityChanged = { component.onEvent(event = NumbersSetupEvent.OnQuantityChanged(it)) },
-            onRememberTimeChanged = { min, sec ->
-                component.onEvent(
-                    event = NumbersSetupEvent.OnRememberTimeChanged(
-                        min = min,
-                        sec = sec
-                    )
-                )
+            onRememberTimeChanged = { timeInput ->
+                component.onEvent(event = NumbersSetupEvent.OnRememberTimeChanged(input = timeInput))
             },
             onBinaryToggled = { component.onEvent(event = NumbersSetupEvent.OnBinaryToggled(it)) },
             onStartClicked = { component.onEvent(event = NumbersSetupEvent.OnStartClicked) },
-            quantityError = uiState.quantityError
+            quantityError = uiState.quantityError,
+            rememberTimeError = uiState.rememberTimeError
         )
     }
 }

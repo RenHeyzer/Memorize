@@ -10,9 +10,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.OutputTransformation
+import androidx.compose.foundation.text.input.insert
 import androidx.compose.foundation.text.input.maxLength
 import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.text.input.then
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -40,25 +41,22 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun NumbersSetupContent(
     modifier: Modifier = Modifier,
-    rememberTimeMin: Int,
-    rememberTimeSec: Int,
     isBinary: Boolean,
     isStartButtonEnabled: Boolean,
     onQuantityChanged: (String) -> Unit,
-    onRememberTimeChanged: (min: Int, sec: Int) -> Unit,
+    onRememberTimeChanged: (String) -> Unit,
     onBinaryToggled: (Boolean) -> Unit,
     onStartClicked: () -> Unit,
     quantityError: UiText,
+    rememberTimeError: UiText
 ) {
     val quantityState = rememberTextFieldState()
-    val rememberTimeState =
-        rememberTextFieldState(initialText = "$rememberTimeMin:$rememberTimeSec")
+    val rememberTimeState = rememberTextFieldState()
 
     LaunchedEffect(quantityState) {
         snapshotFlow { quantityState.text }
             .collectLatest { newText ->
                 val quantity = newText.toString()
-
                 onQuantityChanged(quantity)
             }
     }
@@ -66,31 +64,9 @@ fun NumbersSetupContent(
     LaunchedEffect(rememberTimeState) {
         snapshotFlow { rememberTimeState.text }
             .collectLatest { newText ->
-                val enteredRememberTime = newText.toString().ifBlank { "00:00" }
-                val timeMin = enteredRememberTime.take(2)
-                val timeSec = enteredRememberTime.takeLast(2)
-
-                if (enteredRememberTime.all { it.isDigit() }) {
-                    if (timeMin != rememberTimeMin.toString() || timeSec != rememberTimeSec.toString()) {
-                        onRememberTimeChanged(
-                            timeMin.toInt(),
-                            timeSec.toInt()
-                        )
-                    }
-                }
+                val rememberTime = newText.toString()
+                onRememberTimeChanged(rememberTime)
             }
-    }
-
-    LaunchedEffect(rememberTimeMin) {
-        if (rememberTimeState.text.take(2).toString() != rememberTimeMin.toString()) {
-            rememberTimeState.setTextAndPlaceCursorAtEnd(rememberTimeMin.toString())
-        }
-    }
-
-    LaunchedEffect(rememberTimeSec) {
-        if (rememberTimeState.text.takeLast(2).toString() != rememberTimeSec.toString()) {
-            rememberTimeState.setTextAndPlaceCursorAtEnd(rememberTimeSec.toString())
-        }
     }
 
     Column(
@@ -99,14 +75,15 @@ fun NumbersSetupContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val isQuantityError = quantityError.asString().isNotBlank()
+        val isRememberTimeError = rememberTimeError.asString().isNotBlank()
 
         OutlinedTextField(
-            modifier = Modifier.widthIn(min = 60.dp, max = 100.dp),
+            modifier = Modifier.width(124.dp),
             state = quantityState,
             label = {
                 Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.setup_quantity_field_label),
-                    textAlign = TextAlign.Center,
                     style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
                 )
             },
@@ -123,18 +100,51 @@ fun NumbersSetupContent(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = quantityError.asString(),
-                        color = MemorizeTheme.colors.errorColor
+                        color = MemorizeTheme.colors.errorColor,
+                        style = MemorizeTheme.typography.body
                     )
                 }
             }
         )
 
         OutlinedTextField(
-            modifier = Modifier.width(100.dp),
+            modifier = Modifier.width(124.dp),
             state = rememberTimeState,
-            placeholder = { Text("00:00") },
+            label = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.setup_remember_time_field_label),
+                    style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
+                )
+            },
+            placeholder = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.setup_time_input_placeholder),
+                    style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
+                )
+            },
             textStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            inputTransformation = InputTransformation.maxLength(4).then {
+                if (!asCharSequence().isDigitsOnly()) {
+                    revertAllChanges()
+                }
+            },
+            outputTransformation = OutputTransformation {
+                if (length > 2) insert(2, ":")
+            },
+            isError = isRememberTimeError,
+            supportingText = {
+                if (isRememberTimeError) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = rememberTimeError.asString(),
+                        color = MemorizeTheme.colors.errorColor,
+                        style = MemorizeTheme.typography.body
+                    )
+                }
+            }
         )
 
         Text(
@@ -142,6 +152,7 @@ fun NumbersSetupContent(
             color = MemorizeTheme.colors.primaryText,
             style = MemorizeTheme.typography.body
         )
+
         Switch(
             checked = isBinary,
             onCheckedChange = {
@@ -174,15 +185,14 @@ fun NumbersSetupContent(
 fun PreviewNumbersSetupContent() {
     MemorizeTheme {
         NumbersSetupContent(
-            rememberTimeMin = 23,
-            rememberTimeSec = 30,
             isBinary = false,
-            isStartButtonEnabled = true,
+            isStartButtonEnabled = false,
             onQuantityChanged = {},
-            onRememberTimeChanged = { _, _ -> },
+            onRememberTimeChanged = {},
             onBinaryToggled = {},
             onStartClicked = {},
-            quantityError = UiText.Empty
+            quantityError = UiText.Empty,
+            rememberTimeError = UiText.Empty
         )
     }
 }

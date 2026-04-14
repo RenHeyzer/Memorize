@@ -27,39 +27,61 @@ class NumbersSetupStore(
     fun obtainEvent(event: NumbersSetupEvent) {
         when (event) {
             is NumbersSetupEvent.OnQuantityChanged -> {
-                if (event.input.isBlank()) return
+                if (event.input.isBlank()) {
+                    _uiState.update { state ->
+                        state.copy(
+                            isStartButtonEnabled = false
+                        )
+                    }
+                    return
+                }
 
                 val quantity = event.input.toIntOrNull() ?: 0
                 if (quantity !in 1..100) {
                     _uiState.update { state ->
                         val message =
                             UiText.StringResource(R.string.numbers_setup_quantity_error_message)
-                        state.copy(quantityError = message)
+                        state.copy(
+                            quantityError = message,
+                            isStartButtonEnabled = false
+                        )
                     }
                 } else {
                     _uiState.update { state ->
                         state.copy(
                             quantityInput = event.input,
-                            quantityError = UiText.Empty
+                            quantityError = UiText.Empty,
+                            isStartButtonEnabled = event.input.isNotBlank()
+                                    && state.rememberTimeMin != 0 || state.rememberTimeSec != 0
                         )
                     }
                 }
             }
 
             is NumbersSetupEvent.OnRememberTimeChanged -> {
-                if (event.min !in 0..60 && event.sec !in 1..59) {
+                val rememberTimeInt = event.input.toIntOrNull() ?: 0
+                val timeMin = rememberTimeInt / 100
+                val timeSec = rememberTimeInt % 100
+
+                if (timeMin !in 0..59 || timeSec !in 0..59) {
                     _uiState.update { state ->
                         val message =
                             UiText.StringResource(R.string.numbers_setup_remember_time_error_message)
-                        state.copy(rememberTimeError = message)
+                        state.copy(
+                            rememberTimeError = message,
+                            isStartButtonEnabled = false
+                        )
                     }
-                    return
-                }
-                _uiState.update { state ->
-                    state.copy(
-                        rememberTimeMin = event.min,
-                        rememberTimeSec = event.sec,
-                    )
+                } else {
+                    _uiState.update { state ->
+                        state.copy(
+                            rememberTimeMin = timeMin,
+                            rememberTimeSec = timeSec,
+                            rememberTimeError = UiText.Empty,
+                            isStartButtonEnabled = state.quantityInput.isNotBlank()
+                                    && timeMin != 0 || timeSec != 0
+                        )
+                    }
                 }
             }
 
@@ -74,14 +96,13 @@ class NumbersSetupStore(
             NumbersSetupEvent.OnStartClicked -> {
                 val state = _uiState.value
                 val quantity = state.quantityInput.toInt()
-                val rememberTimeMinMills = state.rememberTimeMin * 1000L * 60
-                val rememberTimeSecMills = state.rememberTimeSec * 1000L
-                val rememberTimeMills = rememberTimeMinMills + rememberTimeSecMills
+                val rememberTime =
+                    (state.rememberTimeMin * 60L * 1000L) + (state.rememberTimeSec * 1000L)
 
                 val options = NumbersSetupOptions(
                     quantity = quantity,
-                    rememberTime = rememberTimeMills,
-                    recallTime = rememberTimeMills * 2,
+                    rememberTime = rememberTime,
+                    recallTime = rememberTime * 2,
                     isBinary = state.isBinary
                 )
 
@@ -99,15 +120,13 @@ data class NumbersSetupUiState(
     val rememberTimeSec: Int = 0,
     val isBinary: Boolean = false,
     val quantityError: UiText = UiText.Empty,
-    val rememberTimeError: UiText = UiText.Empty
-) {
-    val isStartButtonEnabled: Boolean =
-        quantityInput.isNotBlank() && rememberTimeMin != 0 && rememberTimeSec != 0
-}
+    val rememberTimeError: UiText = UiText.Empty,
+    val isStartButtonEnabled: Boolean = false
+)
 
 sealed interface NumbersSetupEvent {
     data class OnQuantityChanged(val input: String) : NumbersSetupEvent
-    data class OnRememberTimeChanged(val min: Int, val sec: Int) : NumbersSetupEvent
+    data class OnRememberTimeChanged(val input: String) : NumbersSetupEvent
     data class OnBinaryToggled(val isBinary: Boolean) : NumbersSetupEvent
     data object OnStartClicked : NumbersSetupEvent
 }

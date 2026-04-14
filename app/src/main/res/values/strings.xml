@@ -52,7 +52,8 @@
     <string name="results_board_percentage">Percentage of correct answers:</string>
     <string name="results_title">Results</string>
     <string name="numbers_setup_quantity_error_message">1–100 only</string>
-    <string name="numbers_setup_remember_time_error_message">Time must be between 1 and 60 minutes</string>
+    <string name="numbers_setup_remember_time_error_message">1–59 only</string>
+    <string name="numbers_setup_remember_time_max_error_message">Max: 60 min</string>
     <string name="numbers_setup_title">Game Setup</string>
     <string name="numbers_setup_subtitle">Set up your game before you start</string>
     <string name="numbers_setup_is_binary_label">Binary or Ordinal numbers?</string>
@@ -61,5 +62,6 @@
     <string name="setup_number_input_placeholder">0</string>
     <string name="setup_time_input_placeholder">00:00</string>
     <string name="setup_quantity_field_label">Quantity</string>
+    <string name="setup_remember_time_field_label">Time</string>
 
 </resources>
