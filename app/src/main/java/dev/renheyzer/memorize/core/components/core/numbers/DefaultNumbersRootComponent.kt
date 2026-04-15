@@ -54,7 +54,7 @@ class DefaultNumbersRootComponent(
                 factory.createNumbersSetupComponent(
                     context = componentContext,
                     navigateToMemorization = { options ->
-                        navigation.pushNew(
+                        navigation.replaceCurrent(
                             Config.Memorization(
                                 quantity = options.quantity,
                                 time = options.rememberTime,
@@ -99,7 +99,7 @@ class DefaultNumbersRootComponent(
                         navigation.pop()
                     },
                     navigateToSetup = {
-
+                        navigation.replaceCurrent(Config.Setup)
                     }
                 )
             )
