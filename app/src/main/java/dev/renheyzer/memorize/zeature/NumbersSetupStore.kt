@@ -97,7 +97,7 @@ class NumbersSetupStore(
                 val state = _uiState.value
                 val quantity = state.quantityInput.toInt()
                 val rememberTime =
-                    (state.rememberTimeMin * 60L * 1000L) + (state.rememberTimeSec * 1000L)
+                    (state.rememberTimeMin * 60L * 1000L) + (state.rememberTimeSec * 1000L) + 1000L
 
                 val options = NumbersSetupOptions(
                     quantity = quantity,
