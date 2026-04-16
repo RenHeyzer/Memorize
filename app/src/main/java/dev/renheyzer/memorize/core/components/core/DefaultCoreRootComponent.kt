@@ -22,7 +22,7 @@ class DefaultCoreRootComponent(
     override val childStack: Value<ChildStack<*, CoreRootComponent.Child>> = childStack(
         source = navigation,
         serializer = Config.serializer(),
-        initialConfiguration = Config.Numbers,
+        initialConfiguration = Config.Home,
         handleBackButton = true,
         childFactory = ::childFactory
     )
