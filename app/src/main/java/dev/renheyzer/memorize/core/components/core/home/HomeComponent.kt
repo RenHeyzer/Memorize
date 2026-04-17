@@ -6,4 +6,6 @@ interface HomeComponent {
         data object NavigateToPictures : Output
         data object NavigateToNumbers : Output
     }
+
+    fun onNumbersGameSelected()
 }

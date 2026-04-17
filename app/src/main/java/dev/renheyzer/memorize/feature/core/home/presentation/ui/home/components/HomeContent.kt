@@ -1,5 +1,6 @@
 package dev.renheyzer.memorize.feature.core.home.presentation.ui.home.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
-fun HomeContent(modifier: Modifier = Modifier) {
+fun HomeContent(modifier: Modifier = Modifier, onNumbersGameClick: () -> Unit) {
     Column(
         modifier = modifier.sizeIn(
             minWidth = 300.dp,
@@ -35,7 +36,8 @@ fun HomeContent(modifier: Modifier = Modifier) {
             Card(
                 modifier = Modifier
                     .aspectRatio(1f)
-                    .weight(1f),
+                    .weight(1f)
+                    .clickable { onNumbersGameClick() },
             ) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(text = "Numbers")
@@ -84,6 +86,8 @@ fun HomeContent(modifier: Modifier = Modifier) {
 @Composable
 fun PreviewHomeContent() {
     MemorizeTheme {
-        HomeContent()
+        HomeContent(
+            onNumbersGameClick = {}
+        )
     }
 }

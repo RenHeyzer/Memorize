@@ -5,7 +5,9 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
+import dev.renheyzer.memorize.core.components.core.home.HomeComponent
 import dev.renheyzer.memorize.core.components.core.home.factory.createHomeComponent
 import dev.renheyzer.memorize.core.components.core.numbers.factory.createNumbersRootComponent
 import dev.renheyzer.memorize.core.components.core.pictures.factory.createPicturesRootComponent
@@ -33,7 +35,14 @@ class DefaultCoreRootComponent(
     ): CoreRootComponent.Child =
         when (config) {
             Config.Home -> CoreRootComponent.Child.Home(
-                factory.createHomeComponent(componentContext, onOutput = {})
+                factory.createHomeComponent(componentContext, onOutput = { output ->
+                    when (output) {
+                        HomeComponent.Output.NavigateToNumbers -> {
+                            navigation.pushNew(Config.Numbers)
+                        }
+                        HomeComponent.Output.NavigateToPictures -> {}
+                    }
+                })
             )
 
             Config.Numbers -> CoreRootComponent.Child.Numbers(

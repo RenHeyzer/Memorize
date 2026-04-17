@@ -7,4 +7,7 @@ class DefaultHomeComponent(
     val onOutput: (HomeComponent.Output) -> Unit
 ) : HomeComponent, ComponentContext by componentContext {
 
+    override fun onNumbersGameSelected() {
+        onOutput(HomeComponent.Output.NavigateToNumbers)
+    }
 }
