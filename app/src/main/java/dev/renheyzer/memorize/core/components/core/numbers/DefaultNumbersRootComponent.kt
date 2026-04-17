@@ -4,8 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
@@ -25,7 +23,8 @@ import kotlinx.serialization.Serializable
 class DefaultNumbersRootComponent(
     componentContext: ComponentContext,
     private val factory: ComponentFactory,
-    private val numbersDependenciesFactory: () -> NumbersDependencies
+    private val numbersDependenciesFactory: () -> NumbersDependencies,
+    private val backHome: () -> Unit
 ) : NumbersRootComponent, ComponentContext by componentContext {
 
     private val numbersDependencies = instanceKeeper.getOrCreate { numbersDependenciesFactory() }
@@ -95,9 +94,7 @@ class DefaultNumbersRootComponent(
                 factory.createResultsComponent(
                     context = componentContext,
                     numbersDependencies = numbersDependencies,
-                    navigateToHome = {
-                        navigation.pop()
-                    },
+                    navigateToHome = backHome,
                     navigateToSetup = {
                         navigation.replaceCurrent(Config.Setup)
                     }

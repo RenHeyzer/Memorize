@@ -6,10 +6,12 @@ import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 
 fun ComponentFactory.createNumbersRootComponent(
-    context: ComponentContext
+    context: ComponentContext,
+    backHome: () -> Unit
 ): NumbersRootComponent =
     DefaultNumbersRootComponent(
         componentContext = context,
         factory = this,
-        numbersDependenciesFactory = { appDependencies.numbersDependencies() }
+        numbersDependenciesFactory = { appDependencies.numbersDependencies() },
+        backHome = backHome
     )

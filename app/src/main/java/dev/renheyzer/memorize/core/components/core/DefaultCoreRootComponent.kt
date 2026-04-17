@@ -40,13 +40,19 @@ class DefaultCoreRootComponent(
                         HomeComponent.Output.NavigateToNumbers -> {
                             navigation.pushNew(Config.Numbers)
                         }
+
                         HomeComponent.Output.NavigateToPictures -> {}
                     }
                 })
             )
 
             Config.Numbers -> CoreRootComponent.Child.Numbers(
-                factory.createNumbersRootComponent(componentContext)
+                factory.createNumbersRootComponent(
+                    context = componentContext,
+                    backHome = {
+                        navigation.pop()
+                    }
+                )
             )
 
             Config.Pictures -> CoreRootComponent.Child.Pictures(
