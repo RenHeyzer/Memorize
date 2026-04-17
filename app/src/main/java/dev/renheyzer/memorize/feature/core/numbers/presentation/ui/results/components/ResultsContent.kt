@@ -25,8 +25,9 @@ import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 @Composable
 fun ResultsContent(
     details: List<AnswerResult>,
-    scoreValue: String,
-    scorePercentage: String,
+    correctCount: Int,
+    totalCount: Int,
+    scorePercentage: Float,
     itemPerPage: Int,
     pagerState: PagerState,
     modifier: Modifier = Modifier,
@@ -39,7 +40,8 @@ fun ResultsContent(
 
         ResultsBoard(
             modifier = Modifier.padding(16.dp),
-            scoreValue = scoreValue,
+            correctCount = correctCount,
+            totalCount = totalCount,
             scorePercentage = scorePercentage
         )
 
@@ -111,8 +113,9 @@ fun PreviewResultsContent() {
                 AnswerResult(id = 13, number = 23, answer = 32, isCorrect = false),
                 AnswerResult(id = 14, number = 23, answer = 32, isCorrect = false)
             ),
-            scoreValue = "23/32",
-            scorePercentage = "83%",
+            correctCount = 24,
+            totalCount = 32,
+            scorePercentage = 83.34333f,
             itemPerPage = 9,
             pagerState = rememberPagerState { 9 },
         )

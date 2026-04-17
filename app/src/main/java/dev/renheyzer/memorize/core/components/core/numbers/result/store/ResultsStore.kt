@@ -27,14 +27,12 @@ class ResultsStore(
 
         val results = checkAnswersUseCase(numbers = numbers, answers = answers, isRandom = isRandom)
 
-        val scoreValue = "${results.correctCount}/${results.totalCount}"
-        val scorePercentage = "${results.scorePercentage}%"
-
         _uiState.update {
             it.copy(
                 details = results.details,
-                scoreValue = scoreValue,
-                scorePercentage = scorePercentage
+                correctCount = results.correctCount,
+                totalCount = results.totalCount,
+                scorePercentage = results.scorePercentage
             )
         }
     }
@@ -42,8 +40,9 @@ class ResultsStore(
 
 data class ResultsUiState(
     val details: List<AnswerResult> = emptyList(),
-    val scoreValue: String = "0",
-    val scorePercentage: String = "0%",
+    val correctCount: Int = 0,
+    val totalCount: Int = 0,
+    val scorePercentage: Float = 0f,
     val itemPerPage: Int = 9
 ) {
     val pageCount: Int

@@ -75,7 +75,8 @@ fun ResultsScreen(
     ) { innerPadding ->
         ResultsContent(
             details = uiState.details,
-            scoreValue = uiState.scoreValue,
+            correctCount = uiState.correctCount,
+            totalCount = uiState.totalCount,
             scorePercentage = uiState.scorePercentage,
             itemPerPage = uiState.itemPerPage,
             pagerState = pagerState,

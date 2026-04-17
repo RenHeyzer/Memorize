@@ -20,12 +20,14 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
+import dev.renheyzer.memorize.core.ui.ext.toPercentString
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun ResultsBoard(
-    scoreValue: String,
-    scorePercentage: String,
+    correctCount: Int,
+    totalCount: Int,
+    scorePercentage: Float,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -43,7 +45,7 @@ fun ResultsBoard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = scoreValue,
+                text = stringResource(R.string.results_board_score_format, correctCount, totalCount),
                 color = MemorizeTheme.colors.successColor,
                 style = MemorizeTheme.typography.primaryHeading,
             )
@@ -53,7 +55,7 @@ fun ResultsBoard(
                     append(stringResource(R.string.results_board_percentage))
                     append(" ")
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(scorePercentage)
+                        append(scorePercentage.toPercentString())
                     }
                 },
                 color = MemorizeTheme.colors.primaryText,
@@ -68,8 +70,9 @@ fun ResultsBoard(
 fun PreviewResultsBoard() {
     MemorizeTheme {
         ResultsBoard(
-            scoreValue = "23/32",
-            scorePercentage = "83%"
+            correctCount = 24,
+            totalCount = 32,
+            scorePercentage = 83.34633f
         )
     }
 }

@@ -50,6 +50,7 @@
     <string name="level_subtitle">Remember the arrangement of the numbers</string>
     <string name="time_up">Time is up!</string>
     <string name="results_board_percentage">Percentage of correct answers:</string>
+    <string name="results_board_score_format">%1$d/%2$d</string>
     <string name="results_title">Results</string>
     <string name="numbers_setup_quantity_error_message">1–100 only</string>
     <string name="numbers_setup_remember_time_error_message">1–59 only</string>

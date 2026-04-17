@@ -25,8 +25,9 @@ class FakeResultsComponent : ResultsComponent {
                 AnswerResult(id = 12, number = 60, answer = 60, isCorrect = true),
                 AnswerResult(id = 13, number = 75, answer = 75, isCorrect = true)
             ),
-            scoreValue = "23/32",
-            scorePercentage = "83%",
+            correctCount = 23,
+            totalCount = 32,
+            scorePercentage = 83.32333f,
             itemPerPage = 9,
         )
     )
