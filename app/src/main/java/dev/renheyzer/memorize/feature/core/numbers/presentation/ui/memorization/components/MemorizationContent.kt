@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -38,37 +40,36 @@ fun MemorizationContent(
 
         HorizontalPager(
             state = pagerState,
+            modifier = Modifier.fillMaxWidth()
         ) { pageIndex ->
             val startIndex = pageIndex * itemPerPage
             val endIndex = minOf(startIndex + itemPerPage, numbers.size)
             val numbersForThisPage = numbers.subList(startIndex, endIndex)
 
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    modifier = Modifier.sizeIn(
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+                    .sizeIn(
                         minWidth = 300.dp,
                         minHeight = 300.dp,
                         maxWidth = 400.dp,
                         maxHeight = 400.dp
                     ),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterVertically
-                    ),
-                    contentPadding = PaddingValues(16.dp)
-                ) {
-                    items(numbersForThisPage.size) { index ->
-                        val absoluteIndex = pageIndex * itemPerPage + index
-                        itemContent(absoluteIndex, numbersForThisPage[index])
-                    }
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = 8.dp,
+                    alignment = Alignment.CenterHorizontally
+                ),
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 8.dp,
+                    alignment = Alignment.CenterVertically
+                ),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(numbersForThisPage.size) { index ->
+                    val absoluteIndex = pageIndex * itemPerPage + index
+                    itemContent(absoluteIndex, numbersForThisPage[index])
                 }
             }
         }

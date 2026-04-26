@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -36,22 +38,22 @@ fun ResultsContent(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.weight(0.1f))
-
         ResultsBoard(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp),
             correctCount = correctCount,
             totalCount = totalCount,
             scorePercentage = scorePercentage
         )
 
-        Spacer(modifier = Modifier.weight(0.1f))
+        Spacer(modifier = Modifier.weight(0.2f))
 
         HorizontalPager(
             state = pagerState,
+            modifier = Modifier.fillMaxWidth()
         ) { pageIndex ->
-            val startIndex = pageIndex * itemPerPage
-            val endIndex = minOf(startIndex + itemPerPage, details.size)
+            val startIndex = (pageIndex * itemPerPage).coerceAtMost(details.size)
+            val endIndex = (startIndex + itemPerPage).coerceAtMost(details.size)
             val numbersForThisPage = details.subList(startIndex, endIndex)
 
             LazyVerticalGrid(
@@ -64,7 +66,7 @@ fun ResultsContent(
                         minHeight = 300.dp,
                         maxWidth = 400.dp,
                         maxHeight = 400.dp
-                    ),
+                    ).aspectRatio(1f),
                 horizontalArrangement = Arrangement.spacedBy(
                     space = 8.dp,
                     alignment = Alignment.CenterHorizontally
@@ -75,11 +77,10 @@ fun ResultsContent(
                 ),
                 contentPadding = PaddingValues(16.dp)
             ) {
-                items(count = numbersForThisPage.size, key = { index ->
-                    val result = numbersForThisPage[index]
-                    result.id
-                }) { index ->
-                    val result = numbersForThisPage[index]
+                items(
+                    items = numbersForThisPage,
+                    key = { result -> result.id }
+                ) { result ->
                     ResultItem(
                         number = result.number,
                         answer = result.answer,
@@ -89,7 +90,7 @@ fun ResultsContent(
             }
         }
 
-        Spacer(modifier = Modifier.weight(0.2f))
+        Spacer(modifier = Modifier.weight(0.4f))
     }
 }
 

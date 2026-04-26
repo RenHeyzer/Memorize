@@ -82,9 +82,7 @@ fun MemorizationScreen(
             numbers = uiState.numbers,
             itemPerPage = uiState.itemPerPage,
             pagerState = pagerState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
+            modifier = Modifier.padding(innerPadding),
             itemContent = { _, number ->
                 MemorizationItem(
                     number = number
