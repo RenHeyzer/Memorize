@@ -66,18 +66,21 @@ fun MemorizeTheme(
         button = TextStyle(
             fontSize = when (textSize) {
                 MemorizeSize.Small -> 14.sp
-                MemorizeSize.Medium -> 16.sp
-                MemorizeSize.Big -> 18.sp
+                MemorizeSize.Medium -> 15.sp
+                MemorizeSize.Big -> 16.sp
             },
             fontFamily = rubikFamily,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Medium,
+            letterSpacing = 0.5.sp
         ),
         buttonLarge = primaryHeading.copy(
             fontSize = when (textSize) {
                 MemorizeSize.Small -> 16.sp
                 MemorizeSize.Medium -> 20.sp
                 MemorizeSize.Big -> 24.sp
-            }
+            },
+            fontWeight = FontWeight.Medium,
+            letterSpacing = 0.5.sp
         ),
         display = primaryHeading.copy(
             fontSize = when (textSize) {
