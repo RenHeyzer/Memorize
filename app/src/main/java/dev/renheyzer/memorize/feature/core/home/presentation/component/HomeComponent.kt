@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.core.home
+package dev.renheyzer.memorize.feature.core.home.presentation.component
 
 interface HomeComponent {
 

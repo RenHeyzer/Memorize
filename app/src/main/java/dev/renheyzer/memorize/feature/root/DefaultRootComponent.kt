@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.root
+package dev.renheyzer.memorize.feature.root
 
 import android.net.Uri
 import com.arkivanov.decompose.ComponentContext
@@ -8,10 +8,10 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
-import dev.renheyzer.memorize.core.components.auth.DefaultAuthComponent
-import dev.renheyzer.memorize.core.components.core.DefaultCoreRootComponent
 import dev.renheyzer.memorize.core.di.app.AppDependencies
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.feature.auth.presentation.component.DefaultAuthComponent
+import dev.renheyzer.memorize.feature.core.presenatation.component.DefaultCoreRootComponent
 import kotlinx.serialization.Serializable
 
 class DefaultRootComponent(

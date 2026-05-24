@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.feature.core.home.presentation.ui.home.components
+package dev.renheyzer.memorize.feature.core.home.presentation.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

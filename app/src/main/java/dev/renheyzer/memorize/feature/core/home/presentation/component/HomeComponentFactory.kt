@@ -1,8 +1,6 @@
-package dev.renheyzer.memorize.core.components.core.home.factory
+package dev.renheyzer.memorize.feature.core.home.presentation.component
 
 import com.arkivanov.decompose.ComponentContext
-import dev.renheyzer.memorize.core.components.core.home.DefaultHomeComponent
-import dev.renheyzer.memorize.core.components.core.home.HomeComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 
 fun ComponentFactory.createHomeComponent(

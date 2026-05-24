@@ -1,11 +1,10 @@
-package dev.renheyzer.memorize.feature.core.home.presentation.ui.home
+package dev.renheyzer.memorize.feature.core.home.presentation.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.renheyzer.memorize.core.components.core.home.HomeComponent
-import dev.renheyzer.memorize.feature.core.home.presentation.ui.home.components.HomeContent
+import dev.renheyzer.memorize.feature.core.home.presentation.component.HomeComponent
 
 @Composable
 fun HomeScreen(component: HomeComponent, modifier: Modifier = Modifier) {

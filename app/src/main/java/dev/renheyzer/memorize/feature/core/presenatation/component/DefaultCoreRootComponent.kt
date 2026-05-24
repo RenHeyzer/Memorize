@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.core
+package dev.renheyzer.memorize.feature.core.presenatation.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -7,11 +7,11 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
-import dev.renheyzer.memorize.core.components.core.home.HomeComponent
-import dev.renheyzer.memorize.core.components.core.home.factory.createHomeComponent
-import dev.renheyzer.memorize.core.components.core.numbers.factory.createNumbersRootComponent
-import dev.renheyzer.memorize.core.components.core.pictures.factory.createPicturesRootComponent
+import dev.renheyzer.memorize.core.components.core.pictures.createPicturesRootComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.feature.core.home.presentation.component.HomeComponent
+import dev.renheyzer.memorize.feature.core.home.presentation.component.createHomeComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.createNumbersRootComponent
 import kotlinx.serialization.Serializable
 
 class DefaultCoreRootComponent(
