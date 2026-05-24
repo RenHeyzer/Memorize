@@ -1,10 +1,9 @@
-package dev.renheyzer.memorize.core.components.auth.registration
+package dev.renheyzer.memorize.feature.auth.presentation.component.registration
 
-import dev.renheyzer.memorize.core.components.auth.registration.store.RegistrationUiState
+import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationUiState
 import kotlinx.coroutines.flow.StateFlow
 
 interface Registration {
-
     val uiState: StateFlow<RegistrationUiState>
     fun onSignUpClick(email: String, password: String, confirmPassword: String)
     fun onAlreadyHaveAnAccountClick()

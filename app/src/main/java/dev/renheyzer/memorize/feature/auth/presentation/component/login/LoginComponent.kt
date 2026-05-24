@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.auth.login
+package dev.renheyzer.memorize.feature.auth.presentation.component.login
 
 import com.arkivanov.decompose.ComponentContext
 
@@ -9,6 +9,5 @@ class LoginComponent(
 
     override fun onRegistrationClicked() {
         navigateToRegistration()
-
     }
 }

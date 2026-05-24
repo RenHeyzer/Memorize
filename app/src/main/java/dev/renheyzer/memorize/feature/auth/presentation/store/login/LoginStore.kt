@@ -1,9 +1,8 @@
-package dev.renheyzer.memorize.core.components.auth.login.store
+package dev.renheyzer.memorize.feature.auth.presentation.store.login
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.core.ui.UIState
-import dev.renheyzer.memorize.core.common.fold
-import dev.renheyzer.memorize.feature.auth.data.repositories.AuthRepository
+import dev.renheyzer.memorize.feature.auth.domain.repository.AuthRepository
 import dev.renheyzer.memorize.feature.auth.domain.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

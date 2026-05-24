@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.feature.auth.data.repositories
+package dev.renheyzer.memorize.feature.auth.data.repository
 
 import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuthEmailException
@@ -17,6 +17,7 @@ import dev.renheyzer.memorize.feature.auth.data.mapper.toDomain
 import dev.renheyzer.memorize.feature.auth.data.remote.source.AuthRemoteDataSource
 import dev.renheyzer.memorize.feature.auth.domain.AuthError
 import dev.renheyzer.memorize.feature.auth.domain.model.User
+import dev.renheyzer.memorize.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImpl(

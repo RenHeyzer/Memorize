@@ -1,15 +1,15 @@
-package dev.renheyzer.memorize.core.components.auth.verification
+package dev.renheyzer.memorize.feature.auth.presentation.component.verification
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
-import dev.renheyzer.memorize.core.components.auth.verification.store.VerificationEvents
-import dev.renheyzer.memorize.core.components.auth.verification.store.VerificationStore
-import dev.renheyzer.memorize.core.components.auth.verification.store.VerificationUiState
+import dev.renheyzer.memorize.feature.auth.presentation.store.verification.VerificationEvents
+import dev.renheyzer.memorize.feature.auth.presentation.store.verification.VerificationStore
+import dev.renheyzer.memorize.feature.auth.presentation.store.verification.VerificationUiState
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
-import dev.renheyzer.memorize.feature.auth.data.repositories.AuthRepository
+import dev.renheyzer.memorize.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -68,8 +68,7 @@ class VerificationComponent(
         if (authRepository.isUserLoggedIn) {
             navigateToHome()
         } else {
-            navigateToLogin
+            navigateToLogin()
         }
     }
 }
-

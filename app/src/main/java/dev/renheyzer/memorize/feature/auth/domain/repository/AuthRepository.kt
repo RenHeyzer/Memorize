@@ -1,6 +1,5 @@
-package dev.renheyzer.memorize.feature.auth.data.repositories
+package dev.renheyzer.memorize.feature.auth.domain.repository
 
-import com.google.firebase.auth.ActionCodeSettings
 import dev.renheyzer.memorize.core.common.AppError
 import dev.renheyzer.memorize.core.common.Either
 import dev.renheyzer.memorize.core.common.NetworkError

@@ -1,10 +1,10 @@
-package dev.renheyzer.memorize.core.components.auth
+package dev.renheyzer.memorize.feature.auth.presentation.component
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import dev.renheyzer.memorize.core.components.auth.login.Login
-import dev.renheyzer.memorize.core.components.auth.registration.Registration
-import dev.renheyzer.memorize.core.components.auth.verification.Verification
+import dev.renheyzer.memorize.feature.auth.presentation.component.login.Login
+import dev.renheyzer.memorize.feature.auth.presentation.component.registration.Registration
+import dev.renheyzer.memorize.feature.auth.presentation.component.verification.Verification
 
 interface AuthComponent {
 

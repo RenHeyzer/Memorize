@@ -1,6 +1,6 @@
-package dev.renheyzer.memorize.core.components.auth.verification
+package dev.renheyzer.memorize.feature.auth.presentation.component.verification
 
-import dev.renheyzer.memorize.core.components.auth.verification.store.VerificationUiState
+import dev.renheyzer.memorize.feature.auth.presentation.store.verification.VerificationUiState
 import dev.renheyzer.memorize.core.ui.UiText
 import kotlinx.coroutines.flow.StateFlow
 

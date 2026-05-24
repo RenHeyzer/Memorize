@@ -1,9 +1,9 @@
-package dev.renheyzer.memorize.core.components.auth.dependencies
+package dev.renheyzer.memorize.feature.auth.di
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.core.models.AuthConfig
 import dev.renheyzer.memorize.feature.auth.data.remote.source.AuthRemoteDataSource
-import dev.renheyzer.memorize.feature.auth.data.repositories.AuthRepository
+import dev.renheyzer.memorize.feature.auth.domain.repository.AuthRepository
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.CompositeValidator
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.RegisterByEmailUseCase
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.ValidateEmailUseCase

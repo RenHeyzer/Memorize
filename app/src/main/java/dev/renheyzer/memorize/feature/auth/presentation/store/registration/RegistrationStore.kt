@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.auth.registration.store
+package dev.renheyzer.memorize.feature.auth.presentation.store.registration
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.R

@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.auth
+package dev.renheyzer.memorize.feature.auth.presentation.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -10,11 +10,11 @@ import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
-import dev.renheyzer.memorize.core.components.auth.login.LoginComponent
-import dev.renheyzer.memorize.core.components.auth.registration.RegistrationComponent
-import dev.renheyzer.memorize.core.components.auth.verification.Verification
-import dev.renheyzer.memorize.core.components.auth.verification.VerificationComponent
-import dev.renheyzer.memorize.core.components.auth.dependencies.AuthDependencies
+import dev.renheyzer.memorize.feature.auth.presentation.component.login.LoginComponent
+import dev.renheyzer.memorize.feature.auth.presentation.component.registration.RegistrationComponent
+import dev.renheyzer.memorize.feature.auth.presentation.component.verification.Verification
+import dev.renheyzer.memorize.feature.auth.presentation.component.verification.VerificationComponent
+import dev.renheyzer.memorize.feature.auth.di.AuthDependencies
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
 import dev.renheyzer.memorize.core.ui.UiText
