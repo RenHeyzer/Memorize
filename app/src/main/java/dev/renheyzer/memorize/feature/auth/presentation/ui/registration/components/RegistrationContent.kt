@@ -24,9 +24,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
-import dev.renheyzer.memorize.core.components.auth.registration.store.RegistrationUiState
 import dev.renheyzer.memorize.core.ui.component.MemorizeDefaultButton
 import dev.renheyzer.memorize.core.ui.component.OutlinedErrorTextField
+import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationUiState
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable

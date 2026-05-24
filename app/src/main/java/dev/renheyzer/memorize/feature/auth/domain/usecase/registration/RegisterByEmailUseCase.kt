@@ -2,8 +2,8 @@ package dev.renheyzer.memorize.feature.auth.domain.usecase.registration
 
 import dev.renheyzer.memorize.core.common.AppError
 import dev.renheyzer.memorize.core.common.Either
-import dev.renheyzer.memorize.feature.auth.data.repositories.AuthRepository
 import dev.renheyzer.memorize.feature.auth.domain.model.User
+import dev.renheyzer.memorize.feature.auth.domain.repository.AuthRepository
 
 class RegisterByEmailUseCase(
     private val compositeValidator: CompositeValidator,
