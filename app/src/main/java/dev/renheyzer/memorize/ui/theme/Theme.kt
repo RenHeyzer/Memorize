@@ -3,20 +3,25 @@ package dev.renheyzer.memorize.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import baseDarkPalette
+import baseLightPalette
 
 @Composable
 fun MemorizeTheme(
     textSize: MemorizeSize = MemorizeSize.Medium,
     corner: MemorizeCorner = MemorizeCorner.Medium,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -136,10 +141,78 @@ fun MemorizeTheme(
         }
     )
 
-    CompositionLocalProvider(
-        LocalMemorizeColors provides colorScheme,
-        LocalMemorizeTypography provides typography,
-        LocalMemorizeShape provides shape,
-        content = content
+    val m3ColorScheme = if (darkTheme) {
+        darkColorScheme(
+            primary = colorScheme.accentColor,
+            onPrimary = colorScheme.onAccentText,
+            background = colorScheme.primaryBackground,
+            onBackground = colorScheme.primaryText,
+            surface = colorScheme.secondaryBackground,
+            onSurface = colorScheme.primaryText,
+            error = colorScheme.errorColor,
+            onError = colorScheme.onAccentText,
+            outline = colorScheme.borderColor,
+            surfaceVariant = colorScheme.secondaryBackground,
+            onSurfaceVariant = colorScheme.secondaryText,
+            tertiary = colorScheme.successColor
+        )
+    } else {
+        lightColorScheme(
+            primary = colorScheme.accentColor,
+            onPrimary = colorScheme.onAccentText,
+            background = colorScheme.primaryBackground,
+            onBackground = colorScheme.primaryText,
+            surface = colorScheme.secondaryBackground,
+            onSurface = colorScheme.primaryText,
+            error = colorScheme.errorColor,
+            onError = colorScheme.onAccentText,
+            outline = colorScheme.borderColor,
+            surfaceVariant = colorScheme.secondaryBackground,
+            onSurfaceVariant = colorScheme.secondaryText,
+            tertiary = colorScheme.successColor
+        )
+    }
+
+    val m3Typography = Typography(
+        displayLarge = typography.display,
+        displayMedium = typography.primaryHeading,
+        displaySmall = typography.secondaryHeading,
+
+        headlineLarge = typography.primaryHeading,
+        headlineMedium = typography.secondaryHeading,
+        headlineSmall = typography.toolbar,
+
+        titleLarge = typography.secondaryHeading,
+        titleMedium = typography.buttonLarge,
+        titleSmall = typography.button,
+
+        bodyLarge = typography.body,
+        bodyMedium = typography.body,
+        bodySmall = typography.body.copy(fontSize = typography.body.fontSize * 0.8f),
+
+        labelLarge = typography.buttonLarge,
+        labelMedium = typography.button,
+        labelSmall = typography.button.copy(fontSize = typography.button.fontSize * 0.8f)
     )
+
+    val m3Shapes = Shapes(
+        extraSmall = shape.small as androidx.compose.foundation.shape.CornerBasedShape,
+        small = shape.small,
+        medium = shape.card as androidx.compose.foundation.shape.CornerBasedShape,
+        large = shape.buttonLarge as androidx.compose.foundation.shape.CornerBasedShape,
+        extraLarge = shape.bottomSheet as androidx.compose.foundation.shape.CornerBasedShape
+    )
+
+    MaterialTheme(
+        colorScheme = m3ColorScheme,
+        typography = m3Typography,
+        shapes = m3Shapes
+    ) {
+        CompositionLocalProvider(
+            LocalMemorizeColors provides colorScheme,
+            LocalMemorizeTypography provides typography,
+            LocalMemorizeShape provides shape,
+            content = content
+        )
+    }
 }

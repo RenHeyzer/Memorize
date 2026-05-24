@@ -1,6 +1,5 @@
-package dev.renheyzer.memorize.ui.theme
-
 import androidx.compose.ui.graphics.Color
+import dev.renheyzer.memorize.ui.theme.MemorizeColors
 
 val baseDarkPalette = MemorizeColors(
     primaryText = Color.White,
