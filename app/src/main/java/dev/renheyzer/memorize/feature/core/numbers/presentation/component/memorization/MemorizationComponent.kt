@@ -1,6 +1,6 @@
-package dev.renheyzer.memorize.core.components.core.numbers.memorization
+package dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization
 
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.store.MemorizationUiState
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.memorization.MemorizationUiState
 import kotlinx.coroutines.flow.StateFlow
 
 interface MemorizationComponent {

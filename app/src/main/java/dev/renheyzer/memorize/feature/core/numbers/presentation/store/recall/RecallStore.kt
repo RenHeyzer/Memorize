@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.core.numbers.recall.store
+package dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.R

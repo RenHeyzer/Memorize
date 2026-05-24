@@ -1,6 +1,6 @@
-package dev.renheyzer.memorize.core.components.core.numbers.recall
+package dev.renheyzer.memorize.feature.core.numbers.presentation.component.recall
 
-import dev.renheyzer.memorize.core.components.core.numbers.recall.store.RecallUiState
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall.RecallUiState
 import kotlinx.coroutines.flow.StateFlow
 
 interface RecallComponent {

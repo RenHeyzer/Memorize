@@ -1,9 +1,7 @@
-package dev.renheyzer.memorize.core.components.core.numbers.recall.factory
+package dev.renheyzer.memorize.feature.core.numbers.presentation.component.recall
 
 import com.arkivanov.decompose.ComponentContext
-import dev.renheyzer.memorize.core.components.core.numbers.dependencies.NumbersDependencies
-import dev.renheyzer.memorize.core.components.core.numbers.recall.DefaultRecallComponent
-import dev.renheyzer.memorize.core.components.core.numbers.recall.RecallComponent
+import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 
 fun ComponentFactory.createRecallComponent(

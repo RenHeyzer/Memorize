@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.core.numbers
+package dev.renheyzer.memorize.feature.core.numbers.presentation.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -7,17 +7,17 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
-import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Memorization
-import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Recall
-import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Results
-import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent.Child.Setup
-import dev.renheyzer.memorize.core.components.core.numbers.dependencies.NumbersDependencies
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.MemorizationComponent.Params
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.factory.createMemorizationComponent
-import dev.renheyzer.memorize.core.components.core.numbers.recall.factory.createRecallComponent
-import dev.renheyzer.memorize.core.components.core.numbers.result.factory.createResultsComponent
+import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
-import dev.renheyzer.memorize.zeature.createNumbersSetupComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Memorization
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Recall
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Results
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Setup
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization.MemorizationComponent.Params
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization.createMemorizationComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.recall.createRecallComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.result.createResultsComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.setup.createNumbersSetupComponent
 import kotlinx.serialization.Serializable
 
 class DefaultNumbersRootComponent(
@@ -34,11 +34,6 @@ class DefaultNumbersRootComponent(
     override val childStack: Value<ChildStack<*, NumbersRootComponent.Child>> = childStack(
         source = navigation,
         serializer = Config.serializer(),
-//        initialConfiguration = Config.Memorization(
-//            quantity = 28,
-//            time = 1000L * 120,
-//            isRandom = true
-//        ),
         initialConfiguration = Config.Setup,
         handleBackButton = true,
         childFactory = ::childFactory

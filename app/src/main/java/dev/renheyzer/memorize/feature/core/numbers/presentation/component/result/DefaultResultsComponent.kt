@@ -1,9 +1,9 @@
-package dev.renheyzer.memorize.core.components.core.numbers.result
+package dev.renheyzer.memorize.feature.core.numbers.presentation.component.result
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
-import dev.renheyzer.memorize.core.components.core.numbers.result.store.ResultsStore
-import dev.renheyzer.memorize.core.components.core.numbers.result.store.ResultsUiState
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.result.ResultsStore
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.result.ResultsUiState
 import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
 import dev.renheyzer.memorize.feature.core.numbers.domain.usecase.CheckAnswersUseCase
 import kotlinx.coroutines.flow.StateFlow

@@ -1,9 +1,7 @@
-package dev.renheyzer.memorize.core.components.core.numbers.memorization.factory
+package dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization
 
 import com.arkivanov.decompose.ComponentContext
-import dev.renheyzer.memorize.core.components.core.numbers.dependencies.NumbersDependencies
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.MemorizationComponent
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.DefaultMemorizationComponent
+import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 
 fun ComponentFactory.createMemorizationComponent(

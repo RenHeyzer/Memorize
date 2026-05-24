@@ -1,8 +1,8 @@
-package dev.renheyzer.memorize.core.components.core.numbers.memorization.store
+package dev.renheyzer.memorize.feature.core.numbers.presentation.store.memorization
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.R
-import dev.renheyzer.memorize.core.components.core.numbers.memorization.MemorizationComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization.MemorizationComponent
 import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
 import dev.renheyzer.memorize.core.ui.SnackbarAction
 import dev.renheyzer.memorize.core.ui.SnackbarEvent

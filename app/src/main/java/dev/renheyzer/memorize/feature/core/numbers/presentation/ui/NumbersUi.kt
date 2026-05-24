@@ -5,11 +5,11 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
-import dev.renheyzer.memorize.core.components.core.numbers.NumbersRootComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.MemorizationScreen
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.recall.RecallScreen
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.results.ResultsScreen
-import dev.renheyzer.memorize.zeature.ui.NumbersSetupScreen
+import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.setup.NumbersSetupScreen
 
 @Composable
 fun NumbersContent(

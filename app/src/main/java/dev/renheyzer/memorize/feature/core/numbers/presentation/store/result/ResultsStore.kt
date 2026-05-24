@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.core.numbers.result.store
+package dev.renheyzer.memorize.feature.core.numbers.presentation.store.result
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore

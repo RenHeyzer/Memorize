@@ -1,41 +1,44 @@
-package dev.renheyzer.memorize.core.components.core.numbers.recall
+package dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import com.arkivanov.essenty.lifecycle.doOnResume
-import dev.renheyzer.memorize.core.components.core.numbers.recall.store.RecallEvents
-import dev.renheyzer.memorize.core.components.core.numbers.recall.store.RecallStore
-import dev.renheyzer.memorize.core.components.core.numbers.recall.store.RecallUiState
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.memorization.MemorizationEvent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.memorization.MemorizationStore
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.memorization.MemorizationUiState
 import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
 import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
+import dev.renheyzer.memorize.feature.core.numbers.domain.usecase.GenerateNumbersUseCase
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class DefaultRecallComponent(
+class DefaultMemorizationComponent(
     componentContext: ComponentContext,
     private val env: ComponentEnvironment,
+    private val generateNumbersUseCase: GenerateNumbersUseCase,
     private val gameSessionStore: GameSessionStore,
     private val countdownTimerManager: CountdownTimerManager,
-    private val time: Long,
-    private val navigateToResults: () -> Unit
-) : RecallComponent, ComponentContext by componentContext {
+    private val params: MemorizationComponent.Params,
+    private val navigateToRecall: () -> Unit,
+) : MemorizationComponent, ComponentContext by componentContext {
 
     private val scope = coroutineScope(env.mainContext + SupervisorJob())
 
     private val store = instanceKeeper.getOrCreate {
-        RecallStore(
+        MemorizationStore(
             env = env,
+            generateNumbersUseCase = generateNumbersUseCase,
             gameSessionStore = gameSessionStore,
             countdownTimerManager = countdownTimerManager,
-            time = time
+            params = params,
         )
     }
 
-    override val uiState: StateFlow<RecallUiState> = store.recallState
+    override val uiState: StateFlow<MemorizationUiState> = store.uiState
 
     override val timerState: StateFlow<String> = store.timerState
 
@@ -51,26 +54,22 @@ class DefaultRecallComponent(
         scope.launch {
             store.events.collect { event ->
                 when (event) {
-                    is RecallEvents.OnTimeOut -> {
+                    is MemorizationEvent.OnTimeUp -> {
                         val message = env.stringResolver.resolve(event.message)
                         store.showMessage(message = message)
                         delay(2000L)
-                        navigateToResults()
+                        navigateToRecall()
                     }
 
-                    RecallEvents.NavigateToResults -> {
-                        navigateToResults()
+                    MemorizationEvent.NavigateToRecall -> {
+                        navigateToRecall()
                     }
                 }
             }
         }
     }
 
-    override fun whenUserEnteredAnswer(index: Int, answer: String) {
-        store.addUserAnswer(index = index, answer = answer)
-    }
-
     override fun onCompleteClick() {
-        store.saveUserAnswers()
+        store.finishMemorization()
     }
 }
