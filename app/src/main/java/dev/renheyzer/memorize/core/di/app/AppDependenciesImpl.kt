@@ -5,15 +5,15 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import dev.renheyzer.memorize.core.common.AppDispatchers
-import dev.renheyzer.memorize.core.components.auth.dependencies.AuthDependencies
-import dev.renheyzer.memorize.core.components.auth.dependencies.AuthDependenciesImpl
-import dev.renheyzer.memorize.core.components.core.numbers.dependencies.NumbersDependencies
-import dev.renheyzer.memorize.core.components.core.numbers.dependencies.NumbersDependenciesImpl
+import dev.renheyzer.memorize.core.ui.DefaultStringResolver
 import dev.renheyzer.memorize.core.ui.SnackbarController
+import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.core.ui.timer.TimerManager
-import dev.renheyzer.memorize.core.ui.DefaultStringResolver
-import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
+import dev.renheyzer.memorize.feature.auth.di.AuthDependencies
+import dev.renheyzer.memorize.feature.auth.di.AuthDependenciesImpl
+import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
+import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependenciesImpl
 
 class AppDependenciesImpl(context: Context) : AppDependencies {
 

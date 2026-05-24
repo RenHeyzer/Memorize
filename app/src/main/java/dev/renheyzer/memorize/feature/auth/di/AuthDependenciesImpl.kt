@@ -5,8 +5,8 @@ import dev.renheyzer.memorize.BuildConfig
 import dev.renheyzer.memorize.core.models.AuthConfig
 import dev.renheyzer.memorize.feature.auth.data.remote.source.AuthRemoteDataSource
 import dev.renheyzer.memorize.feature.auth.data.remote.source.AuthRemoteDataSourceImpl
-import dev.renheyzer.memorize.feature.auth.domain.repository.AuthRepository
 import dev.renheyzer.memorize.feature.auth.data.repository.AuthRepositoryImpl
+import dev.renheyzer.memorize.feature.auth.domain.repository.AuthRepository
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.CompositeValidator
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.RegisterByEmailUseCase
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.ValidateEmailUseCase

@@ -1,4 +1,4 @@
-package dev.renheyzer.memorize.core.components.core.numbers.dependencies
+package dev.renheyzer.memorize.feature.core.numbers.di
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
