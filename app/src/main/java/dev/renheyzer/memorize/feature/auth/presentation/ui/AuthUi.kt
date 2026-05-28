@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
-import dev.renheyzer.memorize.feature.auth.presentation.component.AuthComponent
+import dev.renheyzer.memorize.core.components.auth.AuthComponent
 import dev.renheyzer.memorize.feature.auth.presentation.ui.login.LoginScreen
 import dev.renheyzer.memorize.feature.auth.presentation.ui.registration.RegistrationScreen
 import dev.renheyzer.memorize.feature.auth.presentation.ui.verification.VerificationScreen

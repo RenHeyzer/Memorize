@@ -27,11 +27,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import com.arkivanov.decompose.retainedComponent
+import dev.renheyzer.memorize.core.components.root.DefaultRootComponent
+import dev.renheyzer.memorize.core.components.root.RootComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 import dev.renheyzer.memorize.core.ui.LocalSnackbarController
-import dev.renheyzer.memorize.feature.root.DefaultRootComponent
-import dev.renheyzer.memorize.feature.root.RootComponent
-import dev.renheyzer.memorize.feature.root.RootContent
+import dev.renheyzer.memorize.feature.root.ui.root.RootContent
 import dev.renheyzer.memorize.ui.theme.MemorizeCorner
 import dev.renheyzer.memorize.ui.theme.MemorizeSize
 import dev.renheyzer.memorize.ui.theme.MemorizeStyle

@@ -1,8 +1,8 @@
 package dev.renheyzer.memorize.feature.core.numbers.presentation.ui.results
 
+import dev.renheyzer.memorize.core.components.core.numbers.result.ResultsComponent
+import dev.renheyzer.memorize.core.components.core.numbers.result.store.ResultsUiState
 import dev.renheyzer.memorize.feature.core.numbers.domain.model.AnswerResult
-import dev.renheyzer.memorize.feature.core.numbers.presentation.component.result.ResultsComponent
-import dev.renheyzer.memorize.feature.core.numbers.presentation.store.result.ResultsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

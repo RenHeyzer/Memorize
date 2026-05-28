@@ -14,8 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.renheyzer.memorize.R
+import dev.renheyzer.memorize.core.components.core.numbers.result.ResultsComponent
 import dev.renheyzer.memorize.core.ui.component.MemorizeTopBar
-import dev.renheyzer.memorize.feature.core.numbers.presentation.component.result.ResultsComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.FooterContent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.results.components.ResultsContent
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
