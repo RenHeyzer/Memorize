@@ -11,10 +11,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.component.MemorizeTopBar
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.setup.FakeNumbersSetupComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.setup.NumbersSetupComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupEvent
+import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun NumbersSetupScreen(

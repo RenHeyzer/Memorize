@@ -19,6 +19,7 @@ fun Throwable.toNetworkType(): NetworkError = when (this) {
             else -> NetworkError.Unknown(this.cause)
         }
     }
+
     is FirebaseAuthInvalidUserException -> NetworkError.Unauthorized
     else -> {
         if (BuildConfig.DEBUG) {

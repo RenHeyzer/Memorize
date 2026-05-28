@@ -13,7 +13,7 @@ interface NumbersRootComponent {
     val childStack: Value<ChildStack<*, Child>>
 
     sealed class Child {
-        class Setup(val component: NumbersSetupComponent): Child()
+        class Setup(val component: NumbersSetupComponent) : Child()
         class Memorization(val component: MemorizationComponent) : Child()
         class Recall(val component: RecallComponent) : Child()
         class Results(val component: ResultsComponent) : Child()

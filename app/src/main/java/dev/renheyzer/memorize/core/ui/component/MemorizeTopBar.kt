@@ -36,8 +36,9 @@ fun MemorizeTopBar(
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     Surface(
-        modifier = modifier.fillMaxWidth()
-        .defaultMinSize(minHeight = 56.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .defaultMinSize(minHeight = 56.dp),
         color = MemorizeTheme.colors.secondaryBackground,
         shape = MemorizeTheme.shape.topBar,
         shadowElevation = 8.dp
@@ -58,7 +59,8 @@ fun MemorizeTopBar(
             }
 
             Column(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier
+                    .align(Alignment.Center)
                     .padding(horizontal = 48.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

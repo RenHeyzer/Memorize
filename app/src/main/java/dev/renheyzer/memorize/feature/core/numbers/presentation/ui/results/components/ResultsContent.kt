@@ -66,7 +66,8 @@ fun ResultsContent(
                         minHeight = 300.dp,
                         maxWidth = 400.dp,
                         maxHeight = 400.dp
-                    ).aspectRatio(1f),
+                    )
+                    .aspectRatio(1f),
                 horizontalArrangement = Arrangement.spacedBy(
                     space = 8.dp,
                     alignment = Alignment.CenterHorizontally

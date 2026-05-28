@@ -5,7 +5,7 @@ import dev.renheyzer.memorize.core.common.AppError
 data class ValidationError(
     val email: Boolean = false,
     val password: PasswordError? = null,
-): AppError {
+) : AppError {
     fun hasError(): Boolean {
         return email || password != null
     }

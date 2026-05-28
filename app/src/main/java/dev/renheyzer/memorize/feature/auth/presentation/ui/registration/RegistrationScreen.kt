@@ -8,10 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.renheyzer.memorize.core.components.auth.registration.Registration
+import dev.renheyzer.memorize.feature.auth.presentation.component.registration.Registration
 import dev.renheyzer.memorize.feature.auth.presentation.ui.registration.components.RegistrationContent
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
@@ -34,7 +33,12 @@ fun RegistrationScreen(
             })
 
         if (uiState.isLoading) {
-            Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.4f)), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.4f)),
+                contentAlignment = Alignment.Center
+            ) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
                     color = MemorizeTheme.colors.secondaryBackground

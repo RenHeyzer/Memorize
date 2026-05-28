@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.renheyzer.memorize.R
-import dev.renheyzer.memorize.core.components.auth.verification.Verification
 import dev.renheyzer.memorize.core.ui.UiText
+import dev.renheyzer.memorize.feature.auth.presentation.component.verification.Verification
 import dev.renheyzer.memorize.feature.auth.presentation.ui.verification.components.VerificationContent
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 

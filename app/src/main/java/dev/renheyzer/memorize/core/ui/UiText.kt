@@ -38,6 +38,7 @@ sealed class UiText {
                 val rawArgs = args.map { it.value }.toTypedArray()
                 context.getString(resId, *rawArgs)
             }
+
             is Joined -> items.joinToString(separator) { it.asString(context) }
             else -> ""
         }
@@ -52,6 +53,7 @@ sealed class UiText {
                 val rawArgs = args.map { it.value }.toTypedArray()
                 context.getString(resId, *rawArgs)
             }
+
             is Joined -> items.joinToString(separator) { it.asString(context) }
             else -> ""
         }
@@ -60,15 +62,19 @@ sealed class UiText {
 
 @Serializable
 sealed interface UiArg {
-    @Serializable data class Str(override val value: String) : UiArg
-    @Serializable data class NumInt(override val value: Int) : UiArg
-    @Serializable data class NumDouble(override val value: Double) : UiArg
+    @Serializable
+    data class Str(override val value: String) : UiArg
+    @Serializable
+    data class NumInt(override val value: Int) : UiArg
+    @Serializable
+    data class NumDouble(override val value: Double) : UiArg
 
-    val value: Any get() = when(this) {
-        is Str -> value
-        is NumInt -> value
-        is NumDouble -> value
-    }
+    val value: Any
+        get() = when (this) {
+            is Str -> value
+            is NumInt -> value
+            is NumDouble -> value
+        }
 }
 
 fun AppError.toUiText(): UiText {

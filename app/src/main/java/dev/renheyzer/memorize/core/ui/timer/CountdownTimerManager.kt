@@ -83,6 +83,6 @@ class CountdownTimerManager(
     }
 
     sealed interface TimerEvent {
-        data object Finished: TimerEvent
+        data object Finished : TimerEvent
     }
 }

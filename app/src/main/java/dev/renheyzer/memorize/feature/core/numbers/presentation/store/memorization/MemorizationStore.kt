@@ -2,7 +2,6 @@ package dev.renheyzer.memorize.feature.core.numbers.presentation.store.memorizat
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.R
-import dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization.MemorizationComponent
 import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
 import dev.renheyzer.memorize.core.ui.SnackbarAction
 import dev.renheyzer.memorize.core.ui.SnackbarEvent
@@ -11,6 +10,7 @@ import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.core.ui.timer.formatAsTimerMMSS
 import dev.renheyzer.memorize.feature.core.numbers.domain.usecase.GenerateNumbersUseCase
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization.MemorizationComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel

@@ -4,7 +4,7 @@ import dev.renheyzer.memorize.core.common.AppError
 
 sealed interface AuthError : AppError {
     data object InvalidEmail : AuthError
-    data object UserCollision: AuthError
-    data object InvalidCredentials: AuthError
-    data object VerificationFailed: AuthError
+    data object UserCollision : AuthError
+    data object InvalidCredentials : AuthError
+    data object VerificationFailed : AuthError
 }

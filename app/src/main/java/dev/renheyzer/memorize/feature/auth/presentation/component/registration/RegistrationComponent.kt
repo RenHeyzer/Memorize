@@ -3,13 +3,13 @@ package dev.renheyzer.memorize.feature.auth.presentation.component.registration
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
-import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationEvents
-import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationStore
-import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationUiState
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
 import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.RegisterByEmailUseCase
+import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationEvents
+import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationStore
+import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationUiState
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

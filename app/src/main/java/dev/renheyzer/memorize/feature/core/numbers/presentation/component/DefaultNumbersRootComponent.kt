@@ -7,8 +7,8 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
-import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Memorization
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Recall
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Results

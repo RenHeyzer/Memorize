@@ -45,7 +45,11 @@ fun ResultsBoard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.results_board_score_format, correctCount, totalCount),
+                text = stringResource(
+                    R.string.results_board_score_format,
+                    correctCount,
+                    totalCount
+                ),
                 color = MemorizeTheme.colors.successColor,
                 style = MemorizeTheme.typography.primaryHeading,
             )
