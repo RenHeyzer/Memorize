@@ -13,7 +13,7 @@ import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.component.MemorizeTopBar
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.setup.FakeNumbersSetupComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.setup.NumbersSetupComponent
-import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupEvent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupIntent
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
@@ -39,12 +39,12 @@ fun NumbersSetupScreen(
             modifier = Modifier.padding(innerPadding),
             isBinary = uiState.isBinary,
             isStartButtonEnabled = uiState.isStartButtonEnabled,
-            onQuantityChanged = { component.onEvent(event = NumbersSetupEvent.OnQuantityChanged(it)) },
+            onQuantityChanged = { component.onIntent(intent = NumbersSetupIntent.OnQuantityChanged(it)) },
             onRememberTimeChanged = { timeInput ->
-                component.onEvent(event = NumbersSetupEvent.OnRememberTimeChanged(input = timeInput))
+                component.onIntent(intent = NumbersSetupIntent.OnRememberTimeChanged(rememberTimeInput = timeInput))
             },
-            onBinaryToggled = { component.onEvent(event = NumbersSetupEvent.OnBinaryToggled(it)) },
-            onStartClicked = { component.onEvent(event = NumbersSetupEvent.OnStartClicked) },
+            onBinaryToggled = { component.onIntent(intent = NumbersSetupIntent.OnBinaryToggled(it)) },
+            onStartClicked = { component.onIntent(intent = NumbersSetupIntent.OnStartClicked) },
             quantityError = uiState.quantityError,
             rememberTimeError = uiState.rememberTimeError
         )

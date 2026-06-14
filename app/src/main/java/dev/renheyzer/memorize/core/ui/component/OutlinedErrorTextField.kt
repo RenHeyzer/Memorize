@@ -35,8 +35,8 @@ fun OutlinedErrorTextField(
     prefix: @Composable (() -> Unit)? = null,
     suffix: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
-    errorText: String,
-    isError: Boolean = errorText.isNotBlank(),
+    errorText: String? = null,
+    isError: Boolean = !errorText.isNullOrBlank(),
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -85,7 +85,7 @@ fun OutlinedErrorTextField(
         if (isError) {
             Text(
                 modifier = Modifier.padding(start = 10.dp),
-                text = errorText,
+                text = errorText!!,
                 color = MemorizeTheme.colors.errorColor,
                 style = MemorizeTheme.typography.body
             )

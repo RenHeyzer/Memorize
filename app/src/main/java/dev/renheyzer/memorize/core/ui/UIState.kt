@@ -3,6 +3,7 @@ package dev.renheyzer.memorize.core.ui
 import dev.renheyzer.memorize.core.common.Either
 import dev.renheyzer.memorize.core.common.NetworkError
 import dev.renheyzer.memorize.core.common.fold
+import dev.renheyzer.memorize.core.ui.mapper.toUiText
 
 sealed interface UIState<out T> {
     val data: T?

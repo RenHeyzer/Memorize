@@ -2,34 +2,49 @@ package dev.renheyzer.memorize.feature.core.numbers.presentation.component.resul
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
-import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
-import dev.renheyzer.memorize.feature.core.numbers.domain.usecase.CheckAnswersUseCase
+import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
+import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersResult
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.result.ResultsAction
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.result.ResultsIntent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.store.result.ResultsStore
 import dev.renheyzer.memorize.feature.core.numbers.presentation.store.result.ResultsUiState
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class DefaultResultsComponent(
     componentContext: ComponentContext,
-    private val gameSessionStore: GameSessionStore,
-    private val checkAnswersUseCase: CheckAnswersUseCase,
-    private val navigateToHome: () -> Unit,
-    private val navigateToSetup: () -> Unit,
+    private val env: ComponentEnvironment,
+    private val results: NumbersResult,
+    private val finishResults: () -> Unit,
+    private val mapsToSetup: () -> Unit,
 ) : ResultsComponent, ComponentContext by componentContext {
 
+    private val scope = coroutineScope(env.mainContext + SupervisorJob())
+
     private val store = instanceKeeper.getOrCreate {
-        ResultsStore(
-            gameSessionStore = gameSessionStore,
-            checkAnswersUseCase = checkAnswersUseCase
-        )
+        ResultsStore(mainContext = env.mainContext, results = results)
     }
 
     override val uiState: StateFlow<ResultsUiState> = store.uiState
 
-    override fun onGoHomeClick() {
-        navigateToHome()
+    init {
+        observeActions()
     }
 
-    override fun onPlayAgainClick() {
-        navigateToSetup()
+    private fun observeActions() {
+        scope.launch {
+            store.actions.collect { action ->
+                when (action) {
+                    ResultsAction.FinishResults -> finishResults()
+                    ResultsAction.PlayAgain -> mapsToSetup()
+                }
+            }
+        }
+    }
+
+    override fun onIntent(intent: ResultsIntent) {
+        store.onIntent(intent)
     }
 }

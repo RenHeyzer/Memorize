@@ -114,7 +114,7 @@ private sealed interface ScreenConfig {
 
     @Serializable
     data class Verification(
-        val message: UiText? = null,
+        val message: String? = null,
         val oobCode: String? = null
     ) : ScreenConfig
 

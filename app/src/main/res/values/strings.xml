@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Memorize</string>
 
+    <string name="error_unknown">Unknown error</string>
+
     <!--  Registration  -->
     <string name="registration">Registration</string>
     <string name="email">Email</string>
@@ -25,8 +27,9 @@
     <string name="error_not_found">The data for your request was not found</string>
     <string name="error_server">There were errors with the server. Please try again later.</string>
     <string name="error_service_unavailable">The service is unavailable</string>
-    <string name="error_unknown">Unknown error</string>
+    <string name="error_network_unknown">Unknown network error</string>
     <string name="error_unauthorized">You are not logged in</string>
+    <string name="error_network_timeout">Server response timed out. Please try again.</string>
 
     <!--  Auth Errors  -->
     <string name="error_auth">Registration failed</string>

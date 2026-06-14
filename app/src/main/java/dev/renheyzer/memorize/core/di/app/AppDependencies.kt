@@ -18,5 +18,5 @@ interface AppDependencies {
     fun numbersDependencies(): NumbersDependencies
 
     val timerManager: TimerManager
-    val countdownTimerManager: CountdownTimerManager
+    fun createCountdownTimerManager(): CountdownTimerManager
 }

@@ -1,17 +1,20 @@
 package dev.renheyzer.memorize.feature.core.numbers.domain.usecase
 
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersMode
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersTask
 import kotlin.random.Random
 
 class GenerateNumbersUseCase {
 
-    operator fun invoke(quantity: Int, isRandom: Boolean = true): List<Int> {
-        if (quantity <= 0) return emptyList()
-
-        val numbers = if (isRandom) {
-            List(quantity) { Random.nextInt(1, 101) }
-        } else {
-            List(quantity) { if (Random.nextBoolean()) 1 else 0 }
+    operator fun invoke(quantity: Int, mode: NumbersMode): NumbersTask {
+        require(quantity > 0) {
+            "Numbers quantity must be greater than zero"
         }
-        return numbers
+
+        val numbers = when (mode) {
+            NumbersMode.BINARY -> List(quantity) { if (Random.nextBoolean()) 1 else 0 }
+            NumbersMode.RANDOM -> List(quantity) { Random.nextInt(1, 101) }
+        }
+        return NumbersTask(numbers)
     }
 }

@@ -5,7 +5,6 @@ import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
-import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.RegisterByEmailUseCase
 import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationEvents
 import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationStore
@@ -21,7 +20,7 @@ class RegistrationComponent(
     private val stringResolver: StringResolver,
     private val registerByEmailUseCase: RegisterByEmailUseCase,
     private val snackbarController: SnackbarController,
-    private val navigateToVerification: (message: UiText) -> Unit,
+    private val navigateToVerification: (message: String) -> Unit,
     private val navigateToLogin: () -> Unit
 ) : Registration, ComponentContext by componentContext {
 
@@ -39,9 +38,10 @@ class RegistrationComponent(
         scope.launch {
             store.events.collect { event ->
                 when (event) {
-                    is RegistrationEvents.NavigateToVerification -> navigateToVerification(
-                        event.message
-                    )
+                    is RegistrationEvents.NavigateToVerification -> {
+                        val message = stringResolver.resolve(event.message)
+                        navigateToVerification(message)
+                    }
 
                     is RegistrationEvents.ShowError -> {
                         val message = stringResolver.resolve(event.error)

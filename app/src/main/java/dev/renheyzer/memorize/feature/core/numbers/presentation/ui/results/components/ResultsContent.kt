@@ -80,7 +80,7 @@ fun ResultsContent(
             ) {
                 items(
                     items = numbersForThisPage,
-                    key = { result -> result.id }
+                    key = { result -> result.index }
                 ) { result ->
                     ResultItem(
                         number = result.number,
@@ -101,19 +101,19 @@ fun PreviewResultsContent() {
     MemorizeTheme {
         ResultsContent(
             details = listOf(
-                AnswerResult(id = 1, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 2, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 3, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 4, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 5, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 6, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 7, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 8, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 9, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 11, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 12, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 13, number = 23, answer = 32, isCorrect = false),
-                AnswerResult(id = 14, number = 23, answer = 32, isCorrect = false)
+                AnswerResult(index = 1, number = 23, answer = 32),
+                AnswerResult(index = 2, number = 23, answer = 32),
+                AnswerResult(index = 3, number = 23, answer = 32),
+                AnswerResult(index = 4, number = 23, answer = 32),
+                AnswerResult(index = 5, number = 23, answer = 32),
+                AnswerResult(index = 6, number = 23, answer = 32),
+                AnswerResult(index = 7, number = 23, answer = 32),
+                AnswerResult(index = 8, number = 23, answer = 32),
+                AnswerResult(index = 9, number = 23, answer = 32),
+                AnswerResult(index = 11, number = 23, answer = 32),
+                AnswerResult(index = 12, number = 23, answer = 32),
+                AnswerResult(index = 13, number = 23, answer = 32),
+                AnswerResult(index = 14, number = 23, answer = 32)
             ),
             correctCount = 24,
             totalCount = 32,

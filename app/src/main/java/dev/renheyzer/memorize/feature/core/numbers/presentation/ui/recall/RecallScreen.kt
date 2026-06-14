@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.component.MemorizeTopBar
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.recall.RecallComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall.RecallIntent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.FooterContent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.memorization.components.MemorizationContent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.ui.recall.components.RecallItem
@@ -49,11 +50,13 @@ fun RecallScreen(
             MemorizeTopBar(
                 title = stringResource(id = R.string.level_title, 1),
                 subtitle = stringResource(id = R.string.level_subtitle),
+                isBackClickEnabled = !uiState.isFinished,
                 onBackClick = onBackClick
             )
         },
         bottomBar = {
             FooterContent(
+                isCompleteEnabled = !uiState.isFinished,
                 isComplete = {
                     isLastPage
                 },
@@ -72,7 +75,7 @@ fun RecallScreen(
                         }
                     }
                 },
-                onCompleteClick = component::onCompleteClick
+                onCompleteClick = { component.onIntent(RecallIntent.OnCompleteClick) }
             )
         }
     ) { innerPadding ->
@@ -86,8 +89,14 @@ fun RecallScreen(
                 RecallItem(
                     number = number?.toString() ?: "",
                     onNumberChanged = { number ->
-                        component.whenUserEnteredAnswer(index = absoluteIndex, answer = number)
-                    }
+                        component.onIntent(
+                            RecallIntent.OnUserAnswerChanged(
+                                index = absoluteIndex,
+                                answer = number
+                            )
+                        )
+                    },
+                    enabled = !uiState.isFinished
                 )
             }
         )

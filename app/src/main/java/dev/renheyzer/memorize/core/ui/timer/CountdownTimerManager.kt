@@ -1,11 +1,16 @@
 package dev.renheyzer.memorize.core.ui.timer
 
+import android.os.SystemClock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -37,13 +42,13 @@ class CountdownTimerManager(
         if (_isRunning.value || _timeLeft.value <= 0) return
 
         _isRunning.value = true
-        startTime = System.currentTimeMillis()
+        startTime = SystemClock.elapsedRealtime()
 
         val durationSnapshot = initialDuration
 
         job = scope.launch {
             while (isActive) {
-                val currentTime = System.currentTimeMillis()
+                val currentTime = SystemClock.elapsedRealtime()
                 val timeElapsedSinceStart = currentTime - startTime
 
                 val newTimeLeft = durationSnapshot - timeElapsedSinceStart
@@ -85,4 +90,13 @@ class CountdownTimerManager(
     sealed interface TimerEvent {
         data object Finished : TimerEvent
     }
+}
+
+fun CountdownTimerManager.onEachSecond(scope: CoroutineScope, action: (String) -> Unit) {
+    timeLeft.map(Long::toDisplaySeconds)
+        .distinctUntilChanged()
+        .map(Long::formatAsTimerMMSS)
+        .onEach { timerText ->
+            action(timerText)
+        }.launchIn(scope)
 }

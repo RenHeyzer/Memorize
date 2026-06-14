@@ -32,6 +32,7 @@ fun MemorizeTopBar(
     title: String,
     subtitle: String? = null,
     modifier: Modifier = Modifier,
+    isBackClickEnabled: Boolean = true,
     onBackClick: (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
@@ -47,7 +48,8 @@ fun MemorizeTopBar(
             if (onBackClick != null) {
                 IconButton(
                     onClick = onBackClick,
-                    modifier = Modifier.align(Alignment.CenterStart)
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    enabled = isBackClickEnabled
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back_24),

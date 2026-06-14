@@ -1,11 +1,11 @@
 package dev.renheyzer.memorize.feature.core.numbers.presentation.component.setup
 
-import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupEvent
-import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupUiState
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupIntent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupState
 import kotlinx.coroutines.flow.StateFlow
 
 interface NumbersSetupComponent {
-    val uiState: StateFlow<NumbersSetupUiState>
+    val uiState: StateFlow<NumbersSetupState>
 
-    fun onEvent(event: NumbersSetupEvent)
+    fun onIntent(intent: NumbersSetupIntent)
 }

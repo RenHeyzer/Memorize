@@ -49,11 +49,13 @@ fun MemorizationScreen(
             MemorizeTopBar(
                 title = stringResource(id = R.string.level_title, 1),
                 subtitle = stringResource(id = R.string.level_subtitle),
-                onBackClick = onBackClick,
+                isBackClickEnabled = !uiState.isFinished,
+                onBackClick = onBackClick
             )
         },
         bottomBar = {
             FooterContent(
+                isCompleteEnabled = !uiState.isFinished,
                 isComplete = {
                     isLastPage
                 },

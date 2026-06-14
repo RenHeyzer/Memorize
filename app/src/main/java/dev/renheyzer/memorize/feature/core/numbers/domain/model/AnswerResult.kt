@@ -1,8 +1,12 @@
 package dev.renheyzer.memorize.feature.core.numbers.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class AnswerResult(
-    val id: Int,
+    val index: Int,
     val number: Int,
     val answer: Int? = null,
-    val isCorrect: Boolean = false,
-)
+) {
+    val isCorrect: Boolean = number == answer
+}

@@ -3,19 +3,20 @@ package dev.renheyzer.memorize.feature.core.numbers.presentation.component.memor
 import com.arkivanov.decompose.ComponentContext
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
 import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersParam
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersTask
 
 fun ComponentFactory.createMemorizationComponent(
     context: ComponentContext,
-    numbersDependencies: NumbersDependencies,
-    params: MemorizationComponent.Params,
-    navigateToRecall: () -> Unit
+    params: NumbersParam,
+    task: NumbersTask,
+    finishMemorization: () -> Unit
 ): MemorizationComponent =
     DefaultMemorizationComponent(
         componentContext = context,
         env = appDependencies.componentEnvironment,
-        generateNumbersUseCase = numbersDependencies.generateNumbersUseCase,
-        gameSessionStore = numbersDependencies.gameSessionStore,
-        countdownTimerManager = appDependencies.countdownTimerManager,
+        countdownTimerManager = appDependencies.createCountdownTimerManager(),
         params = params,
-        navigateToRecall = navigateToRecall
+        task = task,
+        finishMemorization = finishMemorization
     )

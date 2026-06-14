@@ -2,12 +2,13 @@ package dev.renheyzer.memorize.feature.auth.presentation.store.registration
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.R
+import dev.renheyzer.memorize.core.common.NetworkError
 import dev.renheyzer.memorize.core.common.fold
 import dev.renheyzer.memorize.core.ui.SnackbarAction
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.SnackbarEvent
 import dev.renheyzer.memorize.core.ui.UiText
-import dev.renheyzer.memorize.core.ui.toUiText
+import dev.renheyzer.memorize.core.ui.mapper.toUiText
 import dev.renheyzer.memorize.feature.auth.domain.model.ValidationError
 import dev.renheyzer.memorize.feature.auth.domain.usecase.registration.RegisterByEmailUseCase
 import dev.renheyzer.memorize.feature.auth.presentation.model.ValidationErrorUI
@@ -55,7 +56,7 @@ class RegistrationStore(
                     _uiState.update { it.copy(isLoading = false) }
                     when (error) {
                         is ValidationError -> _uiState.update { it.copy(validationError = error.toUI()) }
-                        else -> {
+                        is NetworkError -> {
                             val message = error.toUiText()
                             _events.send(RegistrationEvents.ShowError(message))
                         }
