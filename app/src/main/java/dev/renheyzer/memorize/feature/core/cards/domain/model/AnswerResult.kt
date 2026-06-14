@@ -1,5 +1,8 @@
 package dev.renheyzer.memorize.feature.core.cards.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class AnswerResult(
     val id: Int,
     val memorizedCard: Card,
