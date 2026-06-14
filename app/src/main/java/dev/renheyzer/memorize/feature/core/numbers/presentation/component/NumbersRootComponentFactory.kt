@@ -9,6 +9,7 @@ fun ComponentFactory.createNumbersRootComponent(
 ): NumbersRootComponent =
     DefaultNumbersRootComponent(
         componentContext = context,
+        env = appDependencies.componentEnvironment,
         factory = this,
         numbersDependenciesFactory = { appDependencies.numbersDependencies() },
         backHome = backHome

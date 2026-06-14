@@ -24,7 +24,7 @@ import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun RecallItem(number: String, onNumberChanged: (String) -> Unit, modifier: Modifier = Modifier) {
+fun RecallItem(number: String, onNumberChanged: (String) -> Unit, enabled: Boolean, modifier: Modifier = Modifier) {
     val numberState = rememberTextFieldState(initialText = number)
 
     LaunchedEffect(numberState) {
@@ -64,7 +64,8 @@ fun RecallItem(number: String, onNumberChanged: (String) -> Unit, modifier: Modi
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     innerTextField()
                 }
-            }
+            },
+            enabled = enabled
         )
     }
 }
@@ -73,6 +74,6 @@ fun RecallItem(number: String, onNumberChanged: (String) -> Unit, modifier: Modi
 @Composable
 fun PreviewRecallItem() {
     MemorizeTheme {
-        RecallItem(number = "23", onNumberChanged = { })
+        RecallItem(number = "23", onNumberChanged = { }, enabled = true)
     }
 }

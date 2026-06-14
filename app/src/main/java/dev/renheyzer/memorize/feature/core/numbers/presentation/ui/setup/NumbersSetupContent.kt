@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.UiText
+import dev.renheyzer.memorize.core.ui.asString
 import dev.renheyzer.memorize.core.ui.component.MemorizeActionButton
 import dev.renheyzer.memorize.core.ui.component.MemorizeOutlinedTextField
 import dev.renheyzer.memorize.core.ui.component.MemorizeSwitch
@@ -48,8 +50,8 @@ fun NumbersSetupContent(
     onRememberTimeChanged: (String) -> Unit,
     onBinaryToggled: (Boolean) -> Unit,
     onStartClicked: () -> Unit,
-    quantityError: UiText,
-    rememberTimeError: UiText
+    quantityError: UiText? = null,
+    rememberTimeError: UiText? = null
 ) {
     val quantityState = rememberTextFieldState()
     val rememberTimeState = rememberTextFieldState()
@@ -75,8 +77,8 @@ fun NumbersSetupContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val isQuantityError = quantityError.asString().isNotBlank()
-        val isRememberTimeError = rememberTimeError.asString().isNotBlank()
+        val isQuantityError = quantityError?.asString()?.isNotBlank() ?: false
+        val isRememberTimeError = rememberTimeError?.asString()?.isNotBlank() ?: false
 
         MemorizeOutlinedTextField(
             state = quantityState,
@@ -127,7 +129,9 @@ fun NumbersSetupContent(
                 }
             },
             outputTransformation = OutputTransformation {
-                if (length > 2) insert(2, ":")
+                if (length > 2) {
+                    insert(length - 2, ":")
+                }
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
@@ -178,8 +182,8 @@ fun PreviewNumbersSetupContent() {
             onRememberTimeChanged = {},
             onBinaryToggled = {},
             onStartClicked = {},
-            quantityError = UiText.Empty,
-            rememberTimeError = UiText.Empty
+            quantityError = null,
+            rememberTimeError = null
         )
     }
 }

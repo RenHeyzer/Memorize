@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
+import dev.renheyzer.memorize.core.ui.asString
 import dev.renheyzer.memorize.core.ui.component.MemorizeDefaultButton
 import dev.renheyzer.memorize.core.ui.component.OutlinedErrorTextField
 import dev.renheyzer.memorize.feature.auth.presentation.store.registration.RegistrationUiState
@@ -74,7 +75,7 @@ fun RegistrationContent(
             onValueChange = {
                 email = it
             },
-            errorText = uiState.validationError.email.asString(context),
+            errorText = uiState.validationError.email?.asString(context),
             label = {
                 Text(
                     text = stringResource(R.string.email),
@@ -95,7 +96,7 @@ fun RegistrationContent(
             onValueChange = {
                 password = it
             },
-            errorText = uiState.validationError.password.asString(context),
+            errorText = uiState.validationError.password?.asString(context),
             label = {
                 Text(
                     text = stringResource(R.string.password),
@@ -116,7 +117,7 @@ fun RegistrationContent(
             onValueChange = {
                 confirmPassword = it
             },
-            errorText = uiState.validationError.confirmPassword.asString(context),
+            errorText = uiState.validationError.confirmPassword?.asString(context),
             label = {
                 Text(
                     text = stringResource(R.string.confirm_password),

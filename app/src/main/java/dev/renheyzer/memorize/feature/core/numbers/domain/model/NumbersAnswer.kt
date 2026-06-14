@@ -1,5 +1,8 @@
 package dev.renheyzer.memorize.feature.core.numbers.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class NumbersAnswer(
     val values: List<Int?>
 ) {

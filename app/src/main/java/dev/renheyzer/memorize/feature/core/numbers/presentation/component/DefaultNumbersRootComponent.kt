@@ -8,26 +8,51 @@ import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Memorization
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Recall
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Results
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.NumbersRootComponent.Child.Setup
-import dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization.MemorizationComponent.Params
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.memorization.createMemorizationComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.recall.createRecallComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.result.createResultsComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.setup.createNumbersSetupComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.NumbersSessionIntent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.NumbersSessionStore
 import kotlinx.serialization.Serializable
+
+private const val KEY_SESSION_STATE = "sessionState"
 
 class DefaultNumbersRootComponent(
     componentContext: ComponentContext,
+    private val env: ComponentEnvironment,
     private val factory: ComponentFactory,
     private val numbersDependenciesFactory: () -> NumbersDependencies,
     private val backHome: () -> Unit
 ) : NumbersRootComponent, ComponentContext by componentContext {
 
     private val numbersDependencies = instanceKeeper.getOrCreate { numbersDependenciesFactory() }
+
+    private val sessionStore = instanceKeeper.getOrCreate {
+        NumbersSessionStore(
+            mainContext = env.mainContext,
+            savedState = stateKeeper.consume(
+                key = KEY_SESSION_STATE,
+                strategy = NumbersSessionState.serializer()
+            ),
+            generateNumbersUseCase = numbersDependencies.generateNumbersUseCase,
+            calculateNumbersResultUseCase = numbersDependencies.calculateNumbersResultUseCase
+        )
+    }
+
+    init {
+        stateKeeper.register(
+            key = KEY_SESSION_STATE,
+            strategy = NumbersSessionState.serializer(),
+            supplier = sessionStore.sessionState::value
+        )
+    }
 
     private val navigation = StackNavigation<Config>()
 
@@ -47,14 +72,9 @@ class DefaultNumbersRootComponent(
             Config.Setup -> Setup(
                 factory.createNumbersSetupComponent(
                     context = componentContext,
-                    navigateToMemorization = { options ->
-                        navigation.replaceCurrent(
-                            Config.Memorization(
-                                quantity = options.quantity,
-                                time = options.rememberTime,
-                                isRandom = !options.isBinary
-                            )
-                        )
+                    saveParamsAndStartGame = { params ->
+                        sessionStore.onIntent(intent = NumbersSessionIntent.OnSetupCompleted(params))
+                        navigation.replaceCurrent(Config.Memorization)
                     }
                 )
             )
@@ -62,14 +82,15 @@ class DefaultNumbersRootComponent(
             is Config.Memorization -> Memorization(
                 factory.createMemorizationComponent(
                     context = componentContext,
-                    numbersDependencies = numbersDependencies,
-                    params = Params(
-                        quantity = config.quantity,
-                        time = config.time,
-                        isRandom = config.isRandom,
-                    ),
-                    navigateToRecall = {
-                        navigation.replaceCurrent(Config.Recall(time = config.time))
+                    params = requireNotNull(sessionStore.sessionState.value.params) {
+                        "Params cannot be null when setup completed"
+                    },
+                    task = requireNotNull(sessionStore.sessionState.value.task) {
+                        "Task cannot be null when setup completed"
+                    },
+                    finishMemorization = {
+                        sessionStore.onIntent(intent = NumbersSessionIntent.OnMemorizationFinished)
+                        navigation.replaceCurrent(Config.Recall)
                     }
                 )
             )
@@ -77,9 +98,11 @@ class DefaultNumbersRootComponent(
             is Config.Recall -> Recall(
                 factory.createRecallComponent(
                     context = componentContext,
-                    numbersDependencies = numbersDependencies,
-                    time = config.time,
-                    navigateToResults = {
+                    params = requireNotNull(sessionStore.sessionState.value.params) {
+                        "Params cannot be null when setup completed"
+                    },
+                    finishRecall = { answers ->
+                        sessionStore.onIntent(intent = NumbersSessionIntent.OnRecallFinished(answers))
                         navigation.replaceCurrent(Config.Results)
                     }
                 )
@@ -88,9 +111,11 @@ class DefaultNumbersRootComponent(
             is Config.Results -> Results(
                 factory.createResultsComponent(
                     context = componentContext,
-                    numbersDependencies = numbersDependencies,
-                    navigateToHome = backHome,
-                    navigateToSetup = {
+                    results = requireNotNull(sessionStore.sessionState.value.result) {
+                        "Results cannot be null when recall completed"
+                    },
+                    finishResults = backHome,
+                    mapsToSetup = {
                         navigation.replaceCurrent(Config.Setup)
                     }
                 )
@@ -105,10 +130,10 @@ private sealed interface Config {
     data object Setup : Config
 
     @Serializable
-    data class Memorization(val quantity: Int, val time: Long, val isRandom: Boolean) : Config
+    data object Memorization : Config
 
     @Serializable
-    data class Recall(val time: Long) : Config
+    data object Recall : Config
 
     @Serializable
     data object Results : Config

@@ -15,12 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.UiText
+import dev.renheyzer.memorize.core.ui.asString
 import dev.renheyzer.memorize.core.ui.component.MemorizeDefaultButton
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun VerificationSuccessScreen(
-    message: UiText,
+    message: UiText? = null,
     onNext: () -> Unit
 ) {
     Column(
@@ -37,10 +38,12 @@ fun VerificationSuccessScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = message.asString(),
-            style = MemorizeTheme.typography.body
-        )
+        if (message != null) {
+            Text(
+                text = message.asString(),
+                style = MemorizeTheme.typography.body
+            )
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 

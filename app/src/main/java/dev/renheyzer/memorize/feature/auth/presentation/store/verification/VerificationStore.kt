@@ -9,8 +9,10 @@ import dev.renheyzer.memorize.core.ui.SnackbarEvent
 import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.core.ui.timer.formatAsTimerMMSS
-import dev.renheyzer.memorize.core.ui.toUiText
+import dev.renheyzer.memorize.core.ui.timer.toDisplaySeconds
+import dev.renheyzer.memorize.feature.auth.domain.AuthError
 import dev.renheyzer.memorize.feature.auth.domain.repository.AuthRepository
+import dev.renheyzer.memorize.feature.auth.presentation.mapper.toUiText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -19,6 +21,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -39,11 +43,14 @@ class VerificationStore(
 
     val uiState: StateFlow<VerificationUiState> = combine(
         _uiState,
-        countdownTimerManager.timeLeft,
+        countdownTimerManager.timeLeft
+            .map(Long::toDisplaySeconds)
+            .distinctUntilChanged()
+            .map(Long::formatAsTimerMMSS),
         countdownTimerManager.isRunning
     ) { uiState, timeLeft, isRunning ->
         uiState.copy(
-            timerValue = timeLeft.formatAsTimerMMSS(),
+            timerValue = timeLeft,
             isResendEnabled = !uiState.isLoading && !isRunning
         )
     }.stateIn(
@@ -85,9 +92,13 @@ class VerificationStore(
                     }
                 },
                 onLeft = { error ->
-                    _uiState.update { it.copy(isLoading = false) }
-                    val message = error.toUiText()
-                    _events.send(VerificationEvents.ShowError(message))
+                    when (error) {
+                        is AuthError -> {
+                            _uiState.update { it.copy(isLoading = false) }
+                            val message = error.toUiText()
+                            _events.send(VerificationEvents.ShowError(message))
+                        }
+                    }
                 }
             )
         }
@@ -149,10 +160,10 @@ data class VerificationUiState(
     val email: String = "",
     val timerValue: String = "00:00",
     val isResendEnabled: Boolean = false,
-    val error: UiText = UiText.Empty,
+    val error: UiText? = null,
     val isFatalError: Boolean = false,
     val isSuccess: Boolean = false,
-    val successMessage: UiText = UiText.Empty
+    val successMessage: UiText? = null
 )
 
 sealed interface VerificationEvents {

@@ -36,5 +36,5 @@ class AppDependenciesImpl(context: Context) : AppDependencies {
 
 
     override val timerManager: TimerManager by lazy { TimerManager() }
-    override val countdownTimerManager: CountdownTimerManager by lazy { CountdownTimerManager() }
+    override fun createCountdownTimerManager() = CountdownTimerManager()
 }

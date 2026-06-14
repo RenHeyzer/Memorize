@@ -1,12 +1,12 @@
 package dev.renheyzer.memorize.feature.core.numbers.presentation.component.setup
 
-import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupEvent
-import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupUiState
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupIntent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class FakeNumbersSetupComponent : NumbersSetupComponent {
-    override val uiState: StateFlow<NumbersSetupUiState> = MutableStateFlow(NumbersSetupUiState())
+    override val uiState: StateFlow<NumbersSetupState> = MutableStateFlow(NumbersSetupState())
 
-    override fun onEvent(event: NumbersSetupEvent) = Unit
+    override fun onIntent(event: NumbersSetupIntent) = Unit
 }

@@ -3,11 +3,17 @@ package dev.renheyzer.memorize.feature.core.numbers.presentation.component.recal
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
+import com.arkivanov.essenty.lifecycle.doOnPause
 import com.arkivanov.essenty.lifecycle.doOnResume
-import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
+import dev.renheyzer.memorize.R
+import dev.renheyzer.memorize.core.ui.SnackbarEvent
+import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
-import dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall.RecallEvents
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersAnswer
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersParam
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall.RecallAction
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall.RecallIntent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall.RecallStore
 import dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall.RecallUiState
 import kotlinx.coroutines.SupervisorJob
@@ -18,59 +24,69 @@ import kotlinx.coroutines.launch
 class DefaultRecallComponent(
     componentContext: ComponentContext,
     private val env: ComponentEnvironment,
-    private val gameSessionStore: GameSessionStore,
     private val countdownTimerManager: CountdownTimerManager,
-    private val time: Long,
-    private val navigateToResults: () -> Unit
+    private val params: NumbersParam,
+    private val finishRecall: (answers: NumbersAnswer) -> Unit
 ) : RecallComponent, ComponentContext by componentContext {
 
     private val scope = coroutineScope(env.mainContext + SupervisorJob())
 
     private val store = instanceKeeper.getOrCreate {
         RecallStore(
-            env = env,
-            gameSessionStore = gameSessionStore,
+            mainContext = env.mainContext,
             countdownTimerManager = countdownTimerManager,
-            time = time
+            params = params,
         )
     }
 
     override val uiState: StateFlow<RecallUiState> = store.recallState
-
     override val timerState: StateFlow<String> = store.timerState
 
     init {
-        observeEvents()
+        observeActions()
 
         lifecycle.doOnResume {
             store.startTimer()
         }
+        lifecycle.doOnPause {
+            store.pauseTimer()
+        }
     }
 
-    private fun observeEvents() {
+    private fun observeActions() {
         scope.launch {
-            store.events.collect { event ->
-                when (event) {
-                    is RecallEvents.OnTimeOut -> {
-                        val message = env.stringResolver.resolve(event.message)
-                        store.showMessage(message = message)
-                        delay(2000L)
-                        navigateToResults()
+            store.actions.collect { action ->
+                when (action) {
+                    is RecallAction.OnTimeUp -> {
+                        val message = UiText.StringResource(R.string.time_up)
+                        val strMessage = env.stringResolver.resolve(message)
+                        showMessage(message = strMessage)
+
+                        scope.launch {
+                            delay(2000L)
+                            finishRecall(action.answers)
+                        }
                     }
 
-                    RecallEvents.NavigateToResults -> {
-                        navigateToResults()
+                    is RecallAction.FinishRecall -> {
+                        finishRecall(action.answers)
                     }
                 }
             }
         }
     }
 
-    override fun whenUserEnteredAnswer(index: Int, answer: String) {
-        store.addUserAnswer(index = index, answer = answer)
+    override fun onIntent(intent: RecallIntent) {
+        store.onIntent(intent)
     }
 
-    override fun onCompleteClick() {
-        store.saveUserAnswers()
+    fun showMessage(message: String) {
+        scope.launch {
+            env.snackbarController.sendEvent(
+                SnackbarEvent(
+                    message = message
+                )
+            )
+        }
     }
 }

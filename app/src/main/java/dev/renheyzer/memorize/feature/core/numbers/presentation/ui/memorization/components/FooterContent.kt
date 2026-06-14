@@ -28,6 +28,7 @@ import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 @Composable
 fun FooterContent(
     modifier: Modifier = Modifier,
+    isCompleteEnabled: Boolean = true,
     isComplete: () -> Boolean,
     isPrevEnabled: () -> Boolean,
     onNextClick: () -> Unit,
@@ -81,7 +82,8 @@ fun FooterContent(
                                     contentDescription = stringResource(R.string.complete),
                                     tint = MemorizeTheme.colors.secondaryText
                                 )
-                            }
+                            },
+                            enabled = isCompleteEnabled
                         )
                     } else {
                         MemorizeActionButton(
@@ -109,6 +111,7 @@ fun FooterContent(
 fun PreviewFooterContent() {
     MemorizeTheme {
         FooterContent(
+            isCompleteEnabled = true,
             isComplete = { true },
             isPrevEnabled = { false },
             onNextClick = {},

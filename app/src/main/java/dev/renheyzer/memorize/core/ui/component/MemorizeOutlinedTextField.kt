@@ -23,6 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import dev.renheyzer.memorize.core.ui.UiText
+import dev.renheyzer.memorize.core.ui.asString
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
@@ -40,7 +41,7 @@ fun MemorizeOutlinedTextField(
     prefix: @Composable (() -> Unit)? = null,
     suffix: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
-    errorMessage: UiText = UiText.Empty,
+    errorMessage: UiText? = null,
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -68,7 +69,7 @@ fun MemorizeOutlinedTextField(
             if (isError) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = errorMessage.asString(),
+                    text = errorMessage?.asString() ?: "",
                     color = MemorizeTheme.colors.errorColor,
                     style = MemorizeTheme.typography.body
                 )

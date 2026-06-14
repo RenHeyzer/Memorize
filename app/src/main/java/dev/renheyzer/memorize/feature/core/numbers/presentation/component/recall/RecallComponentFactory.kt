@@ -2,18 +2,17 @@ package dev.renheyzer.memorize.feature.core.numbers.presentation.component.recal
 
 import com.arkivanov.decompose.ComponentContext
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
-import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersAnswer
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersParam
 
 fun ComponentFactory.createRecallComponent(
     context: ComponentContext,
-    numbersDependencies: NumbersDependencies,
-    time: Long,
-    navigateToResults: () -> Unit
+    params: NumbersParam,
+    finishRecall: (answers: NumbersAnswer) -> Unit
 ): RecallComponent = DefaultRecallComponent(
     componentContext = context,
     env = appDependencies.componentEnvironment,
-    time = time,
-    countdownTimerManager = appDependencies.countdownTimerManager,
-    gameSessionStore = numbersDependencies.gameSessionStore,
-    navigateToResults = navigateToResults
+    params = params,
+    countdownTimerManager = appDependencies.createCountdownTimerManager(),
+    finishRecall = finishRecall
 )

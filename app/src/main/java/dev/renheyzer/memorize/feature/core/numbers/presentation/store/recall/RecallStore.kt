@@ -1,13 +1,10 @@
 package dev.renheyzer.memorize.feature.core.numbers.presentation.store.recall
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
-import dev.renheyzer.memorize.R
-import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
-import dev.renheyzer.memorize.core.ui.SnackbarEvent
-import dev.renheyzer.memorize.core.ui.UiText
-import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
-import dev.renheyzer.memorize.core.ui.timer.formatAsTimerMMSS
+import dev.renheyzer.memorize.core.ui.timer.onEachSecond
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersAnswer
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -19,19 +16,19 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 import kotlin.math.ceil
 
 class RecallStore(
-    private val env: ComponentEnvironment,
-    private val gameSessionStore: GameSessionStore,
+    mainContext: CoroutineContext,
     private val countdownTimerManager: CountdownTimerManager,
-    private val time: Long
+    private val params: NumbersParam
 ) : InstanceKeeper.Instance {
-    private val scope = CoroutineScope(env.mainContext + SupervisorJob())
+    private val scope = CoroutineScope(mainContext + SupervisorJob())
 
     private val _recallState = MutableStateFlow(
         RecallUiState(
-            answers = List(gameSessionStore.generatedNumbers.size) { null }
+            answers = List(params.quantity) { null }
         )
     )
     val recallState = _recallState.asStateFlow()
@@ -39,40 +36,56 @@ class RecallStore(
     private val _timerState = MutableStateFlow("")
     val timerState = _timerState.asStateFlow()
 
-    private val _events = Channel<RecallEvents>(Channel.BUFFERED)
-    val events = _events.receiveAsFlow()
+    private val _actions = Channel<RecallAction>(Channel.BUFFERED)
+    val actions = _actions.receiveAsFlow()
 
     init {
+        countdownTimerManager.setDuration(params.recallTimeSeconds * 1000L)
+
         observeTimer()
         observeTimerEvents()
     }
 
     fun startTimer() {
-        countdownTimerManager.setDuration(time)
         countdownTimerManager.start(scope)
     }
 
+    fun pauseTimer() {
+        countdownTimerManager.pause()
+    }
+
     private fun observeTimer() {
-        countdownTimerManager.timeLeft
-            .onEach { value ->
-                _timerState.update { value.formatAsTimerMMSS() }
-            }.launchIn(scope)
+        countdownTimerManager.onEachSecond(scope) { timerText ->
+            _timerState.update { timerText }
+        }
     }
 
     private fun observeTimerEvents() {
         countdownTimerManager.events
             .onEach { event ->
                 if (event is CountdownTimerManager.TimerEvent.Finished) {
-                    val userAnswers = _recallState.value.answers
-                    gameSessionStore.saveUserAnswers(userAnswers)
+                    if (_recallState.value.isFinished) return@onEach
+                    _recallState.update { state -> state.copy(isFinished = true) }
 
-                    val message = UiText.StringResource(R.string.time_up)
-                    _events.send(RecallEvents.OnTimeOut(message))
+                    val numbersAnswer = NumbersAnswer(values = _recallState.value.answers)
+
+                    _actions.send(RecallAction.OnTimeUp(numbersAnswer))
                 }
             }.launchIn(scope)
     }
 
-    fun addUserAnswer(index: Int, answer: String) {
+    fun onIntent(intent: RecallIntent) {
+        when (intent) {
+            is RecallIntent.OnUserAnswerChanged -> changeUserAnswer(
+                index = intent.index,
+                answer = intent.answer
+            )
+
+            RecallIntent.OnCompleteClick -> finishRecall()
+        }
+    }
+
+    private fun changeUserAnswer(index: Int, answer: String) {
         val answerOrNull = answer.ifEmpty { null }
 
         _recallState.update { state ->
@@ -87,13 +100,14 @@ class RecallStore(
         }
     }
 
-    fun saveUserAnswers() {
-        val userAnswers = _recallState.value.answers
+    private fun finishRecall() {
+        if (_recallState.value.isFinished) return
+        _recallState.update { state -> state.copy(isFinished = true) }
 
-        gameSessionStore.saveUserAnswers(answers = userAnswers)
+        val numbersAnswer = NumbersAnswer(values = _recallState.value.answers)
 
         scope.launch {
-            _events.send(RecallEvents.NavigateToResults)
+            _actions.send(RecallAction.FinishRecall(numbersAnswer))
         }
     }
 
@@ -101,28 +115,24 @@ class RecallStore(
         countdownTimerManager.stop()
         scope.cancel()
     }
-
-    fun showMessage(message: String) {
-        scope.launch {
-            env.snackbarController.sendEvent(
-                SnackbarEvent(
-                    message = message
-                )
-            )
-        }
-    }
 }
 
 data class RecallUiState(
     val answers: List<Int?> = emptyList(),
     val isAllFilled: Boolean = false,
-    val itemPerPage: Int = 9
+    val itemPerPage: Int = 9,
+    val isFinished: Boolean = false
 ) {
     val pageCount: Int
         get() = ceil(answers.size.toDouble() / itemPerPage).toInt()
 }
 
-sealed interface RecallEvents {
-    data class OnTimeOut(val message: UiText) : RecallEvents
-    data object NavigateToResults : RecallEvents
+sealed interface RecallIntent {
+    data class OnUserAnswerChanged(val index: Int, val answer: String) : RecallIntent
+    data object OnCompleteClick : RecallIntent
+}
+
+sealed interface RecallAction {
+    data class OnTimeUp(val answers: NumbersAnswer) : RecallAction
+    data class FinishRecall(val answers: NumbersAnswer) : RecallAction
 }

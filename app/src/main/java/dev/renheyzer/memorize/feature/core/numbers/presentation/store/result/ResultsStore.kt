@@ -1,39 +1,65 @@
 package dev.renheyzer.memorize.feature.core.numbers.presentation.store.result
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
-import dev.renheyzer.memorize.core.components.core.numbers.store.GameSessionStore
 import dev.renheyzer.memorize.feature.core.numbers.domain.model.AnswerResult
-import dev.renheyzer.memorize.feature.core.numbers.domain.usecase.CheckAnswersUseCase
+import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 import kotlin.math.ceil
 
 class ResultsStore(
-    private val gameSessionStore: GameSessionStore,
-    private val checkAnswersUseCase: CheckAnswersUseCase
+    mainContext: CoroutineContext,
+    private val results: NumbersResult
 ) : InstanceKeeper.Instance {
+    private val scope = CoroutineScope(mainContext + SupervisorJob())
+
     private val _uiState = MutableStateFlow(ResultsUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val _actions = Channel<ResultsAction>()
+    val actions = _actions.receiveAsFlow()
+
     init {
-        calculateAndGetGameResults()
+        mapNumbersResultToUi()
     }
 
-    private fun calculateAndGetGameResults() {
-        val isRandom = gameSessionStore.isRandom
-        val numbers = gameSessionStore.generatedNumbers
-        val answers = gameSessionStore.userAnswers
-
-        val results = checkAnswersUseCase(numbers = numbers, answers = answers, isRandom = isRandom)
-
+    private fun mapNumbersResultToUi() {
         _uiState.update {
             it.copy(
                 details = results.details,
                 correctCount = results.correctCount,
                 totalCount = results.totalCount,
-                scorePercentage = results.scorePercentage
+                scorePercentage = results.accuracy
             )
+        }
+    }
+
+    fun onIntent(intent: ResultsIntent) {
+        when (intent) {
+            ResultsIntent.OnCompleteClicked -> {
+                if (_uiState.value.isFinished) return
+                _uiState.update { it.copy(isFinished = true) }
+
+                scope.launch {
+                    _actions.send(ResultsAction.FinishResults)
+                }
+            }
+
+            ResultsIntent.OnPlayAgainClicked -> {
+                if (_uiState.value.isFinished) return
+                _uiState.update { it.copy(isFinished = true) }
+
+                scope.launch {
+                    _actions.send(ResultsAction.PlayAgain)
+                }
+            }
         }
     }
 }
@@ -43,8 +69,19 @@ data class ResultsUiState(
     val correctCount: Int = 0,
     val totalCount: Int = 0,
     val scorePercentage: Float = 0f,
-    val itemPerPage: Int = 9
+    val itemPerPage: Int = 9,
+    val isFinished: Boolean = false
 ) {
     val pageCount: Int
         get() = ceil(details.size.toDouble() / itemPerPage).toInt()
+}
+
+sealed interface ResultsIntent {
+    data object OnPlayAgainClicked : ResultsIntent
+    data object OnCompleteClicked : ResultsIntent
+}
+
+sealed interface ResultsAction {
+    data object PlayAgain : ResultsAction
+    data object FinishResults : ResultsAction
 }

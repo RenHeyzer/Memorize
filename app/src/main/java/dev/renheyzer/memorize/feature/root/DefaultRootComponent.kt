@@ -77,7 +77,7 @@ class DefaultRootComponent(
                         stringResolver = appDependencies.componentEnvironment.stringResolver,
                         authDependenciesFactory = { appDependencies.authDependencies() },
                         snackbarController = appDependencies.snackbarController,
-                        countdownTimerManager = appDependencies.countdownTimerManager,
+                        countdownTimerManager = appDependencies.createCountdownTimerManager(),
                         deepLinkCode = config.deepLinkCode,
                         navigateToHome = {
                             navigation.replaceAll(ChildConfig.Core)
