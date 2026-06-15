@@ -6,7 +6,6 @@ import dev.renheyzer.memorize.feature.core.cards.domain.model.CardsParam
 import dev.renheyzer.memorize.feature.core.cards.domain.usecase.CalculateCardsResultUseCase
 import dev.renheyzer.memorize.feature.core.cards.domain.usecase.GenerateOrderedDeckUseCase
 import dev.renheyzer.memorize.feature.core.cards.domain.usecase.ShuffleDeckUseCase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
