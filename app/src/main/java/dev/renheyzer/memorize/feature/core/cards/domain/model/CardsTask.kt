@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CardsTask(
-    val cards: List<Card>
+    val deck: List<Card>
 )
