@@ -7,9 +7,9 @@ data class CardsAnswer(
     val values: List<Card?>
 ) {
     companion object {
-        fun empty(size: Int) {
+        fun empty(size: Int): CardsAnswer {
             require(size > 0) { "At least one answer is required" }
-            CardsAnswer(
+            return CardsAnswer(
                 values = List(size) { null }
             )
         }
