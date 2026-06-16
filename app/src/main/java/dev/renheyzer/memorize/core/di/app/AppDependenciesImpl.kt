@@ -12,6 +12,8 @@ import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.core.ui.timer.TimerManager
 import dev.renheyzer.memorize.feature.auth.di.AuthDependencies
 import dev.renheyzer.memorize.feature.auth.di.AuthDependenciesImpl
+import dev.renheyzer.memorize.feature.core.cards.di.CardsDependencies
+import dev.renheyzer.memorize.feature.core.cards.di.CardsDependenciesImpl
 import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
 import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependenciesImpl
 
@@ -33,7 +35,7 @@ class AppDependenciesImpl(context: Context) : AppDependencies {
 
     override fun authDependencies(): AuthDependencies = AuthDependenciesImpl(firebaseAuth)
     override fun numbersDependencies(): NumbersDependencies = NumbersDependenciesImpl()
-
+    override fun cardsDependencies(): CardsDependencies = CardsDependenciesImpl()
 
     override val timerManager: TimerManager by lazy { TimerManager() }
     override fun createCountdownTimerManager() = CountdownTimerManager()
