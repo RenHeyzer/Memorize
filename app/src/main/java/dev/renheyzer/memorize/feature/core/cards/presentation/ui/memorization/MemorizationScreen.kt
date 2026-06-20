@@ -15,12 +15,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.component.MemorizeTopBar
 import dev.renheyzer.memorize.feature.core.cards.presentation.component.memorization.FakeMemorizationComponent
 import dev.renheyzer.memorize.feature.core.cards.presentation.component.memorization.MemorizationComponent
 import dev.renheyzer.memorize.feature.core.cards.presentation.store.memorization.MemorizationIntent
+import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,8 +44,10 @@ fun MemorizationScreen(
     val columnsCount = remember(state.itemPerPage) { calculateColumnsCount(state.itemPerPage) }
 
     LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect {
-
+        snapshotFlow { pagerState.settledPage }.collect {
+            if (pagerState.targetPage == pagerState.settledPage && pagerState.settledPage != 0) {
+                component.onIntent(MemorizationIntent.CardsViewed(pageIndex = pagerState.currentPage - 1))
+            }
         }
     }
 
@@ -60,6 +64,7 @@ fun MemorizationScreen(
         }
     ) { innerPadding ->
         MemorizationContent(
+            modifier = Modifier.padding(innerPadding),
             state = state,
             pagerState = pagerState,
             columnsCount = columnsCount,
@@ -83,7 +88,6 @@ fun MemorizationScreen(
                     }
                 }
             },
-            modifier = Modifier.padding(innerPadding),
         )
     }
 }
@@ -101,11 +105,14 @@ private fun calculateColumnsCount(itemPerPage: Int): Int {
     }
 }
 
+@Preview
 @Composable
-fun PlayingCardsMemorizationTestScreen(modifier: Modifier = Modifier) {
-    MemorizationScreen(
-        component = FakeMemorizationComponent(),
-        modifier = modifier,
-        onBackClick = {}
-    )
+fun PreviewMemorizationScreen(modifier: Modifier = Modifier) {
+    MemorizeTheme {
+        MemorizationScreen(
+            component = FakeMemorizationComponent(),
+            modifier = modifier,
+            onBackClick = {}
+        )
+    }
 }
