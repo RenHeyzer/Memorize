@@ -23,7 +23,7 @@ fun CoreContent(
     ) {
         when (val child = it.instance) {
             is CoreRootComponent.Child.Home -> HomeScreen(component = child.component)
-            
+
             is CoreRootComponent.Child.Numbers -> NumbersContent(
                 component = child.component,
                 onBackClick = component::onBackPressed

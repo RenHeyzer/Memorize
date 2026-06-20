@@ -10,4 +10,8 @@ class DefaultHomeComponent(
     override fun onNumbersGameSelected() {
         onOutput(HomeComponent.Output.NavigateToNumbers)
     }
+
+    override fun onCardsGameSelected() {
+        onOutput(HomeComponent.Output.NavigateToCards)
+    }
 }
