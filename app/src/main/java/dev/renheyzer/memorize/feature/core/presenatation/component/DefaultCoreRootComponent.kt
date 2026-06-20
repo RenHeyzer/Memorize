@@ -7,8 +7,8 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
-import dev.renheyzer.memorize.core.components.core.pictures.createPicturesRootComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.feature.core.cards.presentation.component.createCardsRootComponent
 import dev.renheyzer.memorize.feature.core.home.presentation.component.HomeComponent
 import dev.renheyzer.memorize.feature.core.home.presentation.component.createHomeComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.createNumbersRootComponent
@@ -55,8 +55,13 @@ class DefaultCoreRootComponent(
                 )
             )
 
-            Config.Pictures -> CoreRootComponent.Child.Pictures(
-                factory.createPicturesRootComponent(componentContext)
+            Config.Pictures -> CoreRootComponent.Child.Cards(
+                factory.createCardsRootComponent(
+                    context = componentContext,
+                    backHome = {
+                        navigation.pop()
+                    }
+                )
             )
         }
 
