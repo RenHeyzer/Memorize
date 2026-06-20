@@ -41,7 +41,9 @@ class DefaultCoreRootComponent(
                             navigation.pushNew(Config.Numbers)
                         }
 
-                        HomeComponent.Output.NavigateToPictures -> {}
+                        HomeComponent.Output.NavigateToCards -> {
+                            navigation.pushNew(Config.Cards)
+                        }
                     }
                 })
             )
@@ -55,7 +57,7 @@ class DefaultCoreRootComponent(
                 )
             )
 
-            Config.Pictures -> CoreRootComponent.Child.Cards(
+            Config.Cards -> CoreRootComponent.Child.Cards(
                 factory.createCardsRootComponent(
                     context = componentContext,
                     backHome = {
@@ -77,8 +79,8 @@ private sealed interface Config {
     data object Home : Config
 
     @Serializable
-    data object Pictures : Config
+    data object Numbers : Config
 
     @Serializable
-    data object Numbers : Config
+    data object Cards : Config
 }
