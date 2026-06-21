@@ -2,6 +2,7 @@ package dev.renheyzer.memorize.feature.core.cards.presentation.ui.memorization
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +37,7 @@ fun MemorizationScreen(
     val timerState by component.timerState.collectAsStateWithLifecycle()
 
     val pagerState = rememberPagerState(pageCount = { state.pageCount })
+    val lazyGridState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
 
     val isPrevEnabled by remember { derivedStateOf { pagerState.currentPage != 0 } }
@@ -48,6 +50,12 @@ fun MemorizationScreen(
             if (pagerState.targetPage == pagerState.settledPage && pagerState.settledPage != 0) {
                 component.onIntent(MemorizationIntent.CardsViewed(pageIndex = pagerState.currentPage - 1))
             }
+        }
+    }
+
+    LaunchedEffect(state.viewedCards.lastIndex) {
+        if (state.viewedCards.lastIndex > 0) {
+            lazyGridState.animateScrollToItem(state.viewedCards.lastIndex)
         }
     }
 
@@ -67,6 +75,7 @@ fun MemorizationScreen(
             modifier = Modifier.padding(innerPadding),
             state = state,
             pagerState = pagerState,
+            lazyGridState = lazyGridState,
             columnCount = columnCount,
             isPrevEnabled = isPrevEnabled,
             isLastPage = isLastPage,
@@ -74,7 +83,7 @@ fun MemorizationScreen(
             onPrevClick = {
                 scope.launch {
                     if (pagerState.currentPage != 0) {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                        pagerState.scrollToPage(pagerState.currentPage - 1)
                     }
                 }
             },
@@ -84,10 +93,10 @@ fun MemorizationScreen(
                 } else {
                     component.onIntent(MemorizationIntent.CardsViewed(pageIndex = pagerState.currentPage))
                     scope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        pagerState.scrollToPage(pagerState.currentPage + 1)
                     }
                 }
-            },
+            }
         )
     }
 }

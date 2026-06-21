@@ -2,6 +2,7 @@ package dev.renheyzer.memorize.feature.core.cards.presentation.ui.memorization
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,13 +14,14 @@ import dev.renheyzer.memorize.feature.core.presenatation.ui.TimerContent
 fun MemorizationContent(
     state: MemorizationUiState,
     pagerState: PagerState,
+    lazyGridState: LazyGridState,
     columnCount: Int,
     isPrevEnabled: Boolean,
     isLastPage: Boolean,
     timerValueProvider: () -> String,
     onNextClick: () -> Unit,
     onPrevClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -44,8 +46,9 @@ fun MemorizationContent(
         )
 
         ViewedCardsDeck(
+            lazyGridState = lazyGridState,
             columnCount = columnCount,
-            viewedCards = state.viewedCards,
+            viewedCards = state.viewedCards
         )
     }
 }
