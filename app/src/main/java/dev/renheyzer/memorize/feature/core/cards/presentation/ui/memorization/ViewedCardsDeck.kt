@@ -15,13 +15,13 @@ import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.feature.core.cards.domain.model.Card
 
 @Composable
-fun ViewedCards(
-    columnsCount: Int,
+fun ViewedCardsDeck(
+    columnCount: Int,
     viewedCards: List<Card>,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(columnsCount),
+        columns = GridCells.Fixed(columnCount),
         modifier = modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.CenterHorizontally)

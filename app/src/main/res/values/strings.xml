@@ -71,7 +71,8 @@
     <!--  Playing Cards  -->
     <string name="check_results_label">Check Results</string>
     <string name="cards_title">Cards</string>
-    <string name="cards_subtitle">Remember the arrangement</string>
+    <string name="cards_memorization_subtitle">Remember the arrangement</string>
+    <string name="cards_recall_subtitle">Arrange the cards from memory</string>
 
     <!-- Playing Cards Result Screen -->
     <string name="result_details_title">Detailed Results</string>

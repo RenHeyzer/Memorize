@@ -41,7 +41,7 @@ fun MemorizationScreen(
     val isPrevEnabled by remember { derivedStateOf { pagerState.currentPage != 0 } }
     val isLastPage by remember { derivedStateOf { pagerState.targetPage == pagerState.pageCount - 1 } }
 
-    val columnsCount = remember(state.itemPerPage) { calculateColumnsCount(state.itemPerPage) }
+    val columnCount = remember(state.itemPerPage) { calculateColumnsCount(state.itemPerPage) }
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.settledPage }.collect {
@@ -57,7 +57,7 @@ fun MemorizationScreen(
         topBar = {
             MemorizeTopBar(
                 title = stringResource(R.string.cards_title),
-                subtitle = stringResource(R.string.level_subtitle),
+                subtitle = stringResource(R.string.cards_memorization_subtitle),
                 isBackClickEnabled = !state.isFinished,
                 onBackClick = onBackClick
             )
@@ -67,7 +67,7 @@ fun MemorizationScreen(
             modifier = Modifier.padding(innerPadding),
             state = state,
             pagerState = pagerState,
-            columnsCount = columnsCount,
+            columnCount = columnCount,
             isPrevEnabled = isPrevEnabled,
             isLastPage = isLastPage,
             timerValueProvider = { timerState },

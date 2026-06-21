@@ -13,7 +13,7 @@ import dev.renheyzer.memorize.feature.core.presenatation.ui.TimerContent
 fun MemorizationContent(
     state: MemorizationUiState,
     pagerState: PagerState,
-    columnsCount: Int,
+    columnCount: Int,
     isPrevEnabled: Boolean,
     isLastPage: Boolean,
     timerValueProvider: () -> String,
@@ -33,7 +33,7 @@ fun MemorizationContent(
         CardsPager(
             pagerState = pagerState,
             cardPages = state.cardPages,
-            columnsCount = columnsCount,
+            columnsCount = columnCount,
         )
 
         NavigationControls(
@@ -43,8 +43,8 @@ fun MemorizationContent(
             onNextClick = onNextClick
         )
 
-        ViewedCards(
-            columnsCount = columnsCount,
+        ViewedCardsDeck(
+            columnCount = columnCount,
             viewedCards = state.viewedCards,
         )
     }
