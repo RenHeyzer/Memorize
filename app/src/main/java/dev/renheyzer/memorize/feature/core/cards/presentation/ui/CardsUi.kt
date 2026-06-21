@@ -7,6 +7,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import dev.renheyzer.memorize.feature.core.cards.presentation.component.CardsRootComponent
 import dev.renheyzer.memorize.feature.core.cards.presentation.ui.memorization.MemorizationScreen
+import dev.renheyzer.memorize.feature.core.cards.presentation.ui.recall.RecallScreen
 
 @Composable
 fun CardsContent(
@@ -21,6 +22,11 @@ fun CardsContent(
     ) {
         when (val child = it.instance) {
             is CardsRootComponent.Child.Memorization -> MemorizationScreen(
+                component = child.component,
+                onBackClick = onBackClick
+            )
+
+            is CardsRootComponent.Child.Recall -> RecallScreen(
                 component = child.component,
                 onBackClick = onBackClick
             )

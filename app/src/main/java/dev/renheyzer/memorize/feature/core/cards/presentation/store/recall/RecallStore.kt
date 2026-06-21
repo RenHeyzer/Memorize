@@ -22,12 +22,14 @@ import kotlin.coroutines.CoroutineContext
 class RecallStore(
     mainContext: CoroutineContext,
     private val countdownTimerManager: CountdownTimerManager,
+    orderedDeck: List<Card>,
     params: CardsParam,
 ) : InstanceKeeper.Instance {
     private val scope = CoroutineScope(mainContext + SupervisorJob())
 
     private val _uiState = MutableStateFlow(
         RecallUiState(
+            orderedDeck = orderedDeck,
             answers = CardsAnswer.empty(params.quantity)
         )
     )

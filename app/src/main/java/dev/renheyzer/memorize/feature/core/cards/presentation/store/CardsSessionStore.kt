@@ -34,6 +34,7 @@ class CardsSessionStore(
         _sessionState.update { state ->
             state.copy(
                 params = params,
+                orderedDeck = orderedDeck,
                 task = task,
                 startedAtMillis = System.currentTimeMillis()
             )

@@ -54,7 +54,7 @@ class DefaultCardsRootComponent(
     override val childStack: Value<ChildStack<*, CardsRootComponent.Child>> = childStack(
         source = navigation,
         serializer = Config.serializer(),
-        initialConfiguration = Config.Setup,
+        initialConfiguration = Config.Memorization,
         handleBackButton = true,
         childFactory = ::childFactory
     )
@@ -88,7 +88,21 @@ class DefaultCardsRootComponent(
 
             Config.Recall -> CardsRootComponent.Child.Recall(
                 factory.createRecallComponent(
-                    context = componentContext
+                    context = componentContext,
+                    params = requireNotNull(sessionStore.sessionState.value.params) {
+                        "Params cannot be null when setup completed"
+                    },
+                    orderedDeck = requireNotNull(sessionStore.sessionState.value.orderedDeck) {
+                        "Ordered deck cannot be null when setup completed"
+                    },
+                    finishRecall = { answers ->
+                        sessionStore.onIntent(
+                            CardsSessionIntent.OnRecallFinished(
+                                answers
+                            )
+                        )
+                        navigation.replaceCurrent(Config.Results)
+                    }
                 )
             )
 

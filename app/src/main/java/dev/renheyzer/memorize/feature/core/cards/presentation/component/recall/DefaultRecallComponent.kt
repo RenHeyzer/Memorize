@@ -10,6 +10,7 @@ import dev.renheyzer.memorize.core.ui.SnackbarEvent
 import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
+import dev.renheyzer.memorize.feature.core.cards.domain.model.Card
 import dev.renheyzer.memorize.feature.core.cards.domain.model.CardsAnswer
 import dev.renheyzer.memorize.feature.core.cards.domain.model.CardsParam
 import dev.renheyzer.memorize.feature.core.cards.presentation.store.recall.RecallAction
@@ -26,6 +27,7 @@ class DefaultRecallComponent(
     private val env: ComponentEnvironment,
     private val countdownTimerManager: CountdownTimerManager,
     params: CardsParam,
+    orderedDeck: List<Card>,
     private val finishRecall: (answers: CardsAnswer) -> Unit
 ) : ComponentContext by componentContext, RecallComponent {
 
@@ -35,7 +37,8 @@ class DefaultRecallComponent(
         RecallStore(
             mainContext = env.mainContext,
             countdownTimerManager = countdownTimerManager,
-            params = params
+            params = params,
+            orderedDeck = orderedDeck
         )
     }
 
