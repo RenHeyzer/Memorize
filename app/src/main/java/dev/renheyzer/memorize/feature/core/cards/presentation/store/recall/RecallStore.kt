@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
-import kotlin.math.ceil
 
 class RecallStore(
     mainContext: CoroutineContext,
@@ -27,12 +26,12 @@ class RecallStore(
 ) : InstanceKeeper.Instance {
     private val scope = CoroutineScope(mainContext + SupervisorJob())
 
-    private val _recallState = MutableStateFlow(
+    private val _uiState = MutableStateFlow(
         RecallUiState(
             answers = CardsAnswer.empty(params.quantity)
         )
     )
-    val recallState = _recallState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     private val _timerState = MutableStateFlow("")
     val timerState = _timerState.asStateFlow()
@@ -65,10 +64,10 @@ class RecallStore(
         countdownTimerManager.events
             .onEach { event ->
                 if (event is CountdownTimerManager.TimerEvent.Finished) {
-                    if (_recallState.value.isFinished) return@onEach
-                    _recallState.update { state -> state.copy(isFinished = true) }
+                    if (_uiState.value.isFinished) return@onEach
+                    _uiState.update { state -> state.copy(isFinished = true) }
 
-                    val cardsAnswer = _recallState.value.answers
+                    val cardsAnswer = _uiState.value.answers
 
                     _actions.send(RecallAction.OnTimeUp(cardsAnswer))
                 }
@@ -77,33 +76,50 @@ class RecallStore(
 
     fun onIntent(intent: RecallIntent) {
         when (intent) {
-            is RecallIntent.OnUserAnswerChanged -> changeUserAnswer(
+            is RecallIntent.OnCardSelected -> handleCardSelection(intent.selectedCard)
+
+            is RecallIntent.OnCardMoved -> handleCardMovement(
                 index = intent.index,
-                card = intent.card
             )
 
-            RecallIntent.OnCompleteClick -> finishRecall()
+            RecallIntent.OnCheckClicked -> finishRecall()
         }
     }
 
-    private fun changeUserAnswer(index: Int, card: Card?) {
-        _recallState.update { state ->
-            val newValues = state.answers.values.toMutableList().apply {
-                set(index = index, card)
+    private fun handleCardSelection(selectedCard: Card?) {
+        _uiState.update { state ->
+            val isCardSelected = state.orderedDeck.any { it.id == selectedCard?.id }
+
+            state.copy(isCardSelected = isCardSelected, selectedCard = selectedCard)
+        }
+    }
+
+    private fun handleCardMovement(index: Int) {
+        _uiState.update { state ->
+            val targetSlot = state.answers.values[index]
+
+            val newAnswers = state.answers.values.toMutableList().apply {
+                if (state.selectedCard != null && targetSlot == null) {
+                    set(index = index, state.selectedCard)
+                } else if (targetSlot != null) {
+                    set(index = index, null)
+                }
             }
 
             state.copy(
-                answers = state.answers.copy(values = newValues),
-                isAllFilled = newValues.none { it == null }
+                isCardSelected = false,
+                selectedCard = null,
+                answers = state.answers.copy(values = newAnswers),
+                isAllFilled = newAnswers.none { it == null }
             )
         }
     }
 
     private fun finishRecall() {
-        if (_recallState.value.isFinished) return
-        _recallState.update { state -> state.copy(isFinished = true) }
+        if (_uiState.value.isFinished) return
+        _uiState.update { state -> state.copy(isFinished = true) }
 
-        val answers = _recallState.value.answers
+        val answers = _uiState.value.answers
 
         scope.launch {
             _actions.send(RecallAction.FinishRecall(answers))
@@ -117,18 +133,19 @@ class RecallStore(
 }
 
 data class RecallUiState(
+    val orderedDeck: List<Card> = emptyList(),
     val answers: CardsAnswer = CardsAnswer.empty(0),
+    val isCardSelected: Boolean = false,
+    val selectedCard: Card? = null,
     val isAllFilled: Boolean = false,
-    val itemPerPage: Int = 3,
+    val columns: Int = 3,
     val isFinished: Boolean = false
-) {
-    val pageCount: Int
-        get() = ceil(answers.values.size.toDouble() / itemPerPage).toInt()
-}
+)
 
 sealed interface RecallIntent {
-    data class OnUserAnswerChanged(val index: Int, val card: Card?) : RecallIntent
-    data object OnCompleteClick : RecallIntent
+    data class OnCardSelected(val selectedCard: Card?) : RecallIntent
+    data class OnCardMoved(val index: Int) : RecallIntent
+    data object OnCheckClicked : RecallIntent
 }
 
 sealed interface RecallAction {
