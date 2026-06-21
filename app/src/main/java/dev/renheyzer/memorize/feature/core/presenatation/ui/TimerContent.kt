@@ -1,5 +1,8 @@
 package dev.renheyzer.memorize.feature.core.presenatation.ui
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -17,27 +20,31 @@ fun TimerContent(
     timerValueProvider: () -> String,
     modifier: Modifier = Modifier
 ) {
-    AssistChip(
-        modifier = modifier,
-        onClick = {},
-        label = {
-            Text(
-                text = timerValueProvider(),
-                style = MemorizeTheme.typography.body,
-                color = MemorizeTheme.colors.primaryText
-            )
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_clock_loader_24),
-                contentDescription = null,
-                modifier = Modifier.size(AssistChipDefaults.IconSize),
-                tint = MemorizeTheme.colors.primaryText
-            )
-        },
-        colors = AssistChipDefaults.assistChipColors(
-            containerColor = MemorizeTheme.colors.primaryBackground
-        ),
-        border = AssistChipDefaults.assistChipBorder(true)
-    )
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        AssistChip(
+            onClick = {},
+            label = {
+                Text(
+                    text = timerValueProvider(),
+                    style = MemorizeTheme.typography.body,
+                    color = MemorizeTheme.colors.primaryText
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_clock_loader_24),
+                    contentDescription = null,
+                    modifier = Modifier.size(AssistChipDefaults.IconSize),
+                    tint = MemorizeTheme.colors.primaryText
+                )
+            },
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = MemorizeTheme.colors.primaryBackground
+            ),
+            border = AssistChipDefaults.assistChipBorder(true)
+        )
+    }
 }
