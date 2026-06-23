@@ -23,10 +23,14 @@ data class CardsResult(
         }
     }
 
-    val totalCount = details.size
-    val correctCount = details.count { it.isCorrect }
+    val totalCount: Int
+        get() = details.size
 
-    val accuracy: Float = if (totalCount == 0) 0f else correctCount.toFloat() / totalCount
+    val correctCount: Int
+        get() = details.count { it.isCorrect }
+
+    val accuracy: Float
+        get() = if (totalCount == 0) 0f else correctCount.toFloat() / totalCount
 
     val memorizationSpentMillis: Long
         get() = recallStartedAtMillis - startedAtMillis
