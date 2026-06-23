@@ -8,6 +8,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import dev.renheyzer.memorize.feature.core.cards.presentation.component.CardsRootComponent
 import dev.renheyzer.memorize.feature.core.cards.presentation.ui.memorization.MemorizationScreen
 import dev.renheyzer.memorize.feature.core.cards.presentation.ui.recall.RecallScreen
+import dev.renheyzer.memorize.feature.core.cards.presentation.ui.results.ResultsScreen
 
 @Composable
 fun CardsContent(
@@ -31,6 +32,10 @@ fun CardsContent(
                 onBackClick = onBackClick
             )
 
+            is CardsRootComponent.Child.Results -> ResultsScreen(
+                component = child.component,
+                onBackClick = onBackClick
+            )
             else -> {}
         }
     }

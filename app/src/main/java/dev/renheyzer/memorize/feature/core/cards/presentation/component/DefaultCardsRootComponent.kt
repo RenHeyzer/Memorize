@@ -109,6 +109,15 @@ class DefaultCardsRootComponent(
             Config.Results -> CardsRootComponent.Child.Results(
                 factory.createResultsComponent(
                     context = componentContext,
+                    results = requireNotNull(sessionStore.sessionState.value.result) {
+                        "Results cannot be null when recall completed"
+                    },
+                    onPlayAgainRequested = {
+                        // TODO: Save session state and restart current session to play again
+                    },
+                    onResultsCompleted = {
+                        backHome()
+                    }
                 )
             )
         }
