@@ -1,5 +1,6 @@
 package dev.renheyzer.memorize.feature.core.cards.presentation.store.recall
 
+import androidx.compose.ui.util.fastAny
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.core.ui.timer.onEachSecond
@@ -90,9 +91,7 @@ class RecallStore(
 
     private fun handleCardSelection(selectedCard: Card?) {
         _uiState.update { state ->
-            val isCardSelected = state.orderedDeck.any { it.id == selectedCard?.id }
-
-            state.copy(isCardSelected = isCardSelected, selectedCard = selectedCard)
+            state.copy(selectedCard = selectedCard)
         }
     }
 
@@ -109,7 +108,6 @@ class RecallStore(
             }
 
             state.copy(
-                isCardSelected = false,
                 selectedCard = null,
                 answers = state.answers.copy(values = newAnswers),
                 isAllFilled = newAnswers.none { it == null }
@@ -137,7 +135,6 @@ class RecallStore(
 data class RecallUiState(
     val orderedDeck: List<Card> = emptyList(),
     val answers: CardsAnswer = CardsAnswer.empty(0),
-    val isCardSelected: Boolean = false,
     val selectedCard: Card? = null,
     val isAllFilled: Boolean = false,
     val columns: Int = 3,

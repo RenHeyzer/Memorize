@@ -47,7 +47,7 @@ fun RecallScreen(
             timerValueProvider = { timerState },
             orderedDeck = state.orderedDeck,
             answersDeck = state.answers.values,
-            isCardSelected = state.isCardSelected,
+            selectedCard = state.selectedCard,
             onCardSelected = { selectedCard ->
                 component.onIntent(RecallIntent.OnCardSelected(selectedCard))
             },

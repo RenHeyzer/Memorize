@@ -19,7 +19,7 @@ import dev.renheyzer.memorize.feature.core.cards.domain.model.Card
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun CorrectOrderDeck(
-    isCardSelected: Boolean,
+    selectedCard: Card?,
     onCardSelected: (source: Card?) -> Unit,
     orderedDeck: List<Card>,
     answersDeck: List<Card?>,
@@ -38,6 +38,7 @@ fun CorrectOrderDeck(
             key = { card -> card.id }
         ) { card ->
             val isAlreadyRecalled = answersDeck.any { it?.id == card.id }
+            val isSelected = card.id == selectedCard?.id
 
             AnimatedContent(
                 targetState = isAlreadyRecalled,
@@ -47,8 +48,8 @@ fun CorrectOrderDeck(
                 if (!cardState) {
                     SourceCard(
                         card = card,
-                        isSelected = isCardSelected,
-                        onClick = { onCardSelected(if (isCardSelected) null else card) },
+                        isSelected = isSelected,
+                        onClick = { onCardSelected(if (isSelected) null else card) },
                         animatedVisibilityScope = this@AnimatedContent,
                         sharedTransitionScope = sharedTransitionScope
                     )

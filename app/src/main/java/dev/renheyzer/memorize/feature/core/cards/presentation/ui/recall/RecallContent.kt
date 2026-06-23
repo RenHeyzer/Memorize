@@ -1,7 +1,7 @@
 package dev.renheyzer.memorize.feature.core.cards.presentation.ui.recall
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,34 +18,36 @@ fun RecallContent(
     timerValueProvider: () -> String,
     orderedDeck: List<Card>,
     answersDeck: List<Card?>,
-    isCardSelected: Boolean,
+    selectedCard: Card?,
     onCardSelected: (source: Card?) -> Unit,
     onCardMoved: (index: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    SharedTransitionLayout(
+        modifier = modifier
     ) {
-        TimerContent(
-            timerValueProvider = timerValueProvider,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        )
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            TimerContent(
+                timerValueProvider = timerValueProvider,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            )
 
-        SharedTransitionScope {
             CorrectOrderDeck(
-                isCardSelected = isCardSelected,
+                selectedCard = selectedCard,
                 onCardSelected = onCardSelected,
                 orderedDeck = orderedDeck,
                 answersDeck = answersDeck,
-                sharedTransitionScope = this@SharedTransitionScope,
+                sharedTransitionScope = this@SharedTransitionLayout,
                 modifier = Modifier.weight(0.5f)
             )
 
             RecallDeck(
                 answersDeck = answersDeck,
                 onCardMoved = { index -> onCardMoved(index) },
-                sharedTransitionScope = this@SharedTransitionScope,
+                sharedTransitionScope = this@SharedTransitionLayout,
                 modifier = Modifier.weight(0.5f)
             )
         }
