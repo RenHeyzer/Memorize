@@ -41,7 +41,7 @@ fun MemorizationScreen(
     val scope = rememberCoroutineScope()
 
     val isPrevEnabled by remember { derivedStateOf { pagerState.currentPage != 0 } }
-    val isLastPage by remember { derivedStateOf { pagerState.targetPage == pagerState.pageCount - 1 } }
+    val isLastPage by remember { derivedStateOf { pagerState.currentPage == pagerState.pageCount - 1 } }
 
     val columnCount = remember(state.itemPerPage) { calculateColumnsCount(state.itemPerPage) }
 
