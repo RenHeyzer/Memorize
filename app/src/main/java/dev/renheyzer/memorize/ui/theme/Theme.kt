@@ -348,6 +348,12 @@ fun MemorizeTheme(
     }
 }
 
+data class MemorizeStyle(
+    val textSize: MemorizeSize,
+    val corner: MemorizeCorner,
+    val spacingSize: MemorizeSpacingSize
+)
+
 enum class MemorizeSize {
     Small, Medium, Big
 }
