@@ -69,6 +69,10 @@
     <string name="setup_remember_time_field_label">Time</string>
 
     <!--  Playing Cards  -->
+    <string name="cards_setup_title">Game Setup</string>
+    <string name="cards_setup_suits_error_message">Choose at least one suit</string>
+    <string name="cards_setup_suits_label">Choose suits (from 1 to 4)</string>
+
     <string name="check_results_label">Check Results</string>
     <string name="cards_title">Cards</string>
     <string name="cards_memorization_subtitle">Remember the arrangement</string>

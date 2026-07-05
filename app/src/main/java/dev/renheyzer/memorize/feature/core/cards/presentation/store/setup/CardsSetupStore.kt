@@ -8,6 +8,7 @@ import dev.renheyzer.memorize.feature.core.cards.domain.model.CardsParam
 import dev.renheyzer.memorize.feature.core.presenatation.utils.parseTimeDigitsToSeconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,7 +45,7 @@ class CardsSetupStore(
             }
 
             val error = if (newSuits.isEmpty()) {
-                UiText.StringResource(R.string.numbers_setup_quantity_error_message)
+                UiText.StringResource(R.string.cards_setup_suits_error_message)
             } else null
 
             state.copy(
@@ -75,6 +76,9 @@ class CardsSetupStore(
     }
 
     private fun startGameIfValid() {
+        if (_uiState.value.isFinished) return
+        _uiState.update { state -> state.copy(isFinished = true) }
+
         val state = _uiState.value
 
         if (state.selectedSuits.isEmpty()) return
@@ -90,13 +94,18 @@ class CardsSetupStore(
             _actions.send(CardsSetupAction.SaveParamsAndStartGame(params))
         }
     }
+
+    override fun onDestroy() {
+        scope.cancel()
+    }
 }
 
 data class CardsSetupState(
-    val selectedSuits: List<CardSuit> = CardSuit.entries,
+    val selectedSuits: List<CardSuit> = emptyList(),
     val parsedRememberTimeSeconds: Int? = null,
     val suitsError: UiText? = null,
-    val rememberTimeError: UiText? = null
+    val rememberTimeError: UiText? = null,
+    val isFinished: Boolean = false
 ) {
     val isStartButtonEnabled: Boolean
         get() = selectedSuits.isNotEmpty() && parsedRememberTimeSeconds != null

@@ -54,7 +54,7 @@ class DefaultCardsRootComponent(
     override val childStack: Value<ChildStack<*, CardsRootComponent.Child>> = childStack(
         source = navigation,
         serializer = Config.serializer(),
-        initialConfiguration = Config.Memorization,
+        initialConfiguration = Config.Setup,
         handleBackButton = true,
         childFactory = ::childFactory
     )
@@ -66,7 +66,11 @@ class DefaultCardsRootComponent(
         when (config) {
             Config.Setup -> CardsRootComponent.Child.Setup(
                 factory.createCardsSetupComponent(
-                    context = componentContext
+                    context = componentContext,
+                    onStartGameRequested = { params ->
+                        sessionStore.onIntent(CardsSessionIntent.OnSetupCompleted(params = params))
+                        navigation.replaceCurrent(Config.Memorization)
+                    }
                 )
             )
 

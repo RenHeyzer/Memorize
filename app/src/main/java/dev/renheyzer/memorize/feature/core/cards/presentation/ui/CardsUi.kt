@@ -9,6 +9,7 @@ import dev.renheyzer.memorize.feature.core.cards.presentation.component.CardsRoo
 import dev.renheyzer.memorize.feature.core.cards.presentation.ui.memorization.MemorizationScreen
 import dev.renheyzer.memorize.feature.core.cards.presentation.ui.recall.RecallScreen
 import dev.renheyzer.memorize.feature.core.cards.presentation.ui.results.ResultsScreen
+import dev.renheyzer.memorize.feature.core.cards.presentation.ui.setup.CardsSetupScreen
 
 @Composable
 fun CardsContent(
@@ -22,6 +23,10 @@ fun CardsContent(
         animation = stackAnimation(fade())
     ) {
         when (val child = it.instance) {
+            is CardsRootComponent.Child.Setup -> CardsSetupScreen(
+                component = child.component,
+                onBackClick = onBackClick
+            )
             is CardsRootComponent.Child.Memorization -> MemorizationScreen(
                 component = child.component,
                 onBackClick = onBackClick
@@ -36,7 +41,6 @@ fun CardsContent(
                 component = child.component,
                 onBackClick = onBackClick
             )
-            else -> {}
         }
     }
 }
