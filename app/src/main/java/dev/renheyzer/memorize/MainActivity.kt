@@ -19,7 +19,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -32,9 +31,7 @@ import dev.renheyzer.memorize.core.ui.LocalSnackbarController
 import dev.renheyzer.memorize.feature.root.DefaultRootComponent
 import dev.renheyzer.memorize.feature.root.RootComponent
 import dev.renheyzer.memorize.feature.root.RootContent
-import dev.renheyzer.memorize.ui.theme.MemorizeCorner
 import dev.renheyzer.memorize.ui.theme.MemorizeSize
-import dev.renheyzer.memorize.ui.theme.MemorizeStyle
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -61,18 +58,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val isDarkModeValue = isSystemInDarkTheme()
-            val memorizeStyle = remember {
-                mutableStateOf(
-                    MemorizeStyle(
-                        textSize = MemorizeSize.Medium,
-                        corner = MemorizeCorner.Medium,
-                        isDarkMode = isDarkModeValue
-                    )
-                )
-            }
             MemorizeTheme(
-                textSize = memorizeStyle.value.textSize,
-                darkTheme = memorizeStyle.value.isDarkMode
+                textSize = MemorizeSize.Medium,
+                darkTheme = isDarkModeValue
             ) {
                 val snackbarHostState = remember { SnackbarHostState() }
 
