@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 fun MemorizeTheme(
     textSize: MemorizeSize = MemorizeSize.Medium,
     corner: MemorizeCorner = MemorizeCorner.Medium,
+    spacingSize: MemorizeSpacingSize = MemorizeSpacingSize.Medium,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
@@ -312,7 +313,32 @@ fun MemorizeTheme(
         }
     )
 
-    CompositionLocalProvider(LocalSuccessColors provides successColors) {
+    val spacings = when (spacingSize) {
+        MemorizeSpacingSize.Small -> MemorizeSpacing(
+            extraSmall = 2.dp,
+            small = 6.dp,
+            medium = 12.dp,
+            large = 18.dp,
+            extraLarge = 24.dp,
+            giant = 36.dp
+        )
+
+        MemorizeSpacingSize.Medium -> MemorizeSpacing()
+
+        MemorizeSpacingSize.Big -> MemorizeSpacing(
+            extraSmall = 6.dp,
+            small = 12.dp,
+            medium = 20.dp,
+            large = 32.dp,
+            extraLarge = 40.dp,
+            giant = 56.dp
+        )
+    }
+
+    CompositionLocalProvider(
+        LocalSuccessColors provides successColors,
+        LocalMemorizeSpacing provides spacings
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = typography,
@@ -328,4 +354,8 @@ enum class MemorizeSize {
 
 enum class MemorizeCorner {
     Small, Medium, Big, Full
+}
+
+enum class MemorizeSpacingSize {
+    Small, Medium, Big
 }
