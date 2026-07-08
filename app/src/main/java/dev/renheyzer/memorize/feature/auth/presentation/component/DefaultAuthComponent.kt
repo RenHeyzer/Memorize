@@ -12,7 +12,6 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import dev.renheyzer.memorize.core.ui.SnackbarController
 import dev.renheyzer.memorize.core.ui.StringResolver
-import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.feature.auth.di.AuthDependencies
 import dev.renheyzer.memorize.feature.auth.presentation.component.login.LoginComponent

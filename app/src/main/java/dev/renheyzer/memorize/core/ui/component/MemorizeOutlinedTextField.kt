@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.input.KeyboardActionHandler
 import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -24,7 +25,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.core.ui.asString
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun MemorizeOutlinedTextField(
@@ -32,7 +32,7 @@ fun MemorizeOutlinedTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
     labelPosition: TextFieldLabelPosition = TextFieldLabelPosition.Attached(),
     label: @Composable (TextFieldLabelScope.() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
@@ -70,8 +70,8 @@ fun MemorizeOutlinedTextField(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = errorMessage?.asString() ?: "",
-                    color = MemorizeTheme.colors.errorColor,
-                    style = MemorizeTheme.typography.body
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         },
@@ -83,16 +83,8 @@ fun MemorizeOutlinedTextField(
         lineLimits = lineLimits,
         onTextLayout = onTextLayout,
         scrollState = scrollState,
-        shape = MemorizeTheme.shape.textField,
-        colors = OutlinedTextFieldDefaults.colors(
-            unfocusedBorderColor = MemorizeTheme.colors.borderColor,
-            focusedBorderColor = MemorizeTheme.colors.accentColor,
-            unfocusedLabelColor = MemorizeTheme.colors.primaryText,
-            focusedLabelColor = MemorizeTheme.colors.accentColor,
-            errorBorderColor = MemorizeTheme.colors.errorColor,
-            errorLabelColor = MemorizeTheme.colors.errorColor,
-            cursorColor = MemorizeTheme.colors.accentColor
-        ),
+        shape = MaterialTheme.shapes.medium,
+        colors = OutlinedTextFieldDefaults.colors(),
         contentPadding = contentPadding,
         interactionSource = interactionSource
     )

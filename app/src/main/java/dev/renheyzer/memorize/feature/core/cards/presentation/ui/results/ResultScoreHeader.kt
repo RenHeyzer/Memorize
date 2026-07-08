@@ -9,16 +9,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.ext.toPercentString
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
+import dev.renheyzer.memorize.ui.theme.successColors
 
 @Composable
 fun ResultScoreHeader(
@@ -29,7 +25,7 @@ fun ResultScoreHeader(
 ) {
     val isSuccess = scorePercentage >= 80f
     val mainColor =
-        if (isSuccess) MemorizeTheme.colors.successColor else MaterialTheme.colorScheme.error
+        if (isSuccess) MaterialTheme.successColors.success else MaterialTheme.colorScheme.error
 
     Column(
         modifier = modifier.fillMaxWidth(),

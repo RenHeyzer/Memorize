@@ -47,7 +47,7 @@ fun CardsPager(
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 12.dp)
         ) {
             items(items = cardsForThisPage, key = { it.id }) { card ->
-                CardItem(card)
+//                CardItem(card)
             }
         }
     }

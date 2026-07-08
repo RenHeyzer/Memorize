@@ -29,7 +29,7 @@ fun ResultsScreen(
             MemorizeTopBar(
                 title = stringResource(R.string.cards_result_title),
                 isBackClickEnabled = !state.isFinished,
-                onBackClick = { component.onIntent(ResultsIntent.OnCompleteClicked) }
+                onBackClick = onBackClick
             )
         },
         bottomBar = {

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.ext.toPercentString
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
+import dev.renheyzer.memorize.ui.theme.successColors
 
 @Composable
 fun ResultsBoard(
@@ -32,10 +34,10 @@ fun ResultsBoard(
 ) {
     Card(
         modifier = modifier.width(360.dp),
-        shape = MemorizeTheme.shape.card,
-        border = BorderStroke(width = 1.dp, color = MemorizeTheme.colors.accentColor),
+        shape = MaterialTheme.shapes.large,
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.primary),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        colors = CardDefaults.cardColors(containerColor = MemorizeTheme.colors.secondaryBackground)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
     ) {
         Column(
             modifier = Modifier
@@ -50,8 +52,8 @@ fun ResultsBoard(
                     correctCount,
                     totalCount
                 ),
-                color = MemorizeTheme.colors.successColor,
-                style = MemorizeTheme.typography.primaryHeading,
+                color = MaterialTheme.successColors.success,
+                style = MaterialTheme.typography.bodyMedium,
             )
 
             Text(
@@ -62,8 +64,7 @@ fun ResultsBoard(
                         append(scorePercentage.toPercentString())
                     }
                 },
-                color = MemorizeTheme.colors.primaryText,
-                style = MemorizeTheme.typography.body,
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }

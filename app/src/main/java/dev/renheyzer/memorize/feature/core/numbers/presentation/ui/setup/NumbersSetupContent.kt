@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
@@ -18,6 +17,7 @@ import androidx.compose.foundation.text.input.maxLength
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.then
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -87,10 +87,10 @@ fun NumbersSetupContent(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.setup_quantity_field_label),
-                    style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
+                    style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
                 )
             },
-            textStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
+            textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
             isError = isQuantityError,
             errorMessage = quantityError,
             inputTransformation = InputTransformation.maxLength(3).then {
@@ -106,19 +106,19 @@ fun NumbersSetupContent(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .width(124.dp),
-            textStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
+            textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
             label = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.setup_remember_time_field_label),
-                    style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
+                    style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
                 )
             },
             placeholder = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.setup_time_input_placeholder),
-                    style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
+                    style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
                 )
             },
             errorMessage = rememberTimeError,
@@ -139,8 +139,7 @@ fun NumbersSetupContent(
         Text(
             text = stringResource(R.string.numbers_setup_is_binary_label),
             modifier = Modifier.padding(top = 16.dp),
-            color = MemorizeTheme.colors.primaryText,
-            style = MemorizeTheme.typography.body
+            style = MaterialTheme.typography.bodyMedium
         )
 
         MemorizeSwitch(
@@ -163,7 +162,7 @@ fun NumbersSetupContent(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_forward_24),
                     contentDescription = stringResource(R.string.numbers_setup_start_button_content_description),
-                    tint = MemorizeTheme.colors.onAccentText,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(24.dp)
                 )
             },

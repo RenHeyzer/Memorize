@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +25,7 @@ import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.component.MemorizeActionButton
 import dev.renheyzer.memorize.core.ui.component.MemorizeActionIconButton
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
+import dev.renheyzer.memorize.ui.theme.successColors
 
 @Composable
 fun FooterContent(
@@ -37,8 +39,8 @@ fun FooterContent(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = MemorizeTheme.colors.secondaryBackground,
-        shape = MemorizeTheme.shape.bottomSheet,
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        shape = MaterialTheme.shapes.large,
         shadowElevation = 16.dp
     ) {
         Row(
@@ -62,7 +64,7 @@ fun FooterContent(
             Spacer(modifier = Modifier.width(16.dp))
 
             Surface(
-                shape = MemorizeTheme.shape.buttonLarge,
+                shape = MaterialTheme.shapes.large,
                 shadowElevation = 8.dp,
             ) {
                 Crossfade(
@@ -75,12 +77,12 @@ fun FooterContent(
                             text = stringResource(R.string.complete),
                             defaultElevation = 0.dp,
                             modifier = Modifier.widthIn(min = 200.dp, max = 320.dp),
-                            containerColor = MemorizeTheme.colors.successColor,
+                            containerColor = MaterialTheme.successColors.success,
                             addition = {
                                 Icon(
                                     imageVector = ImageVector.vectorResource(R.drawable.ic_check),
                                     contentDescription = stringResource(R.string.complete),
-                                    tint = MemorizeTheme.colors.secondaryText
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             },
                             enabled = isCompleteEnabled
@@ -95,7 +97,7 @@ fun FooterContent(
                                 Icon(
                                     imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_forward_24),
                                     contentDescription = stringResource(R.string.next),
-                                    tint = MemorizeTheme.colors.secondaryText
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         )

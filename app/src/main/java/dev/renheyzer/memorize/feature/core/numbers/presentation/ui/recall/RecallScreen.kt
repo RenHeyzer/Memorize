@@ -3,6 +3,7 @@ package dev.renheyzer.memorize.feature.core.numbers.presentation.ui.recall
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -45,7 +46,7 @@ fun RecallScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = MemorizeTheme.colors.primaryBackground,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             MemorizeTopBar(
                 title = stringResource(id = R.string.level_title, 1),

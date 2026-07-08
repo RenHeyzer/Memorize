@@ -2,7 +2,6 @@ package dev.renheyzer.memorize.feature.core.numbers.presentation.component.memor
 
 import com.arkivanov.decompose.ComponentContext
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
-import dev.renheyzer.memorize.feature.core.numbers.di.NumbersDependencies
 import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersParam
 import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersTask
 

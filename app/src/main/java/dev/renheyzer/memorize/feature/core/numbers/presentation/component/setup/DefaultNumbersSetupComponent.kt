@@ -7,8 +7,8 @@ import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.feature.core.numbers.domain.model.NumbersParam
 import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupAction
 import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupIntent
-import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupStore
 import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupState
+import dev.renheyzer.memorize.feature.core.numbers.presentation.store.setup.NumbersSetupStore
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

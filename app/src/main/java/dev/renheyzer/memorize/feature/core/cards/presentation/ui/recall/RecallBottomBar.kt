@@ -18,10 +18,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
+import dev.renheyzer.memorize.ui.theme.successColors
 
 @Composable
-fun RecallBottomBar(onCheckClick: () -> Unit, isComplete: Boolean, isCheckClickEnabled: Boolean, modifier: Modifier = Modifier) {
+fun RecallBottomBar(
+    onCheckClick: () -> Unit,
+    isComplete: Boolean,
+    isCheckClickEnabled: Boolean,
+    modifier: Modifier = Modifier
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -34,7 +39,7 @@ fun RecallBottomBar(onCheckClick: () -> Unit, isComplete: Boolean, isCheckClickE
                 .height(56.dp),
             colors = if (isComplete) {
                 ButtonDefaults.buttonColors(
-                    containerColor = MemorizeTheme.colors.successColor,
+                    containerColor = MaterialTheme.successColors.success,
                     contentColor = Color.White
                 )
             } else {

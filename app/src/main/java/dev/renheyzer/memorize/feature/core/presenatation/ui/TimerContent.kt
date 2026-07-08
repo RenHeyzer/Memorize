@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import dev.renheyzer.memorize.R
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun TimerContent(
@@ -29,8 +29,8 @@ fun TimerContent(
             label = {
                 Text(
                     text = timerValueProvider(),
-                    style = MemorizeTheme.typography.body,
-                    color = MemorizeTheme.colors.primaryText
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             },
             leadingIcon = {
@@ -38,13 +38,13 @@ fun TimerContent(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_clock_loader_24),
                     contentDescription = null,
                     modifier = Modifier.size(AssistChipDefaults.IconSize),
-                    tint = MemorizeTheme.colors.primaryText
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             },
             colors = AssistChipDefaults.assistChipColors(
-                containerColor = MemorizeTheme.colors.primaryBackground
+                containerColor = MaterialTheme.colorScheme.surface
             ),
-            border = AssistChipDefaults.assistChipBorder(true)
+            border = AssistChipDefaults.assistChipBorder(enabled = true)
         )
     }
 }

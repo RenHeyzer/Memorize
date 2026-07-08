@@ -34,7 +34,7 @@ fun ViewedCardsDeck(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
     ) {
         items(items = viewedCards, key = { it.id }) { card ->
-            CardItem(card)
+//            CardItem(card)
         }
     }
 }

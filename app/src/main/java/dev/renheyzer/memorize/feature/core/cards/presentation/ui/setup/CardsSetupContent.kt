@@ -20,6 +20,7 @@ import androidx.compose.foundation.text.input.maxLength
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.then
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -74,8 +75,8 @@ fun CardsSetupContent(
         Text(
             text = suitsError?.asString() ?: stringResource(R.string.cards_setup_suits_label),
             modifier = Modifier.padding(bottom = 16.dp),
-            color = if (suitsError == null) MemorizeTheme.colors.primaryText else MemorizeTheme.colors.errorColor,
-            style = MemorizeTheme.typography.body
+            color = if (suitsError == null) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodyMedium
         )
 
         LazyRow(
@@ -102,19 +103,19 @@ fun CardsSetupContent(
             modifier = Modifier
                 .padding(top = 16.dp)
                 .width(124.dp),
-            textStyle = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center),
+            textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
             label = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.setup_remember_time_field_label),
-                    style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
+                    style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
                 )
             },
             placeholder = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.setup_time_input_placeholder),
-                    style = MemorizeTheme.typography.body.copy(textAlign = TextAlign.Center)
+                    style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
                 )
             },
             errorMessage = rememberTimeError,
@@ -145,7 +146,7 @@ fun CardsSetupContent(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_forward_24),
                     contentDescription = stringResource(R.string.numbers_setup_start_button_content_description),
-                    tint = MemorizeTheme.colors.onAccentText,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(24.dp)
                 )
             },

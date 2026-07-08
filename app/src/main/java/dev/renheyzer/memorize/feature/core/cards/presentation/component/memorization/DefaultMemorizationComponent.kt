@@ -8,15 +8,15 @@ import com.arkivanov.essenty.lifecycle.doOnResume
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.SnackbarAction
 import dev.renheyzer.memorize.core.ui.SnackbarEvent
-import dev.renheyzer.memorize.core.ui.UiText.*
+import dev.renheyzer.memorize.core.ui.UiText.StringResource
 import dev.renheyzer.memorize.core.ui.decompose.ComponentEnvironment
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.feature.core.cards.domain.model.CardsParam
 import dev.renheyzer.memorize.feature.core.cards.domain.model.CardsTask
+import dev.renheyzer.memorize.feature.core.cards.presentation.store.memorization.MemorizationAction
 import dev.renheyzer.memorize.feature.core.cards.presentation.store.memorization.MemorizationIntent
 import dev.renheyzer.memorize.feature.core.cards.presentation.store.memorization.MemorizationStore
 import dev.renheyzer.memorize.feature.core.cards.presentation.store.memorization.MemorizationUiState
-import dev.renheyzer.memorize.feature.core.cards.presentation.store.memorization.MemorizationAction
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow

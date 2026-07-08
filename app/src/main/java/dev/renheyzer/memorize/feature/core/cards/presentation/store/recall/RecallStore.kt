@@ -1,6 +1,5 @@
 package dev.renheyzer.memorize.feature.core.cards.presentation.store.recall
 
-import androidx.compose.ui.util.fastAny
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import dev.renheyzer.memorize.core.ui.timer.CountdownTimerManager
 import dev.renheyzer.memorize.core.ui.timer.onEachSecond

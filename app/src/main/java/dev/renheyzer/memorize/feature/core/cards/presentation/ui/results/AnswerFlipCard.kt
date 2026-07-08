@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.feature.core.cards.domain.model.AnswerResult
 import dev.renheyzer.memorize.feature.core.cards.domain.model.Card
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
+import dev.renheyzer.memorize.ui.theme.successColors
 
 @Composable
 fun AnswerFlipCard(
@@ -93,13 +93,13 @@ private fun FrontSideCard(
     val isMissed = result.recalledCard == null
 
     val borderColor = when {
-        isCorrect -> MemorizeTheme.colors.successColor
+        isCorrect -> MaterialTheme.successColors.success
         isMissed -> MaterialTheme.colorScheme.outlineVariant
         else -> MaterialTheme.colorScheme.error
     }
 
     val containerColor = when {
-        isCorrect -> MemorizeTheme.colors.successColor.copy(alpha = 0.1f)
+        isCorrect -> MaterialTheme.successColors.success.copy(alpha = 0.1f)
         isMissed -> Color.Transparent
         else -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
     }
@@ -159,9 +159,9 @@ private fun BackSideCard(
     Card(
         modifier = modifier.fillMaxSize(),
         colors = CardDefaults.cardColors(
-            containerColor = MemorizeTheme.colors.successColor.copy(alpha = 0.8f)
+            containerColor = MaterialTheme.successColors.success.copy(alpha = 0.8f)
         ),
-        border = BorderStroke(2.dp, MemorizeTheme.colors.successColor)
+        border = BorderStroke(2.dp, MaterialTheme.successColors.success)
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),

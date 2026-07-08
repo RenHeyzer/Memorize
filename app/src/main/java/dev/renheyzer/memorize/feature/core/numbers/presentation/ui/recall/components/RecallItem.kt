@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
@@ -46,9 +47,9 @@ fun RecallItem(number: String, onNumberChanged: (String) -> Unit, enabled: Boole
 
     Card(
         modifier = modifier.aspectRatio(1f),
-        shape = MemorizeTheme.shape.card,
+        shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MemorizeTheme.colors.secondaryBackground),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
     ) {
         BasicTextField(
             state = numberState,
@@ -57,7 +58,7 @@ fun RecallItem(number: String, onNumberChanged: (String) -> Unit, enabled: Boole
                     revertAllChanges()
                 }
             },
-            textStyle = MemorizeTheme.typography.display.copy(textAlign = TextAlign.Center),
+            textStyle = MaterialTheme.typography.displayLarge.copy(textAlign = TextAlign.Center),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             lineLimits = TextFieldLineLimits.SingleLine,
             decorator = { innerTextField ->

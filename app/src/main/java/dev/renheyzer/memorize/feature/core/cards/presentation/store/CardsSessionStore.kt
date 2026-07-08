@@ -1,7 +1,6 @@
 package dev.renheyzer.memorize.feature.core.cards.presentation.store
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
-import dev.renheyzer.memorize.feature.core.cards.domain.model.CardSuit
 import dev.renheyzer.memorize.feature.core.cards.domain.model.CardsAnswer
 import dev.renheyzer.memorize.feature.core.cards.domain.model.CardsParam
 import dev.renheyzer.memorize.feature.core.cards.domain.usecase.CalculateCardsResultUseCase
