@@ -1,65 +1,71 @@
 package dev.renheyzer.memorize.feature.core.cards.presentation.ui.recall
 
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.renheyzer.memorize.core.ui.AdaptiveDevicePreviews
+import dev.renheyzer.memorize.core.ui.ThemePreviews
 import dev.renheyzer.memorize.feature.core.cards.domain.model.Card
+import dev.renheyzer.memorize.feature.core.cards.domain.model.CardRank
+import dev.renheyzer.memorize.feature.core.cards.domain.model.CardSuit
+import dev.renheyzer.memorize.feature.core.cards.presentation.ui.common.CardFace
+import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SourceCard(
     card: Card,
-    isSelected: Boolean,
     onClick: () -> Unit,
-    animatedVisibilityScope: AnimatedVisibilityScope,
-    sharedTransitionScope: SharedTransitionScope,
+    isSelected: Boolean,
     modifier: Modifier = Modifier
 ) {
+
     val containerColor =
-        if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
+        if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer
     val contentColor =
         if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
     val borderColor =
-        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
+        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+    val borderStroke = BorderStroke(if (isSelected) 2.dp else 1.dp, borderColor)
 
-    with(sharedTransitionScope) {
-        Card(
-            onClick = onClick,
-            colors = CardDefaults.cardColors(
-                containerColor = containerColor,
-                contentColor = contentColor
+    OutlinedCard(
+        onClick = onClick,
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
+        border = borderStroke,
+        modifier = modifier
+            .aspectRatio(0.72f),
+    ) {
+        CardFace(card = card, modifier = Modifier.weight(1f))
+    }
+}
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+@ThemePreviews
+@AdaptiveDevicePreviews
+@Composable
+private fun PreviewSourceCard() {
+    MemorizeTheme {
+        var isSelected by remember { mutableStateOf(false) }
+        SourceCard(
+            card = Card(
+                rank = CardRank.ACE,
+                suit = CardSuit.CLUBS
             ),
-            border = BorderStroke(if (isSelected) 2.dp else 1.dp, borderColor),
-            modifier = modifier
-                .aspectRatio(0.72f)
-                .sharedBounds(
-                    sharedContentState = rememberSharedContentState(key = "card_${card.id}"),
-                    animatedVisibilityScope = animatedVisibilityScope
-                )
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = card.value,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                )
-            }
-        }
+            onClick = { isSelected = !isSelected},
+            isSelected = isSelected,
+        )
     }
 }
