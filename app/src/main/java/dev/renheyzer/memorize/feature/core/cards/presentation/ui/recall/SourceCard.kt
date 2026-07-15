@@ -35,12 +35,12 @@ fun SourceCard(
     val contentColor =
         if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
     val borderColor =
-        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
     val borderStroke = BorderStroke(if (isSelected) 2.dp else 1.dp, borderColor)
 
     OutlinedCard(
         onClick = onClick,
-        colors = CardDefaults.cardColors(
+        colors = CardDefaults.outlinedCardColors(
             containerColor = containerColor,
             contentColor = contentColor
         ),
