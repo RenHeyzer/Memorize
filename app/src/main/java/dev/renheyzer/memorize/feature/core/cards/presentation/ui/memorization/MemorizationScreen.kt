@@ -34,7 +34,6 @@ fun MemorizationScreen(
     onBackClick: () -> Unit
 ) {
     val state by component.uiState.collectAsStateWithLifecycle()
-    val timerState by component.timerState.collectAsStateWithLifecycle()
 
     val pagerState = rememberPagerState(pageCount = { state.pageCount })
     val lazyGridState = rememberLazyGridState()
@@ -79,7 +78,7 @@ fun MemorizationScreen(
             columnCount = columnCount,
             isPrevEnabled = isPrevEnabled,
             isLastPage = isLastPage,
-            timerValueProvider = { timerState },
+            timerState = component.timerState,
             onPrevClick = {
                 scope.launch {
                     if (pagerState.currentPage != 0) {
