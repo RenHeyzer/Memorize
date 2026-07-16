@@ -10,16 +10,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.renheyzer.memorize.R
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun TimerContent(
-    timerValueProvider: () -> String,
+    timerState: StateFlow<String>,
     modifier: Modifier = Modifier
 ) {
+    val timerValue by timerState.collectAsStateWithLifecycle()
+
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -28,7 +33,7 @@ fun TimerContent(
             onClick = {},
             label = {
                 Text(
-                    text = timerValueProvider(),
+                    text = timerValue,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
