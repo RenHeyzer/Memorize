@@ -21,7 +21,6 @@ fun RecallScreen(
     onBackClick: () -> Unit
 ) {
     val state by component.uiState.collectAsStateWithLifecycle()
-    val timerState by component.timerState.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -44,10 +43,8 @@ fun RecallScreen(
     ) { innerPadding ->
         RecallContent(
             modifier = Modifier.padding(innerPadding),
-            timerValueProvider = { timerState },
-            orderedDeck = state.orderedDeck,
-            answersDeck = state.answers.values,
-            selectedCard = state.selectedCard,
+            timerState = component.timerState,
+            uiState = state,
             onCardSelected = { selectedCard ->
                 component.onIntent(RecallIntent.OnCardSelected(selectedCard))
             },
