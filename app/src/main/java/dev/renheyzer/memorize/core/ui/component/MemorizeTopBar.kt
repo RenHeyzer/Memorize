@@ -1,25 +1,24 @@
 package dev.renheyzer.memorize.core.ui.component
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,76 +26,63 @@ import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemorizeTopBar(
     title: String,
     subtitle: String? = null,
-    modifier: Modifier = Modifier,
     isBackClickEnabled: Boolean = true,
-    onBackClick: (() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {}
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    actions: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .defaultMinSize(minHeight = 56.dp),
-        color = MemorizeTheme.colors.secondaryBackground,
-        shape = MemorizeTheme.shape.topBar,
-        shadowElevation = 8.dp
-    ) {
-        Box(modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp)) {
-            if (onBackClick != null) {
-                IconButton(
-                    onClick = onBackClick,
-                    modifier = Modifier.align(Alignment.CenterStart),
-                    enabled = isBackClickEnabled
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back_24),
-                        contentDescription = stringResource(R.string.back),
-                        tint = MemorizeTheme.colors.primaryText,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
-
+    CenterAlignedTopAppBar(
+        modifier = modifier,
+        title = {
             Column(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(horizontal = 48.dp),
+                modifier = Modifier.padding(horizontal = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = title,
-                    textAlign = TextAlign.Center,
-                    style = MemorizeTheme.typography.toolbar,
-                    color = MemorizeTheme.colors.primaryText,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 )
-
                 if (subtitle != null) {
-                    Spacer(modifier = Modifier.height(8.dp))
-
                     Text(
                         text = subtitle,
-                        textAlign = TextAlign.Center,
-                        style = MemorizeTheme.typography.body,
-                        color = MemorizeTheme.colors.tertiaryText,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center
                     )
                 }
             }
-
-            Row(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                actions()
+        },
+        navigationIcon = {
+            IconButton(onClick = { onBackClick() }, enabled = isBackClickEnabled) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back_24),
+                    contentDescription = stringResource(R.string.back),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
             }
-        }
-    }
+        },
+        actions = {
+            if (actions != null) {
+                actions()
+            } else {
+                Spacer(modifier = Modifier.width(48.dp))
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background
+        )
+    )
 }
 
 @Preview(showBackground = true)

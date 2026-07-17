@@ -7,8 +7,8 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
-import dev.renheyzer.memorize.core.components.core.pictures.createPicturesRootComponent
 import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.feature.core.cards.presentation.component.createCardsRootComponent
 import dev.renheyzer.memorize.feature.core.home.presentation.component.HomeComponent
 import dev.renheyzer.memorize.feature.core.home.presentation.component.createHomeComponent
 import dev.renheyzer.memorize.feature.core.numbers.presentation.component.createNumbersRootComponent
@@ -41,7 +41,9 @@ class DefaultCoreRootComponent(
                             navigation.pushNew(Config.Numbers)
                         }
 
-                        HomeComponent.Output.NavigateToPictures -> {}
+                        HomeComponent.Output.NavigateToCards -> {
+                            navigation.pushNew(Config.Cards)
+                        }
                     }
                 })
             )
@@ -55,8 +57,13 @@ class DefaultCoreRootComponent(
                 )
             )
 
-            Config.Pictures -> CoreRootComponent.Child.Pictures(
-                factory.createPicturesRootComponent(componentContext)
+            Config.Cards -> CoreRootComponent.Child.Cards(
+                factory.createCardsRootComponent(
+                    context = componentContext,
+                    backHome = {
+                        navigation.pop()
+                    }
+                )
             )
         }
 
@@ -72,8 +79,8 @@ private sealed interface Config {
     data object Home : Config
 
     @Serializable
-    data object Pictures : Config
+    data object Numbers : Config
 
     @Serializable
-    data object Numbers : Config
+    data object Cards : Config
 }

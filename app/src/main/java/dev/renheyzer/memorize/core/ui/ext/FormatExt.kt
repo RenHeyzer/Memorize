@@ -7,5 +7,5 @@ fun Float.toPercentString(): String {
         minimumFractionDigits = 2
         maximumFractionDigits = 2
     }
-    return formatter.format(this / 100)
+    return formatter.format(this)
 }

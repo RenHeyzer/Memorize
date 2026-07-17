@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +19,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun MemorizeDefaultButton(
@@ -35,13 +35,13 @@ fun MemorizeDefaultButton(
             .defaultMinSize(minHeight = 50.dp),
         enabled = enabled,
         elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp),
-        shape = MemorizeTheme.shape.button,
-        colors = ButtonDefaults.elevatedButtonColors(containerColor = MemorizeTheme.colors.accentColor)
+        shape = MaterialTheme.shapes.small,
+        colors = ButtonDefaults.elevatedButtonColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
         Text(
             text = text,
-            color = MemorizeTheme.colors.onAccentText,
-            style = MemorizeTheme.typography.button,
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = MaterialTheme.typography.bodyMedium,
         )
 
         if (addition != null) {
@@ -57,7 +57,7 @@ fun MemorizeActionButton(
     defaultElevation: Dp,
     enabled: Boolean = true,
     modifier: Modifier = Modifier,
-    containerColor: Color = MemorizeTheme.colors.accentColor,
+    containerColor: Color = MaterialTheme.colorScheme.primary,
     addition: (@Composable RowScope.() -> Unit)? = null,
 ) {
     ElevatedButton(
@@ -65,13 +65,13 @@ fun MemorizeActionButton(
         modifier = modifier.height(70.dp),
         enabled = enabled,
         elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = defaultElevation),
-        shape = MemorizeTheme.shape.buttonLarge,
+        shape = MaterialTheme.shapes.large,
         colors = ButtonDefaults.elevatedButtonColors(containerColor = containerColor)
     ) {
         Text(
             text = text,
-            color = MemorizeTheme.colors.onAccentText,
-            style = MemorizeTheme.typography.buttonLarge
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = MaterialTheme.typography.bodyLarge
         )
         if (addition != null) addition()
     }
@@ -92,17 +92,15 @@ fun MemorizeActionIconButton(
         enabled = enabled,
         contentPadding = PaddingValues(0.dp),
         elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = defaultElevation),
-        shape = MemorizeTheme.shape.buttonLarge,
+        shape = MaterialTheme.shapes.large,
         colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = MemorizeTheme.colors.primaryBackground,
-            disabledContainerColor = MemorizeTheme.colors.disabledColor,
-            disabledContentColor = MemorizeTheme.colors.onDisabledText
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
         )
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(iconRes),
             contentDescription = contentDescription,
-            tint = MemorizeTheme.colors.primaryText,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(24.dp)
         )
     }

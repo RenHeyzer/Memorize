@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -12,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.renheyzer.memorize.feature.auth.presentation.component.registration.Registration
 import dev.renheyzer.memorize.feature.auth.presentation.ui.registration.components.RegistrationContent
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun RegistrationScreen(
@@ -41,7 +41,7 @@ fun RegistrationScreen(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
-                    color = MemorizeTheme.colors.secondaryBackground
+                    color = MaterialTheme.colorScheme.secondaryContainer
                 )
             }
         }

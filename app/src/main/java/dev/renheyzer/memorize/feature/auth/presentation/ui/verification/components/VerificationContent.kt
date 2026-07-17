@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,8 +38,7 @@ fun VerificationContent(
 
         Text(
             text = stringResource(R.string.verification),
-            color = MemorizeTheme.colors.primaryText,
-            style = MemorizeTheme.typography.primaryHeading,
+            style = MaterialTheme.typography.titleLarge,
         )
 
         Spacer(
@@ -50,15 +50,14 @@ fun VerificationContent(
         val text = buildAnnotatedString {
             append(stringResource(R.string.check_your_email))
             append(" ")
-            withStyle(SpanStyle(color = MemorizeTheme.colors.secondaryBackground)) {
+            withStyle(SpanStyle(color = MaterialTheme.colorScheme.secondaryContainer)) {
                 append(uiState.email)
             }
         }
 
         Text(
             text = text,
-            color = MemorizeTheme.colors.primaryText,
-            style = MemorizeTheme.typography.body
+            style = MaterialTheme.typography.bodyMedium
         )
 
         Spacer(
@@ -69,8 +68,7 @@ fun VerificationContent(
 
         Text(
             text = stringResource(R.string.timer_text, uiState.timerValue),
-            color = MemorizeTheme.colors.primaryText,
-            style = MemorizeTheme.typography.body
+            style = MaterialTheme.typography.bodyMedium
         )
 
         Spacer(

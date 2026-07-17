@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -18,7 +19,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun OutlinedErrorTextField(
@@ -73,21 +73,14 @@ fun OutlinedErrorTextField(
             minLines = minLines,
             interactionSource = interactionSource,
             shape = shape,
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = MemorizeTheme.colors.borderColor,
-                focusedBorderColor = MemorizeTheme.colors.borderColor,
-                unfocusedLabelColor = MemorizeTheme.colors.secondaryText,
-                focusedLabelColor = MemorizeTheme.colors.primaryText,
-                errorBorderColor = MemorizeTheme.colors.errorColor,
-                errorLabelColor = MemorizeTheme.colors.errorColor,
-            )
+            colors = OutlinedTextFieldDefaults.colors()
         )
         if (isError) {
             Text(
                 modifier = Modifier.padding(start = 10.dp),
                 text = errorText!!,
-                color = MemorizeTheme.colors.errorColor,
-                style = MemorizeTheme.typography.body
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }

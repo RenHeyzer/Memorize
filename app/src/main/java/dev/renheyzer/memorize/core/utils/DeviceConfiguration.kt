@@ -1,5 +1,6 @@
 package dev.renheyzer.memorize.core.utils
 
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.window.core.layout.WindowSizeClass
 
 enum class DeviceConfiguration {
@@ -32,4 +33,8 @@ enum class DeviceConfiguration {
             }
         }
     }
+}
+
+val LocalDeviceConfiguration = staticCompositionLocalOf<DeviceConfiguration> {
+    error("No DeviceConfiguration provided")
 }

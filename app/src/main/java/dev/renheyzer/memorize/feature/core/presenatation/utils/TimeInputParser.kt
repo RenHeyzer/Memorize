@@ -19,6 +19,7 @@ fun parseTimeDigitsToSeconds(input: String): Int? {
             val minutes = minutesPart.toIntOrNull() ?: return null
             val seconds = secondsPart.toIntOrNull() ?: return null
 
+            if (minutes !in 0..59) return null
             if (seconds !in 0..59) return null
 
             val totalSeconds = minutes * 60 + seconds

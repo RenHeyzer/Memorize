@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
+import dev.renheyzer.memorize.ui.theme.successColors
 
 @Composable
 fun ResultItem(
@@ -29,9 +31,9 @@ fun ResultItem(
     var isShowCorrect by remember { mutableStateOf(false) }
 
     val targetColor = when {
-        isCorrect -> MemorizeTheme.colors.successColor
-        isShowCorrect -> MemorizeTheme.colors.secondaryBackground
-        else -> MemorizeTheme.colors.errorColor
+        isCorrect -> MaterialTheme.successColors.success
+        isShowCorrect -> MaterialTheme.colorScheme.surfaceContainer
+        else -> MaterialTheme.colorScheme.error
     }
 
     val containerColor by animateColorAsState(
@@ -47,7 +49,7 @@ fun ResultItem(
                 onClick = {
                     isShowCorrect = !isShowCorrect
                 }),
-        shape = MemorizeTheme.shape.card,
+        shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = containerColor),
     ) {
@@ -59,15 +61,15 @@ fun ResultItem(
             }
 
             val textColor = if (isShowCorrect) {
-                MemorizeTheme.colors.primaryText
+                MaterialTheme.colorScheme.onSurface
             } else {
-                MemorizeTheme.colors.onAccentText
+                MaterialTheme.colorScheme.onPrimary
             }
 
             Text(
                 text = displayedText,
                 color = textColor,
-                style = MemorizeTheme.typography.display
+                style = MaterialTheme.typography.displayLarge
             )
         }
     }

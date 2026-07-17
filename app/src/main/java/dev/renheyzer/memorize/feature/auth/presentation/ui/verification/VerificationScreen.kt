@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -14,7 +15,6 @@ import dev.renheyzer.memorize.R
 import dev.renheyzer.memorize.core.ui.UiText
 import dev.renheyzer.memorize.feature.auth.presentation.component.verification.Verification
 import dev.renheyzer.memorize.feature.auth.presentation.ui.verification.components.VerificationContent
-import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
 fun VerificationScreen(
@@ -57,7 +57,7 @@ fun VerificationScreen(
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
-                        color = MemorizeTheme.colors.secondaryBackground
+                        color = MaterialTheme.colorScheme.secondaryContainer
                     )
                 }
             }

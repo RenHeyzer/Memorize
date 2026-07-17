@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,7 +34,7 @@ fun VerificationSuccessScreen(
     ) {
         Text(
             text = stringResource(R.string.congratulations),
-            style = MemorizeTheme.typography.primaryHeading
+            style = MaterialTheme.typography.titleLarge
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -41,7 +42,7 @@ fun VerificationSuccessScreen(
         if (message != null) {
             Text(
                 text = message.asString(),
-                style = MemorizeTheme.typography.body
+                style = MaterialTheme.typography.bodyMedium
             )
         }
 

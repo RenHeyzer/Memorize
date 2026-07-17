@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -58,8 +59,7 @@ fun RegistrationContent(
 
         Text(
             text = stringResource(R.string.registration),
-            color = MemorizeTheme.colors.primaryText,
-            style = MemorizeTheme.typography.primaryHeading,
+            style = MaterialTheme.typography.titleLarge
         )
 
         Spacer(
@@ -79,13 +79,12 @@ fun RegistrationContent(
             label = {
                 Text(
                     text = stringResource(R.string.email),
-                    color = MemorizeTheme.colors.primaryText,
-                    style = MemorizeTheme.typography.body
+                    style = MaterialTheme.typography.bodyMedium
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            textStyle = MemorizeTheme.typography.body,
-            shape = MemorizeTheme.shape.textField,
+            textStyle = MaterialTheme.typography.bodyMedium,
+            shape = MaterialTheme.shapes.medium,
             enabled = !uiState.isLoading
         )
 
@@ -100,13 +99,12 @@ fun RegistrationContent(
             label = {
                 Text(
                     text = stringResource(R.string.password),
-                    color = MemorizeTheme.colors.primaryText,
-                    style = MemorizeTheme.typography.body
+                    style = MaterialTheme.typography.bodyMedium
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            textStyle = MemorizeTheme.typography.body,
-            shape = MemorizeTheme.shape.textField,
+            textStyle = MaterialTheme.typography.bodyMedium,
+            shape = MaterialTheme.shapes.medium,
             enabled = !uiState.isLoading
         )
 
@@ -121,13 +119,12 @@ fun RegistrationContent(
             label = {
                 Text(
                     text = stringResource(R.string.confirm_password),
-                    color = MemorizeTheme.colors.primaryText,
-                    style = MemorizeTheme.typography.body
+                    style = MaterialTheme.typography.bodyMedium
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            textStyle = MemorizeTheme.typography.body,
-            shape = MemorizeTheme.shape.textField,
+            textStyle = MaterialTheme.typography.bodyMedium,
+            shape = MaterialTheme.shapes.medium,
             enabled = !uiState.isLoading
         )
 
@@ -150,8 +147,8 @@ fun RegistrationContent(
         Text(
             modifier = Modifier.clickable(enabled = !uiState.isLoading) { onAlreadyHaveAnAccountClick() },
             text = stringResource(R.string.already_have_an_account),
-            color = MemorizeTheme.colors.secondaryBackground,
-            style = MemorizeTheme.typography.body,
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            style = MaterialTheme.typography.bodyMedium,
         )
 
         Spacer(

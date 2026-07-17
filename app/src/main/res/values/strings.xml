@@ -50,7 +50,7 @@
     <string name="back">Back</string>
     <string name="level_title">Level %1$d</string>
     <string name="complete">Complete</string>
-    <string name="level_subtitle">Remember the arrangement of the numbers</string>
+    <string name="level_subtitle">Remember the arrangement</string>
     <string name="time_up">Time is up!</string>
     <string name="results_board_percentage">Percentage of correct answers:</string>
     <string name="results_board_score_format">%1$d/%2$d</string>
@@ -67,5 +67,27 @@
     <string name="setup_time_input_placeholder">00:00</string>
     <string name="setup_quantity_field_label">Quantity</string>
     <string name="setup_remember_time_field_label">Time</string>
+
+    <!--  Playing Cards  -->
+    <string name="cards_setup_title">Game Setup</string>
+    <string name="cards_setup_suits_error_message">Choose at least one suit</string>
+    <string name="cards_setup_suits_label">Choose suits (from 1 to 4)</string>
+
+    <string name="check_results_label">Check Results</string>
+    <string name="cards_title">Cards</string>
+    <string name="cards_memorization_subtitle">Remember the arrangement</string>
+    <string name="cards_recall_subtitle">Arrange the cards from memory</string>
+
+    <!-- Playing Cards Result Screen -->
+    <string name="result_details_title">Detailed Results</string>
+    <string name="action_home">Home</string>
+    <string name="action_retry">Retry</string>
+
+    <!--  Cards Result  -->
+    <string name="cards_result_title">Results</string>
+    <string name="result_score_format">%1$d out of %2$d</string>
+    <string name="target_card">Target: %1$s</string>
+    <string name="your_answer">Your answer: %1$s</string>
+    <string name="answer_empty">Missed</string>
 
 </resources>

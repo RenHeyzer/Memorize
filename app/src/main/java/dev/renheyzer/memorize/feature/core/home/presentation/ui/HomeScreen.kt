@@ -9,7 +9,8 @@ import dev.renheyzer.memorize.feature.core.home.presentation.component.HomeCompo
 @Composable
 fun HomeScreen(component: HomeComponent, modifier: Modifier = Modifier) {
     HomeContent(
-        modifier = Modifier.padding(16.dp),
-        onNumbersGameClick = { component.onNumbersGameSelected() }
+        modifier = modifier.padding(16.dp),
+        onNumbersGameClick = { component.onNumbersGameSelected() },
+        onCardsGameClick = { component.onCardsGameSelected() }
     )
 }

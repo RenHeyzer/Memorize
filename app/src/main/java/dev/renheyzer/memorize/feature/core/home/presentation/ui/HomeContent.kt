@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import dev.renheyzer.memorize.ui.theme.MemorizeTheme
 
 @Composable
-fun HomeContent(modifier: Modifier = Modifier, onNumbersGameClick: () -> Unit) {
+fun HomeContent(modifier: Modifier = Modifier, onNumbersGameClick: () -> Unit, onCardsGameClick: () -> Unit) {
     Column(
         modifier = modifier.sizeIn(
             minWidth = 300.dp,
@@ -47,35 +47,11 @@ fun HomeContent(modifier: Modifier = Modifier, onNumbersGameClick: () -> Unit) {
             Card(
                 modifier = Modifier
                     .aspectRatio(1f)
-                    .weight(1f),
-            ) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = "Pictures")
-                }
-            }
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Card(
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .weight(1f),
+                    .weight(1f)
+                    .clickable { onCardsGameClick() },
             ) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(text = "Card")
-                }
-            }
-
-            Card(
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .weight(1f),
-            ) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = "Morse code")
                 }
             }
         }
@@ -87,7 +63,8 @@ fun HomeContent(modifier: Modifier = Modifier, onNumbersGameClick: () -> Unit) {
 fun PreviewHomeContent() {
     MemorizeTheme {
         HomeContent(
-            onNumbersGameClick = {}
+            onNumbersGameClick = {},
+            onCardsGameClick = {}
         )
     }
 }
