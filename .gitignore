@@ -16,3 +16,5 @@ local.properties
 .idea
 /app/src/androidTest
 /app/src/test
+firebase_hosting/
+.kotlin/errors/
