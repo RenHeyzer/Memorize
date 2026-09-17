@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">Memorize</string>
+
+    <string name="error_unknown">Unknown error</string>
+
+    <!--  Registration  -->
+    <string name="registration">Registration</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_have_an_account">I already have an account. Sign in</string>
+    <string name="registration_was_successful">Registration was successful</string>
+
+    <!--  Verification  -->
+    <string name="verification">Verification</string>
+    <string name="check_your_email">Please check your email. We have sent you a confirmation email to</string>
+    <string name="timer_text">You can re-request confirmation by email after %1$s</string>
+    <string name="resend">Resend</string>
+    <string name="session_expired_heading">Session expired</string>
+    <string name="error_session_expired">Your session has timed out. Please log in again.</string>
+    <string name="error_verification_failed">Email verification was successful</string>
+    <string name="verification_was_successful">Email verification was successful!</string>
+
+    <!--  Network Errors  -->
+    <string name="error_network_unavailable">Network unavailable</string>
+    <string name="error_not_found">The data for your request was not found</string>
+    <string name="error_server">There were errors with the server. Please try again later.</string>
+    <string name="error_service_unavailable">The service is unavailable</string>
+    <string name="error_network_unknown">Unknown network error</string>
+    <string name="error_unauthorized">You are not logged in</string>
+    <string name="error_network_timeout">Server response timed out. Please try again.</string>
+
+    <!--  Auth Errors  -->
+    <string name="error_auth">Registration failed</string>
+    <string name="error_invalid_credentials">Incorrect email address or password</string>
+    <string name="error_user_collision">A user with this email already exists</string>
+
+    <!--  Validation Errors  -->
+    <string name="error_email_invalid">The email address is badly formatted. For example: example@gmail.com</string>
+    <string name="error_password_too_short">Password must be at least 8 characters long</string>
+    <string name="error_password_no_uppercase">Password must contain at least one uppercase letter</string>
+    <string name="error_password_no_digit">Password must contain at least one digit</string>
+    <string name="error_password_no_special">Password must contain at least one special character</string>
+    <string name="error_password_match">Passwords must match</string>
+
+    <string name="return_text">Return</string>
+    <string name="next">Next</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="back">Back</string>
+    <string name="round_title">Round %1$d</string>
+    <string name="complete">Complete</string>
+    <string name="round_subtitle">Remember the arrangement</string>
+    <string name="time_up">Time is up!</string>
+    <string name="results_board_percentage">Percentage of correct answers: %1$s</string>
+    <string name="results_board_score_format">%1$d/%2$d</string>
+    <string name="results_title">Results</string>
+    <string name="numbers_setup_remember_time_error_message">1–59 only</string>
+    <string name="numbers_setup_remember_time_max_error_message">Max: 60 min</string>
+    <string name="numbers_setup_title">Game Setup</string>
+    <string name="numbers_setup_subtitle">Set up your game before you start</string>
+    <string name="numbers_setup_is_binary_label">Random or Binary?</string>
+    <string name="numbers_setup_start_button_content_description">Start button</string>
+    <string name="numbers_setup_start_action">Start</string>
+    <string name="setup_number_input_placeholder">0</string>
+    <string name="setup_time_input_placeholder">00:00</string>
+    <string name="setup_quantity_field_label">Quantity</string>
+    <string name="setup_remember_time_field_label">Time</string>
+
+    <!--  Playing Cards  -->
+    <string name="cards_setup_title">Game Setup</string>
+    <string name="cards_setup_suits_error_message">Choose at least one suit</string>
+    <string name="cards_setup_suits_label">Choose suits (from 1 to 4)</string>
+
+    <string name="check_results_label">Check Results</string>
+    <string name="cards_title">Cards</string>
+    <string name="cards_memorization_subtitle">Remember the arrangement</string>
+    <string name="cards_recall_subtitle">Arrange the cards from memory</string>
+
+    <!-- Playing Cards Result Screen -->
+    <string name="result_details_title">Detailed Results</string>
+    <string name="action_home">Home</string>
+    <string name="action_retry">Retry</string>
+
+    <!--  Cards Result  -->
+    <string name="cards_result_title">Results</string>
+    <string name="result_score_format">%1$d out of %2$d</string>
+    <string name="target_card">Target: %1$s</string>
+    <string name="your_answer">Your answer: %1$s</string>
+    <string name="answer_empty">Missed</string>
+    <string name="dialog_exit_title">Exit game?</string>
+    <string name="dialog_exit_text">If you exit, your progress in this game session will not be saved. Are you sure?</string>
+    <string name="dialog_btn_confirm">Exit</string>
+    <string name="dialog_btn_dismiss">Stay</string>
+
+</resources>

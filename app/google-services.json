@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "662503863359",
+    "project_id": "memorize-5f382",
+    "storage_bucket": "memorize-5f382.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662503863359:android:53bb84730d23c55c29748a",
+        "android_client_info": {
+          "package_name": "dev.renheyzer.memorize"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDup2V48fhWWsCOpiY_IZRAeoXU15msKxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

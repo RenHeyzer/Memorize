@@ -1,0 +1,103 @@
+package dev.renheyzer.memorize.feature.core.presenatation.component
+
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.value.Value
+import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.feature.core.cards.presentation.component.createCardsRootComponent
+import dev.renheyzer.memorize.feature.core.home.presentation.component.HomeComponent
+import dev.renheyzer.memorize.feature.core.home.presentation.component.createHomeComponent
+import dev.renheyzer.memorize.feature.core.numbers.presentation.component.createNumbersRootComponent
+import dev.renheyzer.memorize.feature.core.statistics.presentation.component.createStatisticsComponent
+import kotlinx.serialization.Serializable
+
+class DefaultCoreRootComponent(
+    componentContext: ComponentContext,
+    private val factory: ComponentFactory
+) : CoreRootComponent, ComponentContext by componentContext {
+
+    private val navigation = StackNavigation<Config>()
+
+    override val childStack: Value<ChildStack<*, CoreRootComponent.Child>> = childStack(
+        source = navigation,
+        serializer = Config.serializer(),
+        initialConfiguration = Config.Home,
+        handleBackButton = true,
+        childFactory = ::childFactory
+    )
+
+    private fun childFactory(
+        config: Config,
+        componentContext: ComponentContext
+    ): CoreRootComponent.Child =
+        when (config) {
+            Config.Home -> CoreRootComponent.Child.Home(
+                factory.createHomeComponent(componentContext, onOutput = { output ->
+                    when (output) {
+                        HomeComponent.Output.NavigateToNumbers -> {
+                            navigation.pushNew(Config.Numbers)
+                        }
+
+                        HomeComponent.Output.NavigateToCards -> {
+                            navigation.pushNew(Config.Cards)
+                        }
+
+                        HomeComponent.Output.NavigateToStatistics -> {
+                            navigation.pushNew(Config.Statistics)
+                        }
+                    }
+                })
+            )
+
+            Config.Numbers -> CoreRootComponent.Child.Numbers(
+                factory.createNumbersRootComponent(
+                    context = componentContext,
+                    backHome = {
+                        navigation.pop()
+                    }
+                )
+            )
+
+            Config.Cards -> CoreRootComponent.Child.Cards(
+                factory.createCardsRootComponent(
+                    context = componentContext,
+                    backHome = {
+                        navigation.pop()
+                    }
+                )
+            )
+
+            Config.Statistics -> CoreRootComponent.Child.Statistics(
+                factory.createStatisticsComponent(
+                    context = componentContext,
+                    backHome = {
+                        navigation.pop()
+                    }
+                )
+            )
+        }
+
+    override fun onBackPressed() {
+        navigation.pop()
+    }
+
+}
+
+@Serializable
+private sealed interface Config {
+    @Serializable
+    data object Home : Config
+
+    @Serializable
+    data object Numbers : Config
+
+    @Serializable
+    data object Cards : Config
+
+    @Serializable
+    data object Statistics : Config
+}

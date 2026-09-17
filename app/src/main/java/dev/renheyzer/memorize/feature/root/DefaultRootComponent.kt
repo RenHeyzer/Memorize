@@ -1,0 +1,100 @@
+package dev.renheyzer.memorize.feature.root
+
+import android.net.Uri
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.replaceAll
+import com.arkivanov.decompose.value.Value
+import dev.renheyzer.memorize.core.di.app.AppDependencies
+import dev.renheyzer.memorize.core.di.factory.ComponentFactory
+import dev.renheyzer.memorize.feature.auth.presentation.component.DefaultAuthComponent
+import dev.renheyzer.memorize.feature.core.presenatation.component.DefaultCoreRootComponent
+import kotlinx.serialization.Serializable
+
+class DefaultRootComponent(
+    componentContext: ComponentContext,
+    private val appDependencies: AppDependencies,
+    private val factory: ComponentFactory
+) : RootComponent, ComponentContext by componentContext {
+
+    private val navigation = StackNavigation<ChildConfig>()
+
+    override val stack: Value<ChildStack<*, RootComponent.Child>> =
+        childStack(
+            source = navigation,
+            initialConfiguration = defineInitialConfiguration(),
+            handleBackButton = true,
+            serializer = ChildConfig.serializer(),
+            childFactory = ::childFactory
+        )
+
+    private fun defineInitialConfiguration(): ChildConfig {
+        val isUserLoggedIn = appDependencies.authDependencies().authRepository.isUserLoggedIn
+
+        return if (isUserLoggedIn) {
+            ChildConfig.Core
+        } else {
+            ChildConfig.Auth()
+        }
+    }
+
+    override fun handleDeepLink(uri: Uri) {
+        val mode = uri.getQueryParameter("mode")
+        val code = uri.getQueryParameter("oobCode")
+
+        if (mode == "verifyEmail" && code != null) {
+            val activeChild = stack.value.active.instance
+
+            if (activeChild is RootComponent.Child.Auth) {
+                activeChild.component.onVerificationLinkReceived(code)
+            } else {
+                navigation.bringToFront(ChildConfig.Auth(deepLinkCode = code))
+            }
+        }
+
+        // May add code to reset password
+    }
+
+    private fun childFactory(
+        config: ChildConfig,
+        componentContext: ComponentContext
+    ): RootComponent.Child =
+        when (config) {
+            is ChildConfig.Core -> {
+                RootComponent.Child.Core(
+                    DefaultCoreRootComponent(componentContext, factory)
+                )
+            }
+
+            is ChildConfig.Auth -> {
+                RootComponent.Child.Auth(
+                    DefaultAuthComponent(
+                        componentContext,
+                        mainContext = appDependencies.dispatchers.mainImmediate,
+                        stringResolver = appDependencies.componentEnvironment.stringResolver,
+                        authDependenciesFactory = { appDependencies.authDependencies() },
+                        snackbarController = appDependencies.snackbarController,
+                        countdownTimerManager = appDependencies.createCountdownTimerManager(),
+                        deepLinkCode = config.deepLinkCode,
+                        navigateToHome = {
+                            navigation.replaceAll(ChildConfig.Core)
+                        }
+                    )
+                )
+            }
+        }
+}
+
+
+@Serializable
+private sealed interface ChildConfig {
+
+    @Serializable
+    data object Core : ChildConfig
+
+    @Serializable
+    data class Auth(val deepLinkCode: String? = null) : ChildConfig
+}
